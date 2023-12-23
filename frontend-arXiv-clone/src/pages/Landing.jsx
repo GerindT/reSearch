@@ -1,6 +1,8 @@
 import InfoAccordion from "../components/InfoAccordion";
 import MainNavbar from "../components/MainNavbar";
 import { Blockquote } from "flowbite-react";
+import Posts from "../components/Posts";
+
 function Landing() {
   return (
     <>
@@ -11,6 +13,11 @@ function Landing() {
           everything, we ought to know a little about everything.&quot;
         </Blockquote>
         <InfoAccordion />
+        {Array(10)
+          .fill()
+          .map((_, index) => (
+            <Posts key={index} />
+          ))}
       </div>
     </>
   );

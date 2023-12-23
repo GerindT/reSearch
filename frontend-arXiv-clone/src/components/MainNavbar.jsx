@@ -5,7 +5,7 @@ function MainNavbar() {
   // Styled Navbar Link
   const StyledNavbarLink = styled(Navbar.Link)`
     &:hover {
-      color: #1d4ed8; /* Hover text color */
+      color: black; /* Hover text color */
     }
     align-items: center;
   `;
