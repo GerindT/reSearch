@@ -86,7 +86,12 @@ function Posts() {
       </div>
 
       <div className="flex justify-between">
-        <Button className="max-w-[200px]  ">
+        <Button
+          pill
+          outline
+          gradientDuoTone="purpleToBlue"
+          className="max-w-[200px]  "
+        >
           Read more
           <svg
             className="-mr-1 ml-2 h-4 w-4"

@@ -1,7 +1,15 @@
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { Avatar, Button, Dropdown, Navbar } from "flowbite-react";
 import styled from "styled-components";
 import SearchBar from "./SearchBar";
+import { useState } from "react";
+import ModalLogIn from "./ModalLogIn";
+import ModalRegister from "./ModalRegister";
+
 function MainNavbar() {
+  const [isLogedIn, setIsLogedIn] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openModalR, setOpenModalR] = useState(false);
+
   // Styled Navbar Link
   const StyledNavbarLink = styled(Navbar.Link)`
     &:hover {
@@ -58,55 +66,93 @@ function MainNavbar() {
               Services
             </StyledNavbarLink>
           </ul>
-          <Dropdown
-            arrowIcon={false}
-            inline
-            label={
-              <Avatar
-                alt="User settings"
-                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                rounded
-                className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 ml-[1em]"
+          {isLogedIn ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar
+                  alt="User settings"
+                  img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  rounded
+                  className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 ml-[1em]"
+                />
+              }
+            >
+              <Dropdown.Header>
+                <span className="block text-sm">Bonnie Green</span>
+                <span className="block truncate text-sm font-medium">
+                  name@flowbite.com
+                </span>
+              </Dropdown.Header>
+              <Dropdown.Item>Dashboard</Dropdown.Item>
+              <Dropdown.Item>Settings</Dropdown.Item>
+              <Dropdown.Item>Earnings</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item
+                onClick={() => {
+                  setIsLogedIn(!isLogedIn);
+                }}
+              >
+                Sign out
+              </Dropdown.Item>
+            </Dropdown>
+          ) : (
+            <>
+              <Button
+                className="ml-[20px]"
+                pill
+                outline
+                gradientDuoTone="purpleToBlue"
+                onClick={() => {
+                  setOpenModal(!openModal);
+                }}
+              >
+                Log In
+              </Button>
+              <ModalLogIn
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                setOpenModalR={setOpenModalR}
+                openModalR={openModalR}
+                isLogedIn={isLogedIn}
+                setIsLogedIn={setIsLogedIn}
               />
-            }
-          >
-            <Dropdown.Header>
-              <span className="block text-sm">Bonnie Green</span>
-              <span className="block truncate text-sm font-medium">
-                name@flowbite.com
-              </span>
-            </Dropdown.Header>
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item>Sign out</Dropdown.Item>
-          </Dropdown>
+              <ModalRegister
+                openModal={openModalR}
+                setOpenModal={setOpenModalR}
+                setOpenModalR={setOpenModal}
+                openModalR={openModal}
+                isLogedIn={isLogedIn}
+                setIsLogedIn={setIsLogedIn}
+              />
+            </>
+          )}
           <Navbar.Toggle className="ml-[1em]" />
         </div>
         <StyledNavbarCollapse className=" content-center">
           <Navbar.Link
             href="#"
-            className="text-lg md:block md:max-w-[400px]  lg:w-[100vw] lg:ml-[0em] xl:ml-[18em]  "
+            className="text-md md:text-lg md:block md:max-w-[400px]  lg:w-[100vw] lg:ml-[0em] xl:ml-[18em]  "
           >
             <SearchBar />
           </Navbar.Link>
 
           <StyledNavbarLink
             href="#"
-            className="text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden "
+            className="text-md md:text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden "
           >
             Home
           </StyledNavbarLink>
           <StyledNavbarLink
             href="#"
-            className="text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden"
+            className="text-md md:text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden"
           >
             About
           </StyledNavbarLink>
           <StyledNavbarLink
             href="#"
-            className="text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden"
+            className="text-md md:text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden"
           >
             Services
           </StyledNavbarLink>

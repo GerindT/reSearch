@@ -1,4 +1,4 @@
-import { Accordion } from "flowbite-react";
+import { Accordion, Alert } from "flowbite-react";
 import { RxCross1 } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -18,15 +18,31 @@ function InfoAccordion() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        className={`max-w-[100%] md:max-w-[60%] w-[1900px] flex justify-end ml-[10px]  ${
+        className={`max-w-[100%] md:max-w-[60%] w-[1900px] flex justify-end ml-[10px] self-center  ${
           show && showAccordion ? " " : " hidden"
         } `}
       >
-        <RxCross1
-          onClick={() => setShowAccordion(!showAccordion)}
-          className="self-end  cursor-pointer  transition duration-250 ease-in transform  hover:scale-125 hover:rotate-90  "
-          size={24}
-        />
+        <Alert
+          color="cyan"
+          withBorderAccent
+          className="max-w-[100%] md:max-w-[100%] w-[1900px] flex jusify-between"
+        >
+          <div className="flex flex-row  w-[85vw] md:w-[55vw] xl:w-[50vw] justify-between">
+            <div>
+              <span>
+                <span className="font-medium">Info alert!</span> You can remove
+                the extra info by clicking on the cross.
+              </span>
+            </div>
+            <div>
+              <RxCross1
+                onClick={() => setShowAccordion(!showAccordion)}
+                className="self-end  cursor-pointer  transition duration-250 ease-in transform  hover:scale-125 hover:rotate-90  "
+                size={24}
+              />
+            </div>
+          </div>
+        </Alert>
       </motion.div>
       {showAccordion && (
         <Accordion className="max-w-[100%] md:max-w-[60%]">
