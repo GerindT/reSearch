@@ -28,7 +28,7 @@ function MainNavbar() {
   `;
   return (
     <>
-      <StyledNavbar rounded border>
+      <StyledNavbar>
         <Navbar.Brand className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110">
           <img
             src="/logo.png"
