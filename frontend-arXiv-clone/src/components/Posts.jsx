@@ -19,9 +19,11 @@ function Posts({
 }) {
   return (
     <Card className=" cursor-pointer  transition duration-100 ease-in transform  max-w-[100%] md:max-w-[60%]">
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {title}
-      </h5>
+      <Link to="/paper/1">
+        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          {title}
+        </h5>
+      </Link>
       <p className="text-gray-500 transition duration-100 ease-in transform hover:underline  ">
         <a href="" className="decoration-1">
           {author}
