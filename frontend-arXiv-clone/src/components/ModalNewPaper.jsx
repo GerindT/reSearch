@@ -6,6 +6,7 @@ import {
   TextInput,
   FileInput,
   Alert,
+  Badge,
 } from "flowbite-react";
 import { useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
@@ -15,7 +16,7 @@ function ModalNewPaper({ openModal, setOpenModal, posts, setPosts }) {
   const [title, setTitle] = useState("Test Title");
   const [authors, setAuthors] = useState("Test User");
   const [abscract, setAbstract] = useState("Test Abstract");
-
+  const [selectedTags, setSelectedTags] = useState([]);
   const [file, setFile] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -71,22 +72,28 @@ function ModalNewPaper({ openModal, setOpenModal, posts, setPosts }) {
       verDate: "2 minutes ago",
       favDate: "4 days ago",
       likes: "10",
-      categories: [
-        { name: "CNN", color: "indigo" },
-        { name: "Robotics", color: "warning" },
-        { name: "IOT", color: "pink" },
-        { name: "BIG DATA", color: "purple" },
-      ],
+      categories: selectedTags ? selectedTags : [{ name: "AI", color: "info" }],
     };
 
     setPosts([newPost, ...posts]);
 
-    console.log("New post added", newPost, selectedFile);
+    console.log("New post added", newPost, selectedFile, selectedTags);
 
     setOpenModal(false);
   };
+
+  const tags = [
+    { name: "NLP", color: "info" },
+    { name: "ML", color: "gray" },
+    { name: "AI", color: "failure" },
+    { name: "WEB SCRAPING", color: "success" },
+    { name: "CNN", color: "indigo" },
+    { name: "Robotics", color: "warning" },
+    { name: "IOT", color: "pink" },
+    { name: "BIG DATA", color: "purple" },
+  ];
   return (
-    <Modal show={openModal} onClose={() => setOpenModal(false)}>
+    <Modal size={"4xl"} show={openModal} onClose={() => setOpenModal(false)}>
       <form>
         <Modal.Header>Add a new Paper</Modal.Header>
         <Modal.Body>
@@ -157,6 +164,47 @@ function ModalNewPaper({ openModal, setOpenModal, posts, setPosts }) {
               accept=".epub, .pdf"
               required
             />
+          </div>
+          <div className="">
+            <div className="mb-2 mt-2 block">
+              <Label htmlFor="tags" value="Tags" />
+              <p className="font-thin text-xs text-gray-500">
+                For better coverage, please select at least one tag
+              </p>
+            </div>
+            <div className="flex flex-col flex-wrap h-[130px]">
+              {tags.map((tag) => (
+                <div
+                  key={tag.name}
+                  className="flex items-center flex-wrap mb-2"
+                >
+                  <input
+                    type="checkbox"
+                    id={tag.name}
+                    checked={selectedTags.some((t) => t.name === tag.name)}
+                    onChange={() => {
+                      const updatedTags = selectedTags.some(
+                        (t) => t.name === tag.name
+                      )
+                        ? selectedTags.filter((t) => t.name !== tag.name)
+                        : [
+                            ...selectedTags,
+                            { name: tag.name, color: tag.color },
+                          ];
+                      setSelectedTags(updatedTags);
+                    }}
+                  />
+                  <Badge
+                    htmlFor={tag.name}
+                    value={tag.name}
+                    color={tag.color}
+                    className="ml-2"
+                  >
+                    {tag.name}
+                  </Badge>
+                </div>
+              ))}
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
