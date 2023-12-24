@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import PaperFull from "../components/PaperFull";
 import Comments from "../components/Comments";
+import InfoTab from "../components/InfoTab";
 
 const customTheme = {
   base: "flex flex-col gap-2",
@@ -127,13 +128,7 @@ function Paper() {
         </Tabs.Item>
 
         <Tabs.Item title="Information" icon={HiAdjustments}>
-          This is
-          <span className="font-medium text-gray-800 dark:text-white">
-            Settings tab&apos;s associated content
-          </span>
-          . Clicking another tab will toggle the visibility of this one for the
-          next. The tab JavaScript swaps classes to control the content
-          visibility and styling.
+          <InfoTab paperURL={"/Faking It - Toby Walsh.epub"} />
         </Tabs.Item>
         <Tabs.Item title="Comments" icon={IoStarSharp}>
           <Comments comments={comments} setComments={setComments} />
