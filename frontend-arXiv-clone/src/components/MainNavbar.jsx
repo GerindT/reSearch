@@ -58,20 +58,6 @@ function MainNavbar({ posts, setPosts }) {
         </Navbar.Brand>
 
         <div className="flex md:order-2 items-center">
-          <ul className="hidden md:flex content-center list-none flex-row gap-[2em]">
-            <StyledNavbarLink
-              href="/"
-              className="text-md cursor-pointer  transition duration-100 ease-in transform  hover:scale-110   "
-            >
-              Home
-            </StyledNavbarLink>
-            <StyledNavbarLink
-              href="#"
-              className="text-md cursor-pointer  transition duration-100 ease-in transform  hover:scale-110"
-            >
-              About
-            </StyledNavbarLink>
-          </ul>
           {isLogedIn ? (
             <Dropdown
               arrowIcon={false}
@@ -170,29 +156,12 @@ function MainNavbar({ posts, setPosts }) {
         <StyledNavbarCollapse className=" content-center">
           <Navbar.Link
             href="#"
-            className="text-md md:text-lg md:block md:max-w-[400px]  lg:w-[100vw] lg:ml-[0em] xl:ml-[18em]  "
+            className={`text-md md:text-lg md:block md:max-w-[400px]  lg:w-[100vw] lg:ml-[0em] ${
+              isLogedIn ? " " : "xl:ml-[3em]"
+            }  `}
           >
             <SearchBar posts={posts} setPosts={setPosts} />
           </Navbar.Link>
-
-          <StyledNavbarLink
-            href="#"
-            className="text-md md:text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden "
-          >
-            Home
-          </StyledNavbarLink>
-          <StyledNavbarLink
-            href="#"
-            className="text-md md:text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden"
-          >
-            About
-          </StyledNavbarLink>
-          <StyledNavbarLink
-            href="#"
-            className="text-md md:text-lg cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 md:hidden"
-          >
-            Services
-          </StyledNavbarLink>
         </StyledNavbarCollapse>
       </StyledNavbar>
     </>
