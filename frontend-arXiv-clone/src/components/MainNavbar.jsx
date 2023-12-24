@@ -4,6 +4,8 @@ import SearchBar from "./SearchBar";
 import { useState } from "react";
 import ModalLogIn from "./ModalLogIn";
 import ModalRegister from "./ModalRegister";
+import ModalSettings from "./ModalSettings";
+import ModalDashboard from "./ModalDashboard";
 
 function MainNavbar() {
   const [isLogedIn, setIsLogedIn] = useState(false);
@@ -34,6 +36,11 @@ function MainNavbar() {
       }
     }
   `;
+
+  const [openModalSettings, setOpenModalSettings] = useState(false);
+  const [isAdmin, setAdmin] = useState(true);
+  const [openModalDashboard, setOpenModalDashboard] = useState(false);
+
   return (
     <>
       <StyledNavbar>
@@ -85,9 +92,18 @@ function MainNavbar() {
                   name@flowbite.com
                 </span>
               </Dropdown.Header>
-              <Dropdown.Item>Dashboard</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item>
+              {isAdmin && (
+                <Dropdown.Item onClick={() => setOpenModalDashboard(true)}>
+                  Dashboard
+                </Dropdown.Item>
+              )}
+              <Dropdown.Item
+                onClick={() => {
+                  setOpenModalSettings(true);
+                }}
+              >
+                Settings
+              </Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item
                 onClick={() => {
@@ -130,6 +146,14 @@ function MainNavbar() {
           )}
           <Navbar.Toggle className="ml-[1em]" />
         </div>
+        <ModalSettings
+          openModal={openModalSettings}
+          setOpenModal={setOpenModalSettings}
+        />
+        <ModalDashboard
+          openModal={openModalDashboard}
+          setOpenModal={setOpenModalDashboard}
+        />
         <StyledNavbarCollapse className=" content-center">
           <Navbar.Link
             href="#"

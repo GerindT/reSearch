@@ -14,9 +14,11 @@ function ModalRegister({
   setIsLogedIn,
 }) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function onCloseModal() {
     setOpenModal(false);
+    setPassword("");
     setEmail("");
   }
 
@@ -35,6 +37,7 @@ function ModalRegister({
               </div>
               <TextInput
                 id="email"
+                type="email"
                 placeholder="name@company.com"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -45,7 +48,12 @@ function ModalRegister({
               <div className="mb-2 block">
                 <Label htmlFor="password" value="Your password" />
               </div>
-              <TextInput id="password" type="password" required />
+              <TextInput
+                id="password"
+                type="password"
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="flex justify-between">
               <div className="flex items-center gap-2">

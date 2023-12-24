@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 
@@ -35,6 +33,7 @@ function ModalLogIn({
               </div>
               <TextInput
                 id="email"
+                type="email"
                 placeholder="name@company.com"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
