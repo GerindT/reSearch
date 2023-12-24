@@ -132,7 +132,7 @@ function ModalNewPaper({ openModal, setOpenModal, posts, setPosts }) {
             type="submit"
             onClick={handleSaveChanges}
           >
-            Save Changes
+            Add Paper
           </Button>
         </Modal.Footer>
       </form>
