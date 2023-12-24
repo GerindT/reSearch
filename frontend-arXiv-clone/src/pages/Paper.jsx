@@ -6,6 +6,7 @@ import { IoStarSharp } from "react-icons/io5";
 import { useState } from "react";
 
 import PaperFull from "../components/PaperFull";
+import Comments from "../components/Comments";
 
 const customTheme = {
   base: "flex flex-col gap-2",
@@ -67,9 +68,27 @@ const customTheme = {
   tabpanel: "py-3",
 };
 
+const commentsTemp = [
+  {
+    id: 1,
+    name: "Michael Gough",
+    date: "Feb. 8, 2022",
+    body: " Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
+    email: "test@gmail.com",
+  },
+  {
+    id: 2,
+    name: "Michael Gough",
+    date: "Feb. 8, 2022",
+    body: " Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
+    email: "test@gmail.com",
+  },
+];
+
 function Paper() {
   const [isFav, setFav] = useState(false);
   const [isVerified, setVerified] = useState(false);
+  const [comments, setComments] = useState(commentsTemp);
 
   return (
     <div className=" mx-[1.5em] md:mx-[4em] ">
@@ -117,13 +136,7 @@ function Paper() {
           visibility and styling.
         </Tabs.Item>
         <Tabs.Item title="Comments" icon={IoStarSharp}>
-          This is
-          <span className="font-medium text-gray-800 dark:text-white">
-            Contacts tab&apos;s associated content
-          </span>
-          . Clicking another tab will toggle the visibility of this one for the
-          next. The tab JavaScript swaps classes to control the content
-          visibility and styling.
+          <Comments comments={comments} setComments={setComments} />
         </Tabs.Item>
       </Tabs>
     </div>
