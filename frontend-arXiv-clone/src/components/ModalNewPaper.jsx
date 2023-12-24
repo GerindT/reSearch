@@ -130,9 +130,9 @@ function ModalNewPaper({ openModal, setOpenModal, posts, setPosts }) {
           </div>
 
           <div className="py-2 px-4 mb-4 mt-4 bg-gray rounded-lg rounded-t-lg border border-gray-300 ">
-            <label htmlFor="comment" className="sr-only">
-              Your comment
-            </label>
+            <p className="font-thin text-xs text-gray-500">
+              Abstract should be at least 200 characters long
+            </p>
             <textarea
               id="comment"
               rows="6"
@@ -146,6 +146,10 @@ function ModalNewPaper({ openModal, setOpenModal, posts, setPosts }) {
           <div>
             <div className="mb-2 block">
               <Label htmlFor="file-upload" value="Upload file" />
+              <p className="font-thin text-xs text-gray-500">
+                Supports PDF and EPUB files, epubs are generly advised for
+                better security and user experience
+              </p>
             </div>
             <FileInput
               id="file-upload"
