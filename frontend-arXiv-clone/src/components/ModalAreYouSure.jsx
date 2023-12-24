@@ -16,7 +16,7 @@ function ModalAreYouSure({ openModal, setOpenModal, msg, setVerified }) {
             <Button
               outline
               pill
-              color="blue"
+              gradientDuoTone="purpleToBlue"
               onClick={() => {
                 setOpenModal(false), setVerified(true);
               }}
@@ -28,7 +28,7 @@ function ModalAreYouSure({ openModal, setOpenModal, msg, setVerified }) {
               pill
               color="failure"
               onClick={() => {
-                setOpenModal(false), setVerified(false);
+                setOpenModal(false);
               }}
             >
               No, cancel

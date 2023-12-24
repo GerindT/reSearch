@@ -33,7 +33,7 @@ function ModalFooter({ title, info }) {
           <Button
             outline
             pill
-            gradientMonochrome="failure"
+            color="failure"
             onClick={() => setOpenModal(false)}
           >
             Decline

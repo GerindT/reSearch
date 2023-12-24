@@ -72,7 +72,7 @@ function Paper() {
   const [isVerified, setVerified] = useState(false);
 
   return (
-    <div className="h-[100vh] mx-[1.5em] md:mx-[4em]">
+    <div className=" mx-[1.5em] md:mx-[4em] ">
       <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item href="/" icon={HiHome}>
           Home

@@ -40,7 +40,9 @@ function PaperFull({
           className="bg-transparent  cursor-pointer transition duration-100 ease-in transform  hover:scale-105"
           color={isVerified ? "success" : "red"}
           icon={isVerified ? HiCheck : RxCross1}
-          onClick={() => setOpenModal(true)}
+          onClick={() => {
+            isVerified ? "" : setOpenModal(true);
+          }}
         >
           {isVerified ? verDate : "Not verified"}
         </Badge>
