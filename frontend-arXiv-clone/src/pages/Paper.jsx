@@ -3,8 +3,9 @@ import { HiHome } from "react-icons/hi";
 import { Tabs } from "flowbite-react";
 import { HiAdjustments, HiUserCircle } from "react-icons/hi";
 import { IoStarSharp } from "react-icons/io5";
-import { Avatar, Badge } from "flowbite-react";
-import { HiCheck, HiClock } from "react-icons/hi";
+import { useState } from "react";
+
+import PaperFull from "../components/PaperFull";
 
 const customTheme = {
   base: "flex flex-col gap-2",
@@ -67,6 +68,9 @@ const customTheme = {
 };
 
 function Paper() {
+  const [isFav, setFav] = useState(false);
+  const [isVerified, setVerified] = useState(false);
+
   return (
     <div className="h-[100vh] mx-[1.5em] md:mx-[4em]">
       <Breadcrumb aria-label="Default breadcrumb example">
@@ -88,107 +92,22 @@ function Paper() {
           title="Paper"
           icon={HiUserCircle}
         >
-          <div className="flex flex-col gap-[1em]">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Noteworthy technology acquisitions 2021
-            </h5>
-            <p className="text-gray-500 transition duration-100 ease-in transform hover:underline  ">
-              <a href="" className="decoration-1">
-                Author example
-              </a>
-            </p>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
-              facere exercitationem officia iure soluta magni accusantium quidem
-              consequatur nulla quos ipsum omnis facilis, tenetur quas debitis
-              assumenda. Nemo, saepe cumque.
-            </p>
-            <div className="flex flex-wrap gap-[1em]">
-              <Badge
-                className="bg-transparent  transition duration-100 ease-in transform  hover:scale-105"
-                icon={HiCheck}
-              >
-                2 minutes ago
-              </Badge>
-              <Badge
-                className="  transition duration-100 ease-in transform hover:scale-105"
-                color="gray"
-                icon={HiClock}
-              >
-                3 days ago
-              </Badge>
-            </div>
-            <div className="flex flex-wrap gap-[1em]">
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="info"
-              >
-                NLP
-              </Badge>
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="gray"
-              >
-                ML
-              </Badge>
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="failure"
-              >
-                AI
-              </Badge>
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="success"
-              >
-                WEB SCRAPING
-              </Badge>
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="warning"
-              >
-                Robotics
-              </Badge>
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="indigo"
-              >
-                CNN
-              </Badge>
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="purple"
-              >
-                BIG DATA
-              </Badge>
-              <Badge
-                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                color="pink"
-              >
-                IOT
-              </Badge>
-            </div>
-            <div className="flex flex-end">
-              <Avatar.Group>
-                {Array(3)
-                  .fill()
-                  .map((_, index) => (
-                    <Avatar
-                      key={index}
-                      alt="User settings"
-                      img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      rounded
-                      stacked
-                      className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 ml-[1em]"
-                    />
-                  ))}
-                <Avatar.Counter total={99} href="#" />
-              </Avatar.Group>
-            </div>
-          </div>
+          <PaperFull
+            title="Noteworthy technology acquisitions 2021"
+            author="Author example"
+            date="2 minutes ago"
+            content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque id fuga repudiandae ullam aperiam eos maxime aliquam quibusdam soluta explicabo rerum accusantium non, vitae expedita deleniti nesciunt nisi, asperiores nobis quaerat labore? Veniam dolore deleniti maxime? Totam quam minus quasi, eaque, labore iusto quae ullam voluptas architecto perferendis sit similique quidem maxime doloremque officiis dolorum cum asperiores, magni incidunt. Numquam aperiam voluptate ad reiciendis? Voluptatibus veritatis, voluptate quaerat numquam dolores incidunt ullam voluptates, eius debitis consectetur vero nam id quidem, sit magnam? Eveniet laboriosam reprehenderit, suscipit minima voluptas quia quae fugiat, voluptatem similique atque voluptates, itaque eum autem deleniti expedita obcaecati asperiores cum! Dolorum molestias dignissimos, beatae in, alias fuga aliquam quos sed tempora nulla impedit reprehenderit! Mollitia commodi suscipit harum debitis, autem magni assumenda dolores aperiam aspernatur excepturi esse enim dolorum quidem nam illo cupiditate? Autem, impedit. Veritatis commodi iure nisi eaque quam omnis dolor, odit, nemo a quidem impedit doloribus? Error expedita eveniet earum dolores ullam fuga doloribus explicabo, illo amet illum nesciunt voluptatem accusantium corrupti sed eius soluta esse impedit deleniti optio quia blanditiis. Voluptates doloribus quas possimus, nesciunt accusantium laudantium impedit ad aliquam distinctio? Quod ipsa, obcaecati sit magnam optio veritatis ex itaque. Labore vitae, veritatis adipisci deleniti ullam iusto at, quod aspernatur, tempore ipsam ea iste aliquid voluptas eaque. Quidem facilis sit, dolore assumenda, repellendus expedita aliquam doloribus deleniti dolorem cumque quia et alias, commodi explicabo. Eius alias odit necessitatibus eos facere exercitationem ullam! Eos ipsum, nesciunt atque at, quaerat corporis accusantium libero alias, enim modi magnam repellendus. Voluptas maxime, minus modi quos consectetur voluptatibus provident, quam eligendi enim libero eos consequuntur impedit! Saepe soluta repudiandae at sapiente? Beatae deleniti officiis quibusdam aliquam magnam. Minus dolor doloribus cupiditate eum animi, iste delectus nisi, officiis vitae sunt fuga, quidem accusamus in accusantium vero atque maxime corporis excepturi numquam ea recusandae magnam reiciendis suscipit. Itaque ipsum blanditiis, debitis, quod repudiandae architecto commodi omnis nesciunt veniam molestiae totam! Odio, fugiat amet explicabo sapiente dolore corrupti quia ex voluptas beatae, architecto deleniti est numquam, blanditiis aperiam voluptatibus doloribus magnam delectus sint ratione aut error quo obcaecati quod? Dolor ducimus laboriosam quo non minus voluptate vitae, repellat similique magni placeat adipisci quaerat? Eveniet voluptatibus provident laboriosam at porro ex voluptatum, numquam velit ullam magnam? Voluptate nihil provident quisquam tempora, earum dignissimos neque officiis culpa recusandae nisi libero doloremque modi fuga rem magnam qui eum nulla asperiores tenetur quas optio nam. Magni, omnis unde dolorem minus, fugit voluptatum, itaque culpa consectetur quaerat animi dolore explicabo corrupti totam eveniet quisquam nulla! Maiores necessitatibus, amet illo impedit, dolorem velit, odit neque nihil quo tempore pariatur. Dignissimos, veniam? Suscipit quasi minus atque odio itaque. Aliquid ullam incidunt dolorum fuga numquam quo animi accusamus architecto cumque molestias hic voluptatibus culpa illum laborum earum laboriosam eaque, vero dicta sunt itaque neque voluptates vitae dignissimos eligendi! Facilis corporis cum quisquam dignissimos a quis blanditiis natus, assumenda obcaecati, dolorum nostrum accusamus pariatur molestias aperiam reiciendis culpa repudiandae facere, hic voluptate consectetur inventore expedita nam quae eum. Facilis tempore quo voluptatibus beatae? Non accusamus numquam maiores inventore cumque voluptatum. Facilis culpa explicabo accusamus officia nulla ad est eligendi necessitatibus ea recusandae quisquam assumenda veritatis voluptatibus libero, quis ab alias repudiandae autem et ducimus unde soluta officiis reiciendis! Quo tempora a consequuntur, repellat dignissimos quaerat. Inventore exercitationem perspiciatis quas animi voluptas minima asperiores corporis, eos blanditiis officia reprehenderit atque est modi et consequuntur quasi iure dolorem culpa neque ab rem qui debitis, delectus voluptatibus? Recusandae mollitia doloremque earum quis quasi eligendi distinctio tempora architecto pariatur dolore voluptas sint corrupti perferendis, rem placeat! Dignissimos placeat facilis quidem ea delectus cupiditate laudantium!"
+            isVerified={isVerified}
+            setVerified={setVerified}
+            verDate="2 minutes ago"
+            isFav={isFav}
+            setFav={setFav}
+            favDate="3 days ago"
+            likes="10"
+          />
         </Tabs.Item>
 
-        <Tabs.Item title="Download" icon={HiAdjustments}>
+        <Tabs.Item title="Information" icon={HiAdjustments}>
           This is
           <span className="font-medium text-gray-800 dark:text-white">
             Settings tab&apos;s associated content
@@ -205,9 +124,6 @@ function Paper() {
           . Clicking another tab will toggle the visibility of this one for the
           next. The tab JavaScript swaps classes to control the content
           visibility and styling.
-        </Tabs.Item>
-        <Tabs.Item disabled title="Disabled">
-          Disabled content
         </Tabs.Item>
       </Tabs>
     </div>
