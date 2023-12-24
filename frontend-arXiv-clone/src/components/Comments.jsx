@@ -53,6 +53,30 @@ function Comments({ comments, setComments }) {
     setNewComment("");
   };
 
+  const handleDeleteClick = (commentId) => {
+    // Open the modal to confirm deletion
+    setOpenModal(true);
+
+    // Set the verified state to false initially
+    setVerified(false);
+
+    // Set the ID of the comment to be deleted
+    setEditCommentId(commentId);
+  };
+
+  const handleConfirmDelete = () => {
+    // Simulate deleting the comment locally
+    const updatedComments = comments.filter(
+      (comment) => comment.id !== editCommentId
+    );
+
+    // Update the state with the deleted comment
+    setComments(updatedComments);
+
+    // Clear the edit state and close the modal
+    setEditCommentId(null);
+  };
+
   return (
     <section className="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
       <div className="max-w-2xl mx-auto px-4">
@@ -131,7 +155,11 @@ function Comments({ comments, setComments }) {
                   </>
                 }
               >
-                <Dropdown.Item onClick={() => setOpenModal(true)}>
+                <Dropdown.Item
+                  onClick={() => {
+                    handleDeleteClick(comment.id);
+                  }}
+                >
                   Delete
                 </Dropdown.Item>
                 <Dropdown.Item
@@ -180,6 +208,7 @@ function Comments({ comments, setComments }) {
         setOpenModal={setOpenModal}
         msg={msg}
         setVerified={setVerified}
+        handleConfirmDelete={handleConfirmDelete}
       />
     </section>
   );

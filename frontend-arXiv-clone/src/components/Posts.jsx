@@ -1,88 +1,59 @@
 import { Button, Card, Avatar, Badge } from "flowbite-react";
 import { HiCheck, HiClock } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { RxCross1 } from "react-icons/rx";
 
-function Posts() {
+import PropTypes from "prop-types";
+
+function Posts({
+  title,
+  author,
+  abstract,
+  date,
+  isVerified,
+  verDate,
+  isFav,
+  favDate,
+  likes,
+  categories,
+}) {
   return (
     <Card className=" cursor-pointer  transition duration-100 ease-in transform  max-w-[100%] md:max-w-[60%]">
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        Noteworthy technology acquisitions 2021
+        {title}
       </h5>
       <p className="text-gray-500 transition duration-100 ease-in transform hover:underline  ">
         <a href="" className="decoration-1">
-          Author example
+          {author}
         </a>
       </p>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto facere
-        exercitationem officia iure soluta magni accusantium quidem consequatur
-        nulla quos ipsum omnis facilis, tenetur quas debitis assumenda. Nemo,
-        saepe cumque.
-      </p>
+      <p className="font-normal text-gray-700 dark:text-gray-400">{abstract}</p>
       <div className="flex flex-wrap gap-[1em]">
         <Badge
           className="bg-transparent  transition duration-100 ease-in transform  hover:scale-105"
-          icon={HiCheck}
+          color={isVerified ? "success" : "red"}
+          icon={isVerified ? HiCheck : RxCross1}
         >
-          2 minutes ago
+          {isVerified ? verDate : "Not verified"}
         </Badge>
         <Badge
           className="  transition duration-100 ease-in transform hover:scale-105"
           color="gray"
           icon={HiClock}
         >
-          3 days ago
+          {date}
         </Badge>
       </div>
       <div className="flex flex-wrap gap-[1em]">
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="info"
-        >
-          NLP
-        </Badge>
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="gray"
-        >
-          ML
-        </Badge>
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="failure"
-        >
-          AI
-        </Badge>
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="success"
-        >
-          WEB SCRAPING
-        </Badge>
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="warning"
-        >
-          Robotics
-        </Badge>
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="indigo"
-        >
-          CNN
-        </Badge>
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="purple"
-        >
-          BIG DATA
-        </Badge>
-        <Badge
-          className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-          color="pink"
-        >
-          IOT
-        </Badge>
+        {categories.map((c, index) => (
+          <Badge
+            key={index}
+            className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
+            color={c.color}
+          >
+            {c.name}
+          </Badge>
+        ))}
       </div>
 
       <div className="flex justify-between">
@@ -110,7 +81,7 @@ function Posts() {
         </Link>
         <div className="flex flex-row">
           <Avatar.Group>
-            {Array(3)
+            {Array(likes > 0 ? 3 : 0)
               .fill()
               .map((_, index) => (
                 <Avatar
@@ -122,12 +93,25 @@ function Posts() {
                   className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 ml-[1em]"
                 />
               ))}
-            <Avatar.Counter total={99} href="#" />
+            <Avatar.Counter total={likes} href="#" />
           </Avatar.Group>
         </div>
       </div>
     </Card>
   );
 }
+
+Posts.propTypes = {
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  abstract: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  isVerified: PropTypes.bool.isRequired,
+  verDate: PropTypes.string.isRequired,
+  isFav: PropTypes.bool.isRequired,
+  favDate: PropTypes.string.isRequired,
+  likes: PropTypes.number.isRequired,
+  categories: PropTypes.array.isRequired,
+};
 
 export default Posts;

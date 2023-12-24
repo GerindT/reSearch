@@ -1,4 +1,4 @@
-import { Button, Modal, Checkbox, Table, Alert } from "flowbite-react";
+import { Button, Modal, Checkbox, Table, Alert, Badge } from "flowbite-react";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -161,8 +161,9 @@ function ModalDashboard({ openModal, setOpenModal }) {
                       <Table.Cell>{user.email}</Table.Cell>
                       <Table.Cell className="flex flex-col flex-wrap h-[10em] gap-1">
                         {categories.map((category) => (
-                          <div key={category} className="mb-1">
+                          <div key={category} className="mb-1 flex gap-1">
                             <Checkbox
+                              color="blue"
                               checked={
                                 selectedCategories[user.username] &&
                                 selectedCategories[user.username].includes(
@@ -176,7 +177,20 @@ function ModalDashboard({ openModal, setOpenModal }) {
                                 )
                               }
                             />
-                            {category}
+
+                            <Badge
+                              className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
+                              color={
+                                selectedCategories[user.username] &&
+                                selectedCategories[user.username].includes(
+                                  category
+                                )
+                                  ? "blue"
+                                  : "failure"
+                              }
+                            >
+                              {category}
+                            </Badge>
                           </div>
                         ))}
                       </Table.Cell>

@@ -6,8 +6,10 @@ import ModalLogIn from "./ModalLogIn";
 import ModalRegister from "./ModalRegister";
 import ModalSettings from "./ModalSettings";
 import ModalDashboard from "./ModalDashboard";
+import ModalNewPaper from "./ModalNewPaper";
+import PropTypes from "prop-types";
 
-function MainNavbar() {
+function MainNavbar({ posts, setPosts }) {
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openModalR, setOpenModalR] = useState(false);
@@ -40,22 +42,25 @@ function MainNavbar() {
   const [openModalSettings, setOpenModalSettings] = useState(false);
   const [isAdmin, setAdmin] = useState(true);
   const [openModalDashboard, setOpenModalDashboard] = useState(false);
+  const [openModalNewPaper, setOpenModalNewPaper] = useState(false);
 
   return (
     <>
       <StyledNavbar>
         <Navbar.Brand className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110">
-          <img
-            src="/logo.png"
-            className=" h-[3em] "
-            alt="Flowbite React Logo"
-          />
+          <a href="/">
+            <img
+              src="/logo.png"
+              className=" h-[3em] "
+              alt="Flowbite React Logo"
+            />
+          </a>
         </Navbar.Brand>
 
         <div className="flex md:order-2 items-center">
           <ul className="hidden md:flex content-center list-none flex-row gap-[2em]">
             <StyledNavbarLink
-              href="#"
+              href="/"
               className="text-md cursor-pointer  transition duration-100 ease-in transform  hover:scale-110   "
             >
               Home
@@ -65,12 +70,6 @@ function MainNavbar() {
               className="text-md cursor-pointer  transition duration-100 ease-in transform  hover:scale-110"
             >
               About
-            </StyledNavbarLink>
-            <StyledNavbarLink
-              href="#"
-              className="text-md cursor-pointer  transition duration-100 ease-in transform  hover:scale-110"
-            >
-              Services
             </StyledNavbarLink>
           </ul>
           {isLogedIn ? (
@@ -92,6 +91,13 @@ function MainNavbar() {
                   name@flowbite.com
                 </span>
               </Dropdown.Header>
+              <Dropdown.Item
+                onClick={() => {
+                  setOpenModalNewPaper(true);
+                }}
+              >
+                Add a new paper
+              </Dropdown.Item>
               {isAdmin && (
                 <Dropdown.Item onClick={() => setOpenModalDashboard(true)}>
                   Dashboard
@@ -104,6 +110,7 @@ function MainNavbar() {
               >
                 Settings
               </Dropdown.Item>
+
               <Dropdown.Divider />
               <Dropdown.Item
                 onClick={() => {
@@ -154,12 +161,18 @@ function MainNavbar() {
           openModal={openModalDashboard}
           setOpenModal={setOpenModalDashboard}
         />
+        <ModalNewPaper
+          openModal={openModalNewPaper}
+          setOpenModal={setOpenModalNewPaper}
+          posts={posts}
+          setPosts={setPosts}
+        />
         <StyledNavbarCollapse className=" content-center">
           <Navbar.Link
             href="#"
             className="text-md md:text-lg md:block md:max-w-[400px]  lg:w-[100vw] lg:ml-[0em] xl:ml-[18em]  "
           >
-            <SearchBar />
+            <SearchBar posts={posts} setPosts={setPosts} />
           </Navbar.Link>
 
           <StyledNavbarLink
@@ -185,5 +198,10 @@ function MainNavbar() {
     </>
   );
 }
+
+MainNavbar.propTypes = {
+  posts: PropTypes.array,
+  setPosts: PropTypes.func,
+};
 
 export default MainNavbar;

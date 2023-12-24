@@ -2,7 +2,13 @@ import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import PropTypes from "prop-types";
 
-function ModalAreYouSure({ openModal, setOpenModal, msg, setVerified }) {
+function ModalAreYouSure({
+  openModal,
+  setOpenModal,
+  msg,
+  setVerified,
+  handleConfirmDelete,
+}) {
   return (
     <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
       <Modal.Header />
@@ -18,7 +24,7 @@ function ModalAreYouSure({ openModal, setOpenModal, msg, setVerified }) {
               pill
               gradientDuoTone="purpleToBlue"
               onClick={() => {
-                setOpenModal(false), setVerified(true);
+                setOpenModal(false), setVerified(true), handleConfirmDelete();
               }}
             >
               {"Yes, I'm sure"}
@@ -45,6 +51,7 @@ ModalAreYouSure.propTypes = {
   setOpenModal: PropTypes.func,
   msg: PropTypes.string,
   setVerified: PropTypes.func,
+  handleConfirmDelete: PropTypes.func,
 };
 
 export default ModalAreYouSure;
