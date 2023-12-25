@@ -20,7 +20,13 @@ function ModalLogIn({
 
   return (
     <>
-      <Modal show={openModal} size="md" onClose={onCloseModal} popup>
+      <Modal
+        show={openModal}
+        size="md"
+        onClose={onCloseModal}
+        popup
+        className="modalt"
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">

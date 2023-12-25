@@ -87,7 +87,11 @@ function ModalSettings({ openModal, setOpenModal }) {
 
   return (
     <>
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+        className="modalt"
+      >
         <form>
           <Modal.Header>Settings for {name}</Modal.Header>
           <Modal.Body>

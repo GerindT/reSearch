@@ -108,7 +108,12 @@ function ModalDashboard({ openModal, setOpenModal }) {
   );
 
   return (
-    <Modal show={openModal} size={"7xl"} onClose={() => setOpenModal(false)}>
+    <Modal
+      show={openModal}
+      size={"7xl"}
+      onClose={() => setOpenModal(false)}
+      className="modalt"
+    >
       <form>
         <Modal.Header>Assign Supperusers</Modal.Header>
         <Modal.Body>

@@ -10,7 +10,13 @@ function ModalAreYouSure({
   handleConfirmDelete,
 }) {
   return (
-    <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+    <Modal
+      show={openModal}
+      size="md"
+      onClose={() => setOpenModal(false)}
+      popup
+      className="modalt"
+    >
       <Modal.Header />
       <Modal.Body>
         <div className="text-center">

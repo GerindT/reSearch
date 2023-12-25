@@ -93,7 +93,12 @@ function ModalNewPaper({ openModal, setOpenModal, posts, setPosts }) {
     { name: "BIG DATA", color: "purple" },
   ];
   return (
-    <Modal size={"4xl"} show={openModal} onClose={() => setOpenModal(false)}>
+    <Modal
+      size={"4xl"}
+      show={openModal}
+      onClose={() => setOpenModal(false)}
+      className="modalt"
+    >
       <form>
         <Modal.Header>Add a new Paper</Modal.Header>
         <Modal.Body>

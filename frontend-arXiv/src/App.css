@@ -7,3 +7,16 @@
 .red-tabs .fb-tabs-item {
   color: red !important;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalt {
+  animation: fadeIn 0.2s ease-in-out;
+}

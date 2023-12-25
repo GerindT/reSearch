@@ -9,7 +9,11 @@ function ModalFooter({ title, info }) {
   return (
     <>
       <p onClick={() => setOpenModal(true)}>{title}</p>
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+        className="modalt"
+      >
         <Modal.Header>{title}</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
