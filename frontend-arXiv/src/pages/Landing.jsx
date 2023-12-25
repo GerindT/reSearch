@@ -8,7 +8,7 @@ function Landing() {
   const postsTemp = [
     {
       title: "Noteworthy technology acquisitions 2021",
-      authors: [" Author example"],
+      authors: " Author example",
       abstract:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto facere exercitationem officia iure soluta magni accusantium quidem consequatur nulla quos ipsum omnis facilis, tenetur quas debitis assumenda. Nemo, saepe cumque.",
       comments: ["comment1", "comment2"],
@@ -18,7 +18,7 @@ function Landing() {
       isVerified: true,
       verDate: "2 minutes ago",
       favDate: "3 days ago",
-      likes: "10",
+      likes: 10,
       categories: [
         { name: "NLP", color: "info" },
         { name: "ML", color: "gray" },
@@ -38,7 +38,7 @@ function Landing() {
       isVerified: true,
       verDate: "2 minutes ago",
       favDate: "3 days ago",
-      likes: "3",
+      likes: 3,
       categories: [
         { name: "NLP", color: "info" },
         { name: "ML", color: "gray" },
@@ -52,7 +52,7 @@ function Landing() {
     },
     {
       title: "Noteworthy technology acquisitions 2023",
-      authors: [" Author example"],
+      authors: " Author example",
       abstract:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto facere exercitationem officia iure soluta magni accusantium quidem consequatur nulla quos ipsum omnis facilis, tenetur quas debitis assumenda. Nemo, saepe cumque.",
       comments: ["comment1", "comment2"],
@@ -62,7 +62,7 @@ function Landing() {
       isVerified: false,
       verDate: "2 minutes ago",
       favDate: "4 days ago",
-      likes: "10",
+      likes: 10,
       categories: [
         { name: "CNN", color: "indigo" },
         { name: "Robotics", color: "warning" },
@@ -71,6 +71,13 @@ function Landing() {
       ],
     },
   ];
+
+  fetch("http://localhost:80/api/index.php")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    });
+
   const [posts, setPosts] = useState(postsTemp);
   return (
     <>

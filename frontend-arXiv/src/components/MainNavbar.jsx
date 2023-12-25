@@ -15,12 +15,12 @@ function MainNavbar({ posts, setPosts }) {
   const [openModalR, setOpenModalR] = useState(false);
 
   // Styled Navbar Link
-  const StyledNavbarLink = styled(Navbar.Link)`
-    &:hover {
-      color: black; /* Hover text color */
-    }
-    align-items: center;
-  `;
+  // const StyledNavbarLink = styled(Navbar.Link)`
+  //   &:hover {
+  //     color: black; /* Hover text color */
+  //   }
+  //   align-items: center;
+  // `;
 
   const StyledNavbar = styled(Navbar)`
     @media (max-width: 880px) {
@@ -47,14 +47,15 @@ function MainNavbar({ posts, setPosts }) {
   return (
     <>
       <StyledNavbar>
-        <Navbar.Brand className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110">
-          <a href="/">
-            <img
-              src="/logo.png"
-              className=" h-[3em] "
-              alt="Flowbite React Logo"
-            />
-          </a>
+        <Navbar.Brand
+          href="/"
+          className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110"
+        >
+          <img
+            src="/logo.png"
+            className=" h-[3em] "
+            alt="Flowbite React Logo"
+          />
         </Navbar.Brand>
 
         <div className="flex md:order-2 items-center">
