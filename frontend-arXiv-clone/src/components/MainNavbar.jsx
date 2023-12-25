@@ -2,11 +2,11 @@ import { Avatar, Button, Dropdown, Navbar } from "flowbite-react";
 import styled from "styled-components";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
-import ModalLogIn from "./ModalLogIn";
-import ModalRegister from "./ModalRegister";
-import ModalSettings from "./ModalSettings";
-import ModalDashboard from "./ModalDashboard";
-import ModalNewPaper from "./ModalNewPaper";
+import ModalLogIn from "./Modals/ModalLogIn";
+import ModalRegister from "./Modals/ModalRegister";
+import ModalSettings from "./Modals/ModalSettings";
+import ModalDashboard from "./Modals/ModalDashboard";
+import ModalNewPaper from "./Modals/ModalNewPaper";
 import PropTypes from "prop-types";
 
 function MainNavbar({ posts, setPosts }) {

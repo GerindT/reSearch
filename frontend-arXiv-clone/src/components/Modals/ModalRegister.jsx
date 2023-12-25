@@ -14,7 +14,9 @@ function ModalRegister({
   setIsLogedIn,
 }) {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [repassword, setRePassword] = useState("");
 
   function onCloseModal() {
     setOpenModal(false);
@@ -33,6 +35,19 @@ function ModalRegister({
             </h3>
             <div>
               <div className="mb-2 block">
+                <Label htmlFor="username" value="Your Username" />
+              </div>
+              <TextInput
+                id="username"
+                type="text"
+                placeholder="username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
                 <Label htmlFor="email" value="Your email" />
               </div>
               <TextInput
@@ -44,6 +59,7 @@ function ModalRegister({
                 required
               />
             </div>
+
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="password" value="Your password" />
@@ -55,18 +71,18 @@ function ModalRegister({
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <Checkbox id="remember" />
-                <Label htmlFor="remember">Remember me</Label>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="password" value="Re-enter the password" />
               </div>
-              <a
-                href="#"
-                className="text-sm text-cyan-700 hover:underline dark:text-cyan-500"
-              >
-                Lost Password?
-              </a>
+              <TextInput
+                id="password"
+                type="password"
+                required
+                onChange={(e) => setRePassword(e.target.value)}
+              />
             </div>
+
             <div className="w-full">
               <Button
                 outline
@@ -76,11 +92,11 @@ function ModalRegister({
                   setIsLogedIn(!isLogedIn);
                 }}
               >
-                Log in to your account
+                Register
               </Button>
             </div>
             <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
-              Not registered?&nbsp;
+              Already have an account?&nbsp;
               <a
                 href="#"
                 className="text-cyan-700 hover:underline dark:text-cyan-500"
@@ -89,7 +105,7 @@ function ModalRegister({
                   setOpenModal(!openModal);
                 }}
               >
-                Create account
+                Log in
               </a>
             </div>
           </div>

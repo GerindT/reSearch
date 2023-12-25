@@ -1,5 +1,5 @@
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
-import ModalFooter from "../components/ModalFooter";
+import ModalFooter from "../components/Modals/ModalFooter";
 import { Footer } from "flowbite-react";
 
 function MainFooter() {

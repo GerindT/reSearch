@@ -1,4 +1,4 @@
-import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 
 import PropTypes from "prop-types";
@@ -25,7 +25,7 @@ function ModalLogIn({
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              Sign in to our platform
+              Log in to our platform
             </h3>
             <div>
               <div className="mb-2 block">
@@ -46,18 +46,7 @@ function ModalLogIn({
               </div>
               <TextInput id="password" type="password" required />
             </div>
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <Checkbox id="remember" />
-                <Label htmlFor="remember">Remember me</Label>
-              </div>
-              <a
-                href="#"
-                className="text-sm text-cyan-700 hover:underline dark:text-cyan-500"
-              >
-                Lost Password?
-              </a>
-            </div>
+
             <div className="w-full">
               <Button
                 outline

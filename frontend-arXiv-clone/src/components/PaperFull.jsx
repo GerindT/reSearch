@@ -3,7 +3,7 @@ import { HiCheck, HiClock } from "react-icons/hi";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import PropTypes from "prop-types";
-import ModalAreYouSure from "./ModalAreYouSure";
+import ModalAreYouSure from "./Modals/ModalAreYouSure";
 import { useState } from "react";
 
 function PaperFull({

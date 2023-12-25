@@ -1,7 +1,7 @@
 import { Button, Dropdown, Avatar } from "flowbite-react";
 import { useState } from "react";
 import PropTypes from "prop-types";
-import ModalAreYouSure from "./ModalAreYouSure";
+import ModalAreYouSure from "./Modals/ModalAreYouSure";
 
 function Comments({ comments, setComments }) {
   const [openModal, setOpenModal] = useState(false);
