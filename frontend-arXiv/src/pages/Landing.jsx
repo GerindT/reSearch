@@ -72,7 +72,11 @@ function Landing() {
     },
   ];
 
-  fetch("http://localhost:80/api/index.php")
+  const apiUrl = !import.meta.env.DEV
+    ? import.meta.env.VITE_PROD_API_URL
+    : import.meta.env.VITE_DEV_API_URL;
+
+  fetch(apiUrl)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
