@@ -8,7 +8,7 @@ ENV MYSQL_USER=testuser
 ENV MYSQL_PASSWORD=test
 
 # Copy the SQL script to initialize the database
-COPY /backend-arXiv/api/test.sql /docker-entrypoint-initdb.d/
+COPY /backend-arXiv/api/web_db.sql /docker-entrypoint-initdb.d/
 
 # Expose the MySQL port
 EXPOSE 3306
