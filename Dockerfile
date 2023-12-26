@@ -4,7 +4,7 @@ FROM mysql:latest
 # Set environment variables for MySQL database initialization
 ENV MYSQL_ROOT_PASSWORD=test
 ENV MYSQL_DATABASE=test
-ENV MYSQL_USER=root
+ENV MYSQL_USER=testuser
 ENV MYSQL_PASSWORD=test
 
 # Copy the SQL script to initialize the database
