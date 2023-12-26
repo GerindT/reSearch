@@ -10,9 +10,9 @@ ENV APACHE_LOG_DIR /var/log/apache2
 COPY ./api /var/www/html/api
 
 # Install MySQL client to run initialization script
-RUN apt-get update && \
-    apt-get install -y mysql-client && \
-    rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && \
+#     apt-get install -y mysql-client && \
+#     rm -rf /var/lib/apt/lists/*
 
 # Copy the MySQL initialization script to a temporary location
 # COPY ./api/your-database-init-script.sql /docker-entrypoint-initdb.d/
