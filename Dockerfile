@@ -7,6 +7,9 @@ ENV MYSQL_DATABASE=test
 ENV MYSQL_USER=testuser
 ENV MYSQL_PASSWORD=test
 
+# Set MySQL to bind to all addresses
+ENV MYSQL_ROOT_HOST=%
+
 # Copy the SQL script to initialize the database
 COPY /backend-arXiv/api/web_db.sql /docker-entrypoint-initdb.d/
 
