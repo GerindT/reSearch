@@ -9,6 +9,7 @@ Technologies used:
         PHP    ----|
         Mysql  ----| -> All Bootstraped by XAMPP
         Apache ----|
+        Docker for deployment
     
 Features:
 All typical CRUD features like:
