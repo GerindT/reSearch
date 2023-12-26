@@ -27,8 +27,8 @@ Running localy:
         -npm run dev
         -Fronted endpoint "localhost:5173/"
 -Backend:
-    Start PHPMYADMIN:
-        -Run MysqlScript
+    Start XAMPP:
+        -Import sql file in the phpmyadmin dashboard
         -Put the api folder in the htdocs folder
         -Api endpoint "localhost:80/api/"
 
