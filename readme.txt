@@ -31,6 +31,14 @@ Running localy:
         -Run MysqlScript
         -Put the api folder in the htdocs folder
         -Api endpoint "localhost:80/api/"
-        
+
+Deployment:
+-Frontend:
+    Netlify using netlify cli
+        -npm run build
+        -ntl -deploy
+-Backend:
+    -Dockerfile to run the php and apache server hosted in render.com
+    -Remote Mysql server running of oracle free instance
+
 PS:Cors is enabled and can be changed on .htaccess in api folder
-PS++:Deploy comming soon
