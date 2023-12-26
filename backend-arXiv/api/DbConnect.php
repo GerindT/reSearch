@@ -1,22 +1,46 @@
 <?php
-	/**
-	* Database Connection
-	*/
-	class DbConnect {
-		private $server = 'https://mysql-test-y8dd.onrender.com';
-		private $dbname = 'test';
-		private $user = 'testuser';
-		private $pass = 'test';
+class DbConnect {
 
-		public function connect() {
-			try {
-				$conn = new PDO('mysql:host=' .$this->server .';dbname=' . $this->dbname, $this->user, $this->pass);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				return $conn;
-			} catch (\Exception $e) {
-				echo "Database Error: " . $e->getMessage();
-			}
-		}
-        
-	}
+
+	//Deployed Config
+    private $server = '204.216.217.67'; 
+    private $dbname = 'PHPproject';
+	private $port = "25050";
+    private $user = 'GerindMeG';
+    private $pass = 'NdKAbIPCGE2BclRJvncQxsqPGkwBb2uD+capWLaWdRA';
+
+    public function connect() {
+        try {
+            $conn = new PDO('mysql:host=' . $this->server . '; port=' . $this->port . ';dbname=' . $this->dbname, $this->user, $this->pass);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $conn;
+        } catch (\Exception $e) {
+            echo "Database Error: " . $e->getMessage() . "\n";
+            echo "Host: " . $this->server . "\n";
+            echo "IP Address: " . gethostbyname($this->server) . "\n";
+        }
+    }
+
+	//Local Config
+	// private $server = 'localhost'; 
+    // private $dbname = 'test';
+	// private $port = "3306";
+    // private $user = 'root';
+    // private $pass = '';
+
+    // public function connect() {
+    //     try {
+    //         $conn = new PDO('mysql:host=' . $this->server . '; port=' . $this->port . ';dbname=' . $this->dbname, $this->user, $this->pass);
+    //         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //         return $conn;
+    //     } catch (\Exception $e) {
+    //         echo "Database Error: " . $e->getMessage() . "\n";
+    //         echo "Host: " . $this->server . "\n";
+    //         echo "IP Address: " . gethostbyname($this->server) . "\n";
+    //     }
+    // }
+
+}
+
+
 ?>
