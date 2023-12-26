@@ -31,10 +31,10 @@ ENV MYSQL_PASSWORD=your_database_password
 EXPOSE 3306
 
 # Install Supervisor
-RUN apt-get update && apt-get install -y supervisor && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y supervisor && rm -rf /var/lib/apt/lists/*
 
 # Copy Supervisor configuration file
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Start both Apache and MySQL when the container starts
 CMD service apache2 start && mysqld
