@@ -3,9 +3,9 @@
 	* Database Connection
 	*/
 	class DbConnect {
-		private $server = 'test';
+		private $server = 'https://mysql-test-y8dd.onrender.com';
 		private $dbname = 'test';
-		private $user = 'root';
+		private $user = 'testuser';
 		private $pass = 'test';
 
 		public function connect() {
