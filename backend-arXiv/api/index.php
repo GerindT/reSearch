@@ -5,13 +5,12 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *");
 
-echo json_encode("Hello World");;
 
 include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-echo json_encode($conn);
+echo json_encode($conn ? 'Connected' : 'Failed');
 
 // $method = $_SERVER['REQUEST_METHOD'];
 // switch($method) {
