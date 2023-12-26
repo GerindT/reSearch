@@ -7,7 +7,7 @@ Technologies used:
         Eslint and Prettier
     -Backend:
         PHP    ----|
-        Mysql  ----| -> All Bootstraped by PHPMYADMIN
+        Mysql  ----| -> All Bootstraped by XAMPP
         Apache ----|
     
 Features:
