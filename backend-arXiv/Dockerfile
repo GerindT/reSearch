@@ -17,26 +17,39 @@ COPY ./api /var/www/html/api
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 # Use an official MySQL image as the database backend
-FROM mysql:latest
+# FROM mysql:latest
 
-# Set MySQL root password (change this for production)
-ENV MYSQL_ROOT_PASSWORD=password
+# # Set MySQL root password (change this for production)
+# ENV MYSQL_ROOT_PASSWORD=password
 
-# Create a database and user (change these for production)
-ENV MYSQL_DATABASE=your_database_name
-ENV MYSQL_USER=your_database_user
-ENV MYSQL_PASSWORD=your_database_password
+# # Create a database and user (change these for production)
+# ENV MYSQL_DATABASE=your_database_name
+# ENV MYSQL_USER=your_database_user
+# ENV MYSQL_PASSWORD=your_database_password
 
-# Expose the MySQL port
+# # Expose the MySQL port
 EXPOSE 3306
 
-# Install Supervisor
+# # Install Supervisor
 # RUN apt-get update || echo "apt-get update failed"
 # RUN apt-get install -y supervisor || echo "apt-get install failed"
 # RUN rm -rf /var/lib/apt/lists/*
 
-# Copy Supervisor configuration file
+# # Copy Supervisor configuration file
 # COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Start both Apache and MySQL when the container starts
-CMD ["apache2-foreground", "&", "mysqld"]
+# Install MySQL client to run initialization script
+RUN apt-get update || echo "apt-get update failed"
+RUN apt-get install -y mysql-client || echo "apt-get install failed"
+RUN rm -rf /var/lib/apt/lists/*
+
+# Copy the MySQL initialization script to a temporary location
+# COPY ./api/your-database-init-script.sql /docker-entrypoint-initdb.d/
+
+# # Expose the MySQL port
+EXPOSE 3306
+# Expose the ports
+EXPOSE 80
+
+# Start Apache when the container starts
+CMD ["apache2-foreground"]
