@@ -7,8 +7,9 @@ Technologies used:
         Eslint and Prettier
     -Backend:
         PHP    ----|
-        Mysql  ----| -> All Bootstraped by PHPMYADMIN
+        Mysql  ----| -> All Bootstraped by XAMPP
         Apache ----|
+        Docker for deployment
     
 Features:
 All typical CRUD features like:
@@ -27,10 +28,18 @@ Running localy:
         -npm run dev
         -Fronted endpoint "localhost:5173/"
 -Backend:
-    Start PHPMYADMIN:
-        -Run MysqlScript
+    Start XAMPP:
+        -Import sql file in the phpmyadmin dashboard
         -Put the api folder in the htdocs folder
         -Api endpoint "localhost:80/api/"
-        
+
+Deployment:
+-Frontend:
+    Netlify using netlify cli
+        -npm run build
+        -ntl -deploy
+-Backend:
+    -Dockerfile to run the php and apache server hosted in render.com
+    -Remote Mysql server running of oracle free instance
+
 PS:Cors is enabled and can be changed on .htaccess in api folder
-PS++:Deploy comming soon
