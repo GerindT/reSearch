@@ -9,7 +9,7 @@ function Home() {
   console.log(posts);
   return (
     <div className="flex flex-col justify-center items-center gap-[2rem] mt-[2em]">
-      <Blockquote className="text-center">
+      <Blockquote className="my-4 border-l-4 border-gray-300 bg-gray-50 p-4 dark:border-gray-500 dark:bg-gray-800">
         &quot;Since we cannot be universal and know all that is to be known of
         everything, we ought to know a little about everything.&quot;
       </Blockquote>
