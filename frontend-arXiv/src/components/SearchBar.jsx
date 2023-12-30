@@ -35,14 +35,17 @@ function SearchBar({ posts, setPosts }) {
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prevCategories) => {
-      if (prevCategories.includes(category.name)) {
+      if (prevCategories.find((c) => c.name === category.name)) {
         // If category is already selected, remove it
         return prevCategories.filter(
-          (selectedCategory) => selectedCategory !== category.name
+          (selectedCategory) => selectedCategory.name !== category.name
         );
       } else {
         // If category is not selected, add it
-        return [...prevCategories, category.name];
+        return [
+          ...prevCategories,
+          { name: category.name, color: category.color },
+        ];
       }
     });
   };
@@ -101,7 +104,7 @@ function SearchBar({ posts, setPosts }) {
                     <Badge
                       className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
                       color={
-                        selectedCategories.includes(category.name)
+                        selectedCategories.find((c) => c.name === category.name)
                           ? category.color
                           : "red"
                       }
@@ -116,6 +119,25 @@ function SearchBar({ posts, setPosts }) {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex flex-row gap-1 flex-wrap">
+          {selectedCategories.map((category) => (
+            <div key={category.name} className=" flex">
+              <Badge
+                className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
+                color={
+                  selectedCategories.find((c) => c.name === category.name)
+                    ? category.color
+                    : "red"
+                }
+                onClick={(e) => {
+                  handleCategoryClick(category, e);
+                }}
+              >
+                {category.name}
+              </Badge>
+            </div>
+          ))}
         </div>
       </form>
     </>
