@@ -42,7 +42,7 @@ Deployment:
 -Frontend:
     Netlify using netlify cli
         -npm run build
-        -ntl deploy -prod
+        -ntl deploy --prod
 -Backend:
     -Dockerfile to run the php and apache server hosted in render.com
     -Remote Mysql server running of oracle free instance
