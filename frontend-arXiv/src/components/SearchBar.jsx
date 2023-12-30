@@ -125,7 +125,7 @@ function SearchBar({ posts, setPosts }) {
             </Dropdown>
           </div>
         </div>
-        <div className="flex flex-row gap-1 flex-wrap">
+        <div className="flex flex-row gap-1 flex-wrap mt-[0.4em]">
           {selectedCategories.map((category) => (
             <div key={category.name} className=" flex">
               <Badge
