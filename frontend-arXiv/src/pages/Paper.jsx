@@ -139,9 +139,9 @@ function Paper() {
               author={post.Author}
               date={formatDateDifference(post.CreatedAt)}
               content={post.Content}
-              isVerified={Boolean(post.IsVerified.toNumber)}
+              isVerified={Boolean(parseInt(post.IsVerified))}
               setVerified={setVerified}
-              verDate={post.VerifiedDate}
+              verDate={formatDateDifference(post.VerifiedDate)}
               isFav={isFav}
               setFav={setFav}
               likes={post.NumFavorites}

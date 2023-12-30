@@ -3,8 +3,11 @@ import { Button, Badge } from "flowbite-react";
 import { IoIosSearch } from "react-icons/io";
 import { Dropdown } from "flowbite-react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar({ posts, setPosts }) {
+  let navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
 
@@ -15,13 +18,20 @@ function SearchBar({ posts, setPosts }) {
     const filteredPosts = posts.filter(
       (post) =>
         post.Title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        selectedCategories.every((category) =>
-          post.categories.includes(category)
-        )
+        selectedCategories.every((category) => {
+          console.log("here", post);
+          return (
+            post.Categories !== null &&
+            post.Categories.some(
+              (postCategory) => postCategory.name === category.name
+            )
+          );
+        })
     );
 
     // Update the state with the filtered posts
     setPosts(filteredPosts);
+    navigate("/");
   };
   const categories = [
     { name: "WEB SCRAPING", color: "success" },
@@ -69,7 +79,6 @@ function SearchBar({ posts, setPosts }) {
               placeholder="Search Mockups, Logos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              required
             />
 
             <Button
@@ -87,10 +96,10 @@ function SearchBar({ posts, setPosts }) {
               label=""
               inline
               dismissOnClick={false}
-              className="w-64 rounded-t-lg"
+              className="w-64 rounded-lg "
             >
               <div className="">
-                <h3 className="font-semibold text-black-800 text-center hover:text-black-800 ">
+                <h3 className="font-semibold border-b-[1px]  text-black-800 text-center hover:text-black-800 ">
                   Choose your tags
                 </h3>
               </div>
@@ -98,7 +107,7 @@ function SearchBar({ posts, setPosts }) {
                 {categories.map((category) => (
                   <div key={category.name} className=" flex">
                     <Badge
-                      className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
+                      className=" rounded-lg transition duration-100 ease-in transform hover:scale-105"
                       color={
                         selectedCategories.find((c) => c.name === category.name)
                           ? category.color

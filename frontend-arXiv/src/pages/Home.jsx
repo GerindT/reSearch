@@ -17,7 +17,7 @@ function Home() {
         <div className="h-[70vh] flex flex-col justify-center self-center">
           <p className="font-thin text-xs text-gray-500 text-center mr-[4em]">
             There were no results for your query. Try again with different
-            terms.
+            terms. 🙄
           </p>
           <img src="/giphy.gif" alt="coffe crying" />
         </div>
@@ -30,7 +30,7 @@ function Home() {
             author={p.Authors}
             abstract={p.Abstract}
             date={p.CreatedAt}
-            isVerified={Boolean(p.IsVerified.toNumber)}
+            isVerified={Boolean(parseInt(p.IsVerified))}
             verDate={p.VerifiedDate}
             likes={p.NumFavorites || 0}
             categories={p.Categories || []}

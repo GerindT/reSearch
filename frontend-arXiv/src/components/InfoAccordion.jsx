@@ -30,8 +30,8 @@ function InfoAccordion() {
           <div className="flex flex-row  w-[85vw] md:w-[55vw] xl:w-[50vw] justify-between">
             <div>
               <span>
-                <span className="font-medium">Info alert!</span> You can remove
-                the extra info by clicking on the cross.
+                <span className="font-medium">Tip!</span> You can remove the
+                extra info by clicking on the cross.
               </span>
             </div>
             <div>

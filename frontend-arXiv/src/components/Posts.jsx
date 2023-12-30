@@ -36,7 +36,7 @@ function Posts({
           color={isVerified ? "success" : "red"}
           icon={isVerified ? HiCheck : RxCross1}
         >
-          {isVerified ? verDate : "Not verified"}
+          {isVerified ? formatDateDifference(verDate) : "Not verified"}
         </Badge>
         <Badge
           className="  transition duration-100 ease-in transform hover:scale-105"
