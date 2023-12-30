@@ -25,6 +25,7 @@ function Home() {
         posts.map((p, index) => (
           <Posts
             key={p.PaperID}
+            pId={p.PaperID}
             title={p.Title}
             author={p.Authors}
             abstract={p.Abstract}

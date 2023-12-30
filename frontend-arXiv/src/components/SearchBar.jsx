@@ -14,7 +14,7 @@ function SearchBar({ posts, setPosts }) {
     // Filter posts based on the search query
     const filteredPosts = posts.filter(
       (post) =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        post.Title.toLowerCase().includes(searchQuery.toLowerCase()) &&
         selectedCategories.every((category) =>
           post.categories.includes(category)
         )

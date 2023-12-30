@@ -92,11 +92,11 @@ function Landing() {
 
   return (
     <>
-      <MainNavbar posts={posts} setPosts={setPosts} />
-
       {posts.length > 0 ? (
         <>
+          <MainNavbar posts={posts} setPosts={setPosts} />
           <Outlet context={[posts, setPosts]} />
+          <MainFooter />
         </>
       ) : (
         <div className="flex flex-row justify-center">
@@ -108,8 +108,6 @@ function Landing() {
           </div>
         </div>
       )}
-
-      <MainFooter />
     </>
   );
 }

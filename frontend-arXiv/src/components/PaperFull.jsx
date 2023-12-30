@@ -1,10 +1,11 @@
-import { Avatar, Badge } from "flowbite-react";
-import { HiCheck, HiClock } from "react-icons/hi";
+import { Avatar, Badge, Banner } from "flowbite-react";
+import { HiCheck, HiClock, HiX } from "react-icons/hi";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import PropTypes from "prop-types";
 import ModalAreYouSure from "./Modals/ModalAreYouSure";
 import { useState } from "react";
+import { MdAnnouncement } from "react-icons/md";
 
 function PaperFull({
   title,
@@ -22,6 +23,29 @@ function PaperFull({
   const [openModal, setOpenModal] = useState(false);
   return (
     <div className="flex flex-col gap-[1em]">
+      {!isVerified && (
+        <Banner>
+          <div className="flex w-full justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
+            <div className="mx-auto flex items-center">
+              <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+                <MdAnnouncement className="mr-4 h-4 w-4" />
+                <span className="[&_p]:inline">
+                  This paper has not been verified yet, it may contain false or
+                  misleading information. Our team is working on verifying it as
+                  soon as possible.
+                </span>
+              </p>
+            </div>
+            <Banner.CollapseButton
+              color="gray"
+              className="border-0 bg-transparent text-gray-500 dark:text-gray-400"
+            >
+              <HiX className="h-4 w-4" />
+            </Banner.CollapseButton>
+          </div>
+        </Banner>
+      )}
+
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {title}
       </h5>

@@ -94,7 +94,8 @@ function Paper() {
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    const paperId = 3;
+    const paperId = window.location.pathname.split("/")[2];
+    console.log(paperId);
     fetch(`${apiUrl}/singlePost.php?id=${paperId}`)
       .then((res) => res.json())
       .then((data) => {

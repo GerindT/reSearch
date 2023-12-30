@@ -13,13 +13,13 @@ function Posts({
   date,
   isVerified,
   verDate,
-
+  pId,
   likes,
   categories,
 }) {
   return (
     <Card className=" cursor-pointer  transition duration-100 ease-in transform  max-w-[100%] md:max-w-[60%]">
-      <Link to="/paper/1">
+      <Link to={`/paper/${pId}`}>
         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {title}
         </h5>
@@ -59,7 +59,7 @@ function Posts({
       </div>
 
       <div className="flex justify-between">
-        <Link to="/paper/1">
+        <Link to={`/paper/${pId}`}>
           <Button
             pill
             outline
@@ -114,6 +114,7 @@ Posts.propTypes = {
   favDate: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   categories: PropTypes.array.isRequired,
+  pId: PropTypes.number.isRequired,
 };
 
 export default Posts;
