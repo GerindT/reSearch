@@ -20,6 +20,11 @@ All typical CRUD features like:
 -Admin can asign superusers and have access to the dashboard and all the features superusers have
 -Superusers can verify papers in the categories they are assign at, they cannot create other superusers
 -Users can create new papers and comment, they can favorite papers and modify their accounts
+-Search by title and category that is choosen, pages for erros,success and loading to have consistency of data
+
+Api Endpoints:
+    -Posts.php -> Get all the posts with all the data needed for each of them (joins)
+    -SinglePost.php + id -> Get the single Posts given by the id, get more details for the post to have a balance between frontend and backend
 
 Running localy:
 -Frontend:
@@ -37,7 +42,7 @@ Deployment:
 -Frontend:
     Netlify using netlify cli
         -npm run build
-        -ntl -deploy
+        -ntl deploy -prod
 -Backend:
     -Dockerfile to run the php and apache server hosted in render.com
     -Remote Mysql server running of oracle free instance
