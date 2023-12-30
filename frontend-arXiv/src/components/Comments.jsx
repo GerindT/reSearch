@@ -124,7 +124,7 @@ function Comments({ comments, setComments }) {
                     rounded
                     className="cursor-pointer mr-[1em]  transition duration-100 ease-in transform  hover:scale-110 "
                   />
-                  {comment.name}
+                  {comment.Username}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   <time
@@ -132,7 +132,7 @@ function Comments({ comments, setComments }) {
                     datetime="2022-02-08"
                     title="February 8th, 2022"
                   >
-                    {comment.date}
+                    {comment.CreatedAt}
                   </time>
                 </p>
               </div>
@@ -198,7 +198,9 @@ function Comments({ comments, setComments }) {
                 </div>
               </>
             ) : (
-              <p className="text-gray-500 dark:text-gray-400">{comment.body}</p>
+              <p className="text-gray-500 dark:text-gray-400">
+                {comment.CommentText}
+              </p>
             )}
           </article>
         ))}

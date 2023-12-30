@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Badge } from "flowbite-react";
-import { IoIosSearch, IoIosArrowDown } from "react-icons/io";
+import { IoIosSearch } from "react-icons/io";
+import { Dropdown } from "flowbite-react";
 import PropTypes from "prop-types";
 
 function SearchBar({ posts, setPosts }) {
@@ -82,16 +83,11 @@ function SearchBar({ posts, setPosts }) {
             </Button>
           </div>
           <div className="self-center">
-            <IoIosArrowDown
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              size={24}
-              className="text-gray-500"
-            />
-
-            <div
-              id="dropdown"
-              className="z-10 hidden px-3 py-2 rounded  bg-white shadow focus:outline-none rounded-t-lg w-64 "
+            <Dropdown
+              label=""
+              inline
+              dismissOnClick={false}
+              className="w-64 rounded-t-lg"
             >
               <div className="">
                 <h3 className="font-semibold text-black-800 text-center hover:text-black-800 ">
@@ -117,7 +113,7 @@ function SearchBar({ posts, setPosts }) {
                   </div>
                 ))}
               </div>
-            </div>
+            </Dropdown>
           </div>
         </div>
         <div className="flex flex-row gap-1 flex-wrap">

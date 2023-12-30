@@ -23,7 +23,7 @@ class DbConnect {
 
 	//Local Config
 	// private $server = 'localhost'; 
-    // private $dbname = 'test';
+    // private $dbname = 'researchdb';
 	// private $port = "3306";
     // private $user = 'root';
     // private $pass = '';

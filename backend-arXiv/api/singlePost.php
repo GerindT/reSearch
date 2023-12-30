@@ -15,12 +15,53 @@ $conn = $objDb->connect();
 $method = $_SERVER['REQUEST_METHOD'];
 switch($method) {
     case "GET":
-        $sql = "SELECT * FROM users";
-        $path = explode('/', $_SERVER['REQUEST_URI']);
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($users);}
+        $paperId = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+        if ($paperId) {
+        // Use $paperId in the WHERE clause of your SQL query
+                $sql = "SELECT
+                        p.*,
+                        CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"name\":\"', c.CategoryName, '\", \"color\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
+                        COUNT(DISTINCT f.UserID) AS NumFavorites,
+                        CONCAT('[',
+                            GROUP_CONCAT(
+                                CONCAT(
+                                    '{\"CommentID\":', co.CommentID, ', \"CommentText\":\"', co.CommentText, '\", \"UserID\":', cu.UserID, ', \"Username\":\"', cu.Username, '\", \"Avatar\":\"', cu.Avatar, '\", \"Email\":\"', cu.Email, '\", \"CreatedAt\":\"', co.CreatedAt, '\"}'
+                                )
+                                SEPARATOR ', '
+                            ),
+                            ']'
+                        ) AS Comments
+                    FROM
+                        papers p
+                    LEFT JOIN
+                        categorytopaper cp ON p.PaperID = cp.PaperID
+                    LEFT JOIN
+                        categories c ON cp.CategoryID = c.CategoryID
+                    LEFT JOIN
+                        favorites f ON p.PaperID = f.PaperID
+                    LEFT JOIN
+                        comments co ON p.PaperID = co.PaperID
+                    LEFT JOIN
+                        users cu ON co.UserID = cu.UserID
+                    WHERE
+                        p.PaperID = :paperId
+                    GROUP BY
+                        p.PaperID";
+    
+
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':paperId', $paperId, PDO::PARAM_INT);
+                $stmt->execute();
+                $paperData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                
+
+                echo json_encode($paperData);
+                } else {
+                echo json_encode(['error' => 'Paper ID not provided.']);
+                }
+            }
 //         if(isset($path[3]) && is_numeric($path[3])) {
 //             $sql .= " WHERE id = :id";
 //             $stmt = $conn->prepare($sql);

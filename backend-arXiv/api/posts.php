@@ -15,7 +15,24 @@ $conn = $objDb->connect();
 $method = $_SERVER['REQUEST_METHOD'];
 switch($method) {
     case "GET":
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT
+                    p.*,
+                    GROUP_CONCAT(DISTINCT c.CategoryName) AS Tags,
+                    COUNT(DISTINCT f.UserID) AS NumFavorites,
+                    CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"name\":\"', c.CategoryName, '\", \"color\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
+                    GROUP_CONCAT(DISTINCT c.CategoryID) AS CategoryIDs,
+                    GROUP_CONCAT(DISTINCT c.CategoryColor) AS CategoryColors
+                FROM
+                    papers p
+                LEFT JOIN
+                    categorytopaper cp ON p.PaperID = cp.PaperID
+                LEFT JOIN
+                    categories c ON cp.CategoryID = c.CategoryID
+                LEFT JOIN
+                    favorites f ON p.PaperID = f.PaperID
+                GROUP BY
+                    p.PaperID";
+                    
         $path = explode('/', $_SERVER['REQUEST_URI']);
         $stmt = $conn->prepare($sql);
         $stmt->execute();

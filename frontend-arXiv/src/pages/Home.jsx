@@ -1,7 +1,6 @@
 import { Blockquote } from "flowbite-react";
 import Posts from "../components/Posts";
 import InfoAccordion from "../components/InfoAccordion";
-import PropTypes from "prop-types";
 import { useOutletContext } from "react-router-dom";
 
 function Home() {
@@ -25,17 +24,15 @@ function Home() {
       ) : (
         posts.map((p, index) => (
           <Posts
-            key={index}
-            title={p.title}
-            author={p.authors}
-            abstract={p.abstract}
-            date={p.date}
-            isVerified={p.isVerified}
-            verDate={p.verDate}
-            isFav={p.isFav}
-            favDate={p.favDate}
-            likes={p.likes}
-            categories={p.categories}
+            key={p.PaperID}
+            title={p.Title}
+            author={p.Authors}
+            abstract={p.Abstract}
+            date={p.CreatedAt}
+            isVerified={Boolean(p.IsVerified.toNumber)}
+            verDate={p.VerifiedDate}
+            likes={p.NumFavorites || 0}
+            categories={p.Categories || []}
           />
         ))
       )}

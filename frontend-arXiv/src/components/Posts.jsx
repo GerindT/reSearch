@@ -2,6 +2,7 @@ import { Button, Card, Avatar, Badge } from "flowbite-react";
 import { HiCheck, HiClock } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { RxCross1 } from "react-icons/rx";
+import { formatDateDifference } from "../helper/dateHelper";
 
 import PropTypes from "prop-types";
 
@@ -12,8 +13,7 @@ function Posts({
   date,
   isVerified,
   verDate,
-  isFav,
-  favDate,
+
   likes,
   categories,
 }) {
@@ -43,7 +43,7 @@ function Posts({
           color="gray"
           icon={HiClock}
         >
-          {date}
+          {formatDateDifference(date)}
         </Badge>
       </div>
       <div className="flex flex-wrap gap-[1em]">

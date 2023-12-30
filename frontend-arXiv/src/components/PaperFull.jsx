@@ -15,11 +15,11 @@ function PaperFull({
   verDate,
   isFav,
   setFav,
-  favDate,
+  date,
   likes,
+  categories = [],
 }) {
   const [openModal, setOpenModal] = useState(false);
-
   return (
     <div className="flex flex-col gap-[1em]">
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -57,7 +57,7 @@ function PaperFull({
           color="gray"
           icon={HiClock}
         >
-          {favDate}
+          {date}
         </Badge>
         <Badge
           className="cursor-pointer transition duration-100 ease-in transform hover:scale-105"
@@ -70,54 +70,15 @@ function PaperFull({
       </div>
       <div className="flex flex-row flex-wrap justify-between gap-[1em]">
         <div className="flex flex-row flex-wrap gap-[1em]">
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="info"
-          >
-            NLP
-          </Badge>
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="gray"
-          >
-            ML
-          </Badge>
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="failure"
-          >
-            AI
-          </Badge>
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="success"
-          >
-            WEB SCRAPING
-          </Badge>
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="warning"
-          >
-            Robotics
-          </Badge>
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="indigo"
-          >
-            CNN
-          </Badge>
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="purple"
-          >
-            BIG DATA
-          </Badge>
-          <Badge
-            className="rounded-lg cursor-pointer self-center transition duration-100 ease-in transform hover:scale-105"
-            color="pink"
-          >
-            IOT
-          </Badge>
+          {categories.map((c, index) => (
+            <Badge
+              key={index}
+              className="rounded-lg cursor-pointer transition duration-100 ease-in transform hover:scale-105"
+              color={c.color}
+            >
+              {c.name}
+            </Badge>
+          ))}
         </div>
         <div className="flex flex-end">
           <Avatar.Group>
@@ -150,8 +111,9 @@ PaperFull.propTypes = {
   verDate: PropTypes.string.isRequired,
   isFav: PropTypes.bool.isRequired,
   setFav: PropTypes.func.isRequired,
-  favDate: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default PaperFull;
