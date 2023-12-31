@@ -3,12 +3,17 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import ModalAreYouSure from "./Modals/ModalAreYouSure";
 
-function Comments({ comments, setComments }) {
+function Comments({ comments, setPost, paperId }) {
+  const apiUrl = !import.meta.env.DEV
+    ? import.meta.env.VITE_PROD_API_URL
+    : import.meta.env.VITE_DEV_API_URL;
+
   const [openModal, setOpenModal] = useState(false);
   const [verified, setVerified] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
   const [editedComment, setEditedComment] = useState("");
+  const [delId, setDelId] = useState(null);
 
   const msg = "Are you sure you want to delete this comment?";
 
@@ -36,45 +41,111 @@ function Comments({ comments, setComments }) {
     setComments(updatedComments);
   };
 
-  const handleAddComment = () => {
-    // Simulate adding a new comment locally
-    const newCommentObj = {
-      id: comments.length + 1, // Generate a unique ID (replace with a proper ID generation logic)
-      name: "John Doe", // Replace with the actual user's name
-      email: "john@example.com", // Replace with the actual user's email
-      body: newComment,
-      date: new Date().toLocaleDateString(), // Use the current date and time
-    };
-
-    // Update the state with the new comment
-    setComments([...comments, newCommentObj]);
-
-    // Clear the input field
-    setNewComment("");
-  };
-
   const handleDeleteClick = (commentId) => {
     // Open the modal to confirm deletion
     setOpenModal(true);
+    setDelId(commentId);
+  };
 
-    // Set the verified state to false initially
-    setVerified(false);
+  const handleCreateComment = () => {
+    const userId = 1; // Replace with the actual user ID
 
-    // Set the ID of the comment to be deleted
-    setEditCommentId(commentId);
+    const data = {
+      commentText: newComment,
+      userId: userId,
+      paperId: paperId,
+    };
+
+    console.log(data);
+
+    fetch(`${apiUrl}/comments.php`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data
+        console.log(data);
+
+        if (data.status === 1) {
+          if (comments.length === 0) {
+            setPost((prevState) => {
+              const updatedPost = {
+                ...prevState,
+                Comments: [data.newComment], // Replace 'newComment' with the actual key holding your new comment data
+              };
+              return updatedPost;
+            });
+          } else {
+            // Comment created successfully, fetch updated data and reset newComment
+            setPost((prevState) => {
+              // Assuming your post object has a 'Comments' property
+              const updatedPost = {
+                ...prevState,
+                Comments: [data.newComment, ...prevState.Comments], // Add the new comment at the beginning
+              };
+              return updatedPost;
+            });
+          }
+
+          // Clear the input field
+
+          setNewComment("");
+        } else {
+          console.log("error");
+        }
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
   };
 
   const handleConfirmDelete = () => {
     // Simulate deleting the comment locally
     const updatedComments = comments.filter(
-      (comment) => comment.id !== editCommentId
+      (comment) => comment.CommentID !== delId
     );
 
-    // Update the state with the deleted comment
-    setComments(updatedComments);
+    // Close the modal
+    const data = {
+      action: "deleteComment",
+      commentId: delId,
+    };
 
-    // Clear the edit state and close the modal
-    setEditCommentId(null);
+    // Make a request to the server to delete the comment
+    fetch(`${apiUrl}/comments.php`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the server if needed
+        console.log(data);
+        // Update the state with the deleted comment
+        if (data.status === 1) {
+          setPost((prevState) => {
+            // Assuming your post object has a 'Comments' property
+            const updatedPost = {
+              ...prevState,
+              Comments: updatedComments, // Add the new comment at the beginning
+            };
+
+            return updatedPost;
+          });
+          setOpenModal(false);
+        }
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -105,14 +176,14 @@ function Comments({ comments, setComments }) {
             pill
             outline
             gradientDuoTone="purpleToBlue"
-            onClick={handleAddComment}
+            onClick={handleCreateComment}
           >
             Post comment
           </Button>
         </form>
         {comments.map((comment) => (
           <article
-            key={comment.id}
+            key={comment.CommentID}
             className="p-[1em] text-base bg-white rounded-lg dark:bg-gray-900"
           >
             <footer className="flex justify-between items-center mb-2">
@@ -120,7 +191,7 @@ function Comments({ comments, setComments }) {
                 <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
                   <Avatar
                     alt="User settings"
-                    img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    img={comment.Avatar}
                     rounded
                     className="cursor-pointer mr-[1em]  transition duration-100 ease-in transform  hover:scale-110 "
                   />
@@ -157,7 +228,7 @@ function Comments({ comments, setComments }) {
               >
                 <Dropdown.Item
                   onClick={() => {
-                    handleDeleteClick(comment.id);
+                    handleDeleteClick(comment.CommentID);
                   }}
                 >
                   Delete
@@ -170,7 +241,7 @@ function Comments({ comments, setComments }) {
               </Dropdown>
             </footer>
 
-            {editCommentId === comment.id ? (
+            {editCommentId === comment.CommentID ? (
               <>
                 <textarea
                   value={editedComment}
@@ -209,7 +280,8 @@ function Comments({ comments, setComments }) {
         openModal={openModal}
         setOpenModal={setOpenModal}
         msg={msg}
-        setVerified={setVerified}
+        paperId={null}
+        setVerified={null}
         handleConfirmDelete={handleConfirmDelete}
       />
     </section>
@@ -217,16 +289,9 @@ function Comments({ comments, setComments }) {
 }
 
 Comments.propTypes = {
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  setComments: PropTypes.func.isRequired,
+  comments: PropTypes.array.isRequired,
+  setPost: PropTypes.func.isRequired,
+  paperId: PropTypes.number.isRequired,
 };
 
 export default Comments;

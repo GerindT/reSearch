@@ -13,13 +13,13 @@ $conn = $objDb->connect();
 // echo json_encode($conn ? 'Connected' : 'Failed');
 
 $method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
+switch ($method) {
     case "GET":
         $paperId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
         if ($paperId) {
-        // Use $paperId in the WHERE clause of your SQL query
-                $sql = "SELECT
+            // Use $paperId in the WHERE clause of your SQL query
+            $sql = "SELECT
                         p.*,
                         CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"name\":\"', c.CategoryName, '\", \"color\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
                         COUNT(DISTINCT f.UserID) AS NumFavorites,
@@ -48,20 +48,20 @@ switch($method) {
                         p.PaperID = :paperId
                     GROUP BY
                         p.PaperID";
-    
 
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':paperId', $paperId, PDO::PARAM_INT);
-                $stmt->execute();
-                $paperData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':paperId', $paperId, PDO::PARAM_INT);
+            $stmt->execute();
+            $paperData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                echo json_encode($paperData);
-                } else {
-                echo json_encode(['error' => 'Paper ID not provided.']);
-                }
-            }
+
+
+            echo json_encode($paperData);
+        } else {
+            echo json_encode(['error' => 'Paper ID not provided.']);
+        }
+}
 //         if(isset($path[3]) && is_numeric($path[3])) {
 //             $sql .= " WHERE id = :id";
 //             $stmt = $conn->prepare($sql);

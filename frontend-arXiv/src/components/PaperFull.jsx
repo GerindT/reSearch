@@ -8,17 +8,18 @@ import { useState } from "react";
 import { MdAnnouncement } from "react-icons/md";
 
 function PaperFull({
+  paperId,
   title,
   author,
   content,
   isVerified,
-  setVerified,
   verDate,
   isFav,
-  setFav,
   date,
   likes,
   categories = [],
+  handleVerification,
+  handleFavorites,
 }) {
   const [openModal, setOpenModal] = useState(false);
   return (
@@ -74,7 +75,9 @@ function PaperFull({
           openModal={openModal}
           setOpenModal={setOpenModal}
           msg={"Are you sure you want to verify this paper?"}
-          setVerified={setVerified}
+          handleVerification={handleVerification}
+          setVerified={null}
+          paperId={paperId}
         />
         <Badge
           className="  cursor-pointer transition duration-100 ease-in transform hover:scale-105"
@@ -87,7 +90,7 @@ function PaperFull({
           className="cursor-pointer transition duration-100 ease-in transform hover:scale-105"
           color={isFav ? "red" : "gray"}
           icon={isFav ? FaHeart : FaRegHeart}
-          onClick={() => setFav(!isFav)}
+          onClick={() => handleFavorites()}
         >
           {isFav ? "Remove from favorites" : "Add to favorites"}
         </Badge>
@@ -131,13 +134,14 @@ PaperFull.propTypes = {
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   isVerified: PropTypes.bool.isRequired,
-  setVerified: PropTypes.func.isRequired,
   verDate: PropTypes.string.isRequired,
   isFav: PropTypes.bool.isRequired,
   setFav: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   categories: PropTypes.array.isRequired,
+  handleVerification: PropTypes.func.isRequired,
+  handleFavorites: PropTypes.func.isRequired,
 };
 
 export default PaperFull;

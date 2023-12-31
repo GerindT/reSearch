@@ -8,6 +8,8 @@ function ModalAreYouSure({
   msg,
   setVerified,
   handleConfirmDelete,
+  handleVerification,
+  paperId,
 }) {
   return (
     <Modal
@@ -30,7 +32,9 @@ function ModalAreYouSure({
               pill
               gradientDuoTone="purpleToBlue"
               onClick={() => {
-                setOpenModal(false), setVerified(true), handleConfirmDelete();
+                paperId
+                  ? (handleVerification(), setOpenModal(false))
+                  : handleConfirmDelete();
               }}
             >
               {"Yes, I'm sure"}

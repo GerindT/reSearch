@@ -15,7 +15,10 @@ export function formatDateDifference(dateString) {
   const yearsDifference = Math.floor(daysDifference / 365);
 
   // Choose the appropriate format based on the difference
-  if (yearsDifference > 0) {
+  if (daysDifference === 0) {
+    // If it's been less than a day, show "just a while ago"
+    return "Just a while ago";
+  } else if (yearsDifference > 0) {
     // If it's been a year or more, show the original date
     return dateString;
   } else if (monthsDifference > 0) {
