@@ -4,7 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 import { Dropdown } from "flowbite-react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-
+import { categories } from "../helper/categories";
 function SearchBar({ posts, setPosts }) {
   let navigate = useNavigate();
 
@@ -33,16 +33,6 @@ function SearchBar({ posts, setPosts }) {
     setPosts(filteredPosts);
     navigate("/");
   };
-  const categories = [
-    { name: "WEB SCRAPING", color: "success" },
-    { name: "BIG DATA", color: "purple" },
-    { name: "Robotics", color: "warning" },
-    { name: "NLP", color: "info" },
-    { name: "ML", color: "gray" },
-    { name: "AI", color: "failure" },
-    { name: "CNN", color: "indigo" },
-    { name: "IOT", color: "pink" },
-  ];
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prevCategories) => {

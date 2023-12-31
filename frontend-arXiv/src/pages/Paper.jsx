@@ -11,16 +11,20 @@ import Comments from "../components/Comments";
 import InfoTab from "../components/InfoTab";
 
 import { customThemeTabs } from "../helper/themes";
+import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Paper() {
   const apiUrl = !import.meta.env.DEV
     ? import.meta.env.VITE_PROD_API_URL
     : import.meta.env.VITE_DEV_API_URL;
   const [post, setPost] = useState(null);
+  const [posts, setPosts] = useOutletContext();
+  let navigate = useNavigate();
 
   useEffect(() => {
     const paperId = window.location.pathname.split("/")[2];
-    const userId = 1; // Replace with the actual user ID
+    const userId = null; // Replace with the actual user ID
 
     fetch(`${apiUrl}/singlePost.php?id=${paperId}&userId=${userId}`, {
       method: "GET", // Specify the GET method
@@ -125,6 +129,17 @@ function Paper() {
       });
   };
 
+  const handleTagsClick = (name) => {
+    const filteredPosts = posts.filter(
+      (post) =>
+        post.Categories !== null &&
+        post.Categories.some((category) => category.name === name)
+      // post.Categories.some((category) => category.name === name)
+    );
+    setPosts(filteredPosts);
+    navigate("/");
+  };
+
   return (
     <div className=" mx-[1.5em] md:mx-[4em] ">
       <Breadcrumb aria-label="Default breadcrumb example">
@@ -162,6 +177,7 @@ function Paper() {
               handleVerification={handleVerification}
               likes={post.NumFavorites}
               categories={post.Categories || []}
+              handleTagsClick={handleTagsClick}
             />
           )}
         </Tabs.Item>

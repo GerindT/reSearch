@@ -16,6 +16,7 @@ function Posts({
   pId,
   likes,
   categories,
+  handleTagsClick,
 }) {
   return (
     <Card className=" cursor-pointer  transition duration-100 ease-in transform  max-w-[100%] md:max-w-[60%]">
@@ -52,6 +53,7 @@ function Posts({
             key={index}
             className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
             color={c.color}
+            onClick={() => handleTagsClick(c.name)}
           >
             {c.name}
           </Badge>

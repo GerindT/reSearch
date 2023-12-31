@@ -2,6 +2,7 @@ import { Button, Dropdown, Avatar } from "flowbite-react";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import ModalAreYouSure from "./Modals/ModalAreYouSure";
+import { formatDateDifference } from "../helper/dateHelper";
 
 function Comments({ comments, setPost, paperId }) {
   const apiUrl = !import.meta.env.DEV
@@ -9,7 +10,6 @@ function Comments({ comments, setPost, paperId }) {
     : import.meta.env.VITE_DEV_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
-  const [verified, setVerified] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
   const [editedComment, setEditedComment] = useState("");
@@ -28,17 +28,56 @@ function Comments({ comments, setPost, paperId }) {
   };
 
   const handleSaveEdit = () => {
-    // Simulate updating the comment locally
-    const updatedComments = comments.map((comment) =>
-      comment.id === editCommentId
-        ? { ...comment, body: editedComment }
-        : comment
-    );
+    const data = {
+      action: "updateComment",
+      commentId: editCommentId,
+      commentText: editedComment,
+    };
 
-    // Update the state with the edited comments
-    setEditCommentId(null);
-    setEditedComment("");
-    setComments(updatedComments);
+    fetch(`${apiUrl}/comments.php`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data
+        console.log(data);
+
+        if (data.status === 1) {
+          // Simulate updating the comment locally
+          const updatedComments = comments.map((comment) =>
+            comment.CommentID === editCommentId
+              ? {
+                  ...comment,
+                  CommentText: editedComment,
+                  UpdatedAt: data.updatedComment.UpdatedAt,
+                }
+              : comment
+          );
+
+          // Update the state with the edited comments
+          setEditCommentId(null);
+          setEditedComment("");
+          // Update the state with the deleted comment
+          setPost((prevState) => {
+            // Assuming your post object has a 'Comments' property
+            const updatedPost = {
+              ...prevState,
+              Comments: updatedComments, // Add the new comment at the beginning
+            };
+            return updatedPost;
+          });
+        } else {
+          console.log("error");
+        }
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
   };
 
   const handleDeleteClick = (commentId) => {
@@ -55,8 +94,6 @@ function Comments({ comments, setPost, paperId }) {
       userId: userId,
       paperId: paperId,
     };
-
-    console.log(data);
 
     fetch(`${apiUrl}/comments.php`, {
       method: "POST",
@@ -234,7 +271,9 @@ function Comments({ comments, setPost, paperId }) {
                   Delete
                 </Dropdown.Item>
                 <Dropdown.Item
-                  onClick={() => handleEditClick(comment.id, comment.body)}
+                  onClick={() =>
+                    handleEditClick(comment.CommentID, comment.CommentText)
+                  }
                 >
                   Edit
                 </Dropdown.Item>
@@ -269,9 +308,16 @@ function Comments({ comments, setPost, paperId }) {
                 </div>
               </>
             ) : (
-              <p className="text-gray-500 dark:text-gray-400">
-                {comment.CommentText}
-              </p>
+              <div className="flex flex-col">
+                <p className="text-gray-500 dark:text-gray-400">
+                  {comment.CommentText}
+                </p>
+                <p className="text-gray-500 text-sm dark:text-gray-400 self-end">
+                  {comment.UpdatedAt
+                    ? `Edited ${formatDateDifference(comment.UpdatedAt)}`
+                    : ""}
+                </p>
+              </div>
             )}
           </article>
         ))}

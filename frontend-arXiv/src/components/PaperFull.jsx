@@ -20,6 +20,7 @@ function PaperFull({
   categories = [],
   handleVerification,
   handleFavorites,
+  handleTagsClick,
 }) {
   const [openModal, setOpenModal] = useState(false);
   return (
@@ -102,6 +103,7 @@ function PaperFull({
               key={index}
               className="rounded-lg cursor-pointer transition duration-100 ease-in transform hover:scale-105"
               color={c.color}
+              onClick={() => handleTagsClick(c.name)}
             >
               {c.name}
             </Badge>

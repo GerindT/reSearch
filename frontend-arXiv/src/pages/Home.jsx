@@ -5,6 +5,15 @@ import { useOutletContext } from "react-router-dom";
 
 function Home() {
   const [posts, setPosts] = useOutletContext();
+  const handleTagsClick = (name) => {
+    const filteredPosts = posts.filter(
+      (post) =>
+        post.Categories !== null &&
+        post.Categories.some((category) => category.name === name)
+      // post.Categories.some((category) => category.name === name)
+    );
+    setPosts(filteredPosts);
+  };
   console.log(posts);
   return (
     <div className="flex flex-col justify-center items-center gap-[2rem] mt-[2em]">
@@ -34,6 +43,7 @@ function Home() {
             verDate={p.VerifiedDate}
             likes={p.NumFavorites || 0}
             categories={p.Categories || []}
+            handleTagsClick={handleTagsClick}
           />
         ))
       )}

@@ -17,7 +17,7 @@ export function formatDateDifference(dateString) {
   // Choose the appropriate format based on the difference
   if (daysDifference === 0) {
     // If it's been less than a day, show "just a while ago"
-    return "Just a while ago";
+    return "Just now";
   } else if (yearsDifference > 0) {
     // If it's been a year or more, show the original date
     return dateString;
