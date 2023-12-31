@@ -5,7 +5,7 @@ class DbConnect
 
     //Deployed Config
     private $server = '204.216.217.67';
-    private $dbname = 'PHPproject';
+    private $dbname = 'researchdb';
     private $port = "25050";
     private $user = 'GerindMeG';
     private $pass = 'NdKAbIPCGE2BclRJvncQxsqPGkwBb2uD+capWLaWdRA';
