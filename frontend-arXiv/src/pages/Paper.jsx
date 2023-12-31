@@ -24,7 +24,7 @@ function Paper() {
 
   useEffect(() => {
     const paperId = window.location.pathname.split("/")[2];
-    const userId = null; // Replace with the actual user ID
+    const userId = 1; // Replace with the actual user ID
 
     fetch(`${apiUrl}/singlePost.php?id=${paperId}&userId=${userId}`, {
       method: "GET", // Specify the GET method
