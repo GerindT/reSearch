@@ -113,7 +113,7 @@ function Comments({ comments, setComments }) {
         {comments.map((comment) => (
           <article
             key={comment.id}
-            className="p-6 text-base bg-white rounded-lg dark:bg-gray-900"
+            className="p-[1em] text-base bg-white rounded-lg dark:bg-gray-900"
           >
             <footer className="flex justify-between items-center mb-2">
               <div className="flex items-center">
