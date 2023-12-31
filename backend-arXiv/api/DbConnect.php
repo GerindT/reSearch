@@ -1,15 +1,17 @@
 <?php
-class DbConnect {
+class DbConnect
+{
 
 
-	//Deployed Config
-    private $server = '204.216.217.67'; 
-    private $dbname = 'researchdb';
-	private $port = "25050";
+    //Deployed Config
+    private $server = '204.216.217.67';
+    private $dbname = 'PHPproject';
+    private $port = "25050";
     private $user = 'GerindMeG';
     private $pass = 'NdKAbIPCGE2BclRJvncQxsqPGkwBb2uD+capWLaWdRA';
 
-    public function connect() {
+    public function connect()
+    {
         try {
             $conn = new PDO('mysql:host=' . $this->server . '; port=' . $this->port . ';dbname=' . $this->dbname, $this->user, $this->pass);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -21,10 +23,10 @@ class DbConnect {
         }
     }
 
-	//Local Config
-	// private $server = 'localhost'; 
+    //Local Config
+    // private $server = 'localhost'; 
     // private $dbname = 'researchdb';
-	// private $port = "3306";
+    // private $port = "3306";
     // private $user = 'root';
     // private $pass = '';
 
@@ -41,6 +43,3 @@ class DbConnect {
     // }
 
 }
-
-
-?>
