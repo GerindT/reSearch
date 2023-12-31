@@ -26,9 +26,7 @@ function Posts({
         </h5>
       </Link>
       <p className="text-gray-500 transition duration-100 ease-in transform hover:underline  ">
-        <a href="" className="decoration-1">
-          {author}
-        </a>
+        {author}
       </p>
       <p className="font-normal text-gray-700 dark:text-gray-400">{abstract}</p>
       <div className="flex flex-wrap gap-[1em]">
