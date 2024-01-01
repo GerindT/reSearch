@@ -14,6 +14,9 @@ import { customThemeTabs } from "../helper/themes";
 import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import { useContext } from "react";
+import { UserContext } from "../pages/Landing";
+
 function Paper() {
   const apiUrl = !import.meta.env.DEV
     ? import.meta.env.VITE_PROD_API_URL
@@ -21,10 +24,12 @@ function Paper() {
   const [post, setPost] = useState(null);
   const [posts, setPosts] = useOutletContext();
   let navigate = useNavigate();
+  const user = useContext(UserContext);
 
   useEffect(() => {
     const paperId = window.location.pathname.split("/")[2];
-    const userId = 1; // Replace with the actual user ID
+
+    const userId = user ? user.UserID : null; // Replace with the actual user ID
 
     fetch(`${apiUrl}/singlePost.php?id=${paperId}&userId=${userId}`, {
       method: "GET", // Specify the GET method
@@ -49,7 +54,7 @@ function Paper() {
       .catch((error) => {
         console.error("Error fetching data:", error.message);
       });
-  }, []);
+  }, [user]);
 
   const handleVerification = () => {
     const paperId = window.location.pathname.split("/")[2];
@@ -88,7 +93,7 @@ function Paper() {
 
   const handleFavorites = () => {
     const paperId = window.location.pathname.split("/")[2];
-    const userId = 1; // Replace with the actual user ID
+    const userId = user ? user.UserID : null; // Replace with the actual user ID
 
     const data = {
       action: "toggleFavorite",
@@ -178,6 +183,7 @@ function Paper() {
               likes={post.NumFavorites}
               categories={post.Categories || []}
               handleTagsClick={handleTagsClick}
+              user={user}
             />
           )}
         </Tabs.Item>
@@ -190,6 +196,7 @@ function Paper() {
             ""
           ) : (
             <Comments
+              user={user}
               comments={post.Comments || []}
               setPost={setPost}
               paperId={post.PaperID}

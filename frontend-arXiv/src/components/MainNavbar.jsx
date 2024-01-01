@@ -8,19 +8,40 @@ import ModalSettings from "./Modals/ModalSettings";
 import ModalDashboard from "./Modals/ModalDashboard";
 import ModalNewPaper from "./Modals/ModalNewPaper";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import { UserContext, SetUserContext } from "../pages/Landing";
 
 function MainNavbar({ posts, setPosts }) {
-  const [isLogedIn, setIsLogedIn] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openModalR, setOpenModalR] = useState(false);
 
-  // Styled Navbar Link
-  // const StyledNavbarLink = styled(Navbar.Link)`
-  //   &:hover {
-  //     color: black; /* Hover text color */
-  //   }
-  //   align-items: center;
-  // `;
+  const [openModalSettings, setOpenModalSettings] = useState(false);
+  const [openModalDashboard, setOpenModalDashboard] = useState(false);
+  const [openModalNewPaper, setOpenModalNewPaper] = useState(false);
+
+  const user = useContext(UserContext);
+  const setUser = useContext(SetUserContext);
+
+  const apiUrl = !import.meta.env.DEV
+    ? import.meta.env.VITE_PROD_API_URL
+    : import.meta.env.VITE_DEV_API_URL;
+
+  const handleSignOut = () => {
+    fetch(apiUrl + "/index.php", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status == "1") {
+          setUser(null);
+        }
+      });
+  };
 
   const StyledNavbar = styled(Navbar)`
     @media (max-width: 880px) {
@@ -39,11 +60,6 @@ function MainNavbar({ posts, setPosts }) {
     }
   `;
 
-  const [openModalSettings, setOpenModalSettings] = useState(false);
-  const [isAdmin, setAdmin] = useState(true);
-  const [openModalDashboard, setOpenModalDashboard] = useState(false);
-  const [openModalNewPaper, setOpenModalNewPaper] = useState(false);
-
   return (
     <>
       <StyledNavbar>
@@ -59,23 +75,23 @@ function MainNavbar({ posts, setPosts }) {
         </Navbar.Brand>
 
         <div className="flex md:order-2 items-center">
-          {isLogedIn ? (
+          {user ? (
             <Dropdown
               arrowIcon={false}
               inline
               label={
                 <Avatar
                   alt="User settings"
-                  img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  img={user.Avatar}
                   rounded
                   className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 ml-[1em]"
                 />
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">Bonnie Green</span>
+                <span className="block text-sm">{user.Username}</span>
                 <span className="block truncate text-sm font-medium">
-                  name@flowbite.com
+                  {user.Email}
                 </span>
               </Dropdown.Header>
               <Dropdown.Item
@@ -85,7 +101,7 @@ function MainNavbar({ posts, setPosts }) {
               >
                 Add a new paper
               </Dropdown.Item>
-              {isAdmin && (
+              {user.IsAdmin && (
                 <Dropdown.Item onClick={() => setOpenModalDashboard(true)}>
                   Dashboard
                 </Dropdown.Item>
@@ -101,7 +117,7 @@ function MainNavbar({ posts, setPosts }) {
               <Dropdown.Divider />
               <Dropdown.Item
                 onClick={() => {
-                  setIsLogedIn(!isLogedIn);
+                  handleSignOut();
                 }}
               >
                 Sign out
@@ -125,16 +141,16 @@ function MainNavbar({ posts, setPosts }) {
                 setOpenModal={setOpenModal}
                 setOpenModalR={setOpenModalR}
                 openModalR={openModalR}
-                isLogedIn={isLogedIn}
-                setIsLogedIn={setIsLogedIn}
+                user={user}
+                setUser={setUser}
               />
               <ModalRegister
                 openModal={openModalR}
                 setOpenModal={setOpenModalR}
                 setOpenModalR={setOpenModal}
                 openModalR={openModal}
-                isLogedIn={isLogedIn}
-                setIsLogedIn={setIsLogedIn}
+                user={user}
+                setUser={setUser}
               />
             </>
           )}
@@ -158,7 +174,7 @@ function MainNavbar({ posts, setPosts }) {
           <Navbar.Link
             href="#"
             className={`text-md md:text-lg md:block md:max-w-[400px]  lg:w-[100vw] lg:ml-[0em] ${
-              isLogedIn ? " " : "xl:ml-[3em]"
+              user ? " " : "xl:ml-[3em]"
             }  `}
           >
             <SearchBar posts={posts} setPosts={setPosts} />

@@ -3,8 +3,10 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import ModalAreYouSure from "./Modals/ModalAreYouSure";
 import { formatDateDifference } from "../helper/dateHelper";
+import { HiInformationCircle } from "react-icons/hi";
+import { Alert } from "flowbite-react";
 
-function Comments({ comments, setPost, paperId }) {
+function Comments({ comments, setPost, paperId, user }) {
   const apiUrl = !import.meta.env.DEV
     ? import.meta.env.VITE_PROD_API_URL
     : import.meta.env.VITE_DEV_API_URL;
@@ -14,6 +16,7 @@ function Comments({ comments, setPost, paperId }) {
   const [editCommentId, setEditCommentId] = useState(null);
   const [editedComment, setEditedComment] = useState("");
   const [delId, setDelId] = useState(null);
+  const [alert, setAlert] = useState("");
 
   const msg = "Are you sure you want to delete this comment?";
 
@@ -87,7 +90,7 @@ function Comments({ comments, setPost, paperId }) {
   };
 
   const handleCreateComment = () => {
-    const userId = 1; // Replace with the actual user ID
+    const userId = user ? user.UserID : null; // Replace with the actual user ID
 
     const data = {
       commentText: newComment,
@@ -192,6 +195,11 @@ function Comments({ comments, setPost, paperId }) {
           <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
             Comments ({comments.length})
           </h2>
+          {alert !== "" && (
+            <Alert color="failure" icon={HiInformationCircle}>
+              {alert}
+            </Alert>
+          )}
         </div>
         <form className="mb-6" onSubmit={(e) => e.preventDefault()}>
           <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -208,12 +216,15 @@ function Comments({ comments, setPost, paperId }) {
               required
             ></textarea>
           </div>
+
           <Button
             type="button"
             pill
             outline
             gradientDuoTone="purpleToBlue"
-            onClick={handleCreateComment}
+            onClick={() =>
+              user ? handleCreateComment() : setAlert("Please log in")
+            }
           >
             Post comment
           </Button>
@@ -244,40 +255,47 @@ function Comments({ comments, setPost, paperId }) {
                   </time>
                 </p>
               </div>
-
-              <Dropdown
-                arrowIcon={false}
-                inline
-                label={
-                  <>
-                    <svg
-                      className="w-4 h-4"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 16 3"
+              {user ? (
+                user.UserID === comment.UserID ? (
+                  <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={
+                      <>
+                        <svg
+                          className="w-4 h-4"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 16 3"
+                        >
+                          <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                        </svg>
+                        <span className="sr-only">Comment settings</span>
+                      </>
+                    }
+                  >
+                    <Dropdown.Item
+                      onClick={() => {
+                        handleDeleteClick(comment.CommentID);
+                      }}
                     >
-                      <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                    </svg>
-                    <span className="sr-only">Comment settings</span>
-                  </>
-                }
-              >
-                <Dropdown.Item
-                  onClick={() => {
-                    handleDeleteClick(comment.CommentID);
-                  }}
-                >
-                  Delete
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() =>
-                    handleEditClick(comment.CommentID, comment.CommentText)
-                  }
-                >
-                  Edit
-                </Dropdown.Item>
-              </Dropdown>
+                      Delete
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleEditClick(comment.CommentID, comment.CommentText)
+                      }
+                    >
+                      Edit
+                    </Dropdown.Item>
+                  </Dropdown>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}
             </footer>
 
             {editCommentId === comment.CommentID ? (
@@ -338,6 +356,7 @@ Comments.propTypes = {
   comments: PropTypes.array.isRequired,
   setPost: PropTypes.func.isRequired,
   paperId: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default Comments;

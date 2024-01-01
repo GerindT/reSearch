@@ -21,6 +21,7 @@ function PaperFull({
   handleVerification,
   handleFavorites,
   handleTagsClick,
+  user,
 }) {
   const [openModal, setOpenModal] = useState(false);
   return (
@@ -76,7 +77,13 @@ function PaperFull({
           openModal={openModal}
           setOpenModal={setOpenModal}
           msg={"Are you sure you want to verify this paper?"}
-          handleVerification={handleVerification}
+          handleVerification={
+            user
+              ? user.IsAdmin || user.IsSuperuser
+                ? handleVerification
+                : ""
+              : ""
+          }
           setVerified={null}
           paperId={paperId}
         />
@@ -87,14 +94,18 @@ function PaperFull({
         >
           {date}
         </Badge>
-        <Badge
-          className="cursor-pointer transition duration-100 ease-in transform hover:scale-105"
-          color={isFav ? "red" : "gray"}
-          icon={isFav ? FaHeart : FaRegHeart}
-          onClick={() => handleFavorites()}
-        >
-          {isFav ? "Remove from favorites" : "Add to favorites"}
-        </Badge>
+        {user ? (
+          <Badge
+            className="cursor-pointer transition duration-100 ease-in transform hover:scale-105"
+            color={isFav ? "red" : "gray"}
+            icon={isFav ? FaHeart : FaRegHeart}
+            onClick={() => handleFavorites()}
+          >
+            {isFav ? "Remove from favorites" : "Add to favorites"}
+          </Badge>
+        ) : (
+          ""
+        )}
       </div>
       <div className="flex flex-row flex-wrap justify-between gap-[1em]">
         <div className="flex flex-row flex-wrap gap-[1em]">
@@ -144,6 +155,8 @@ PaperFull.propTypes = {
   categories: PropTypes.array.isRequired,
   handleVerification: PropTypes.func.isRequired,
   handleFavorites: PropTypes.func.isRequired,
+  handleTagsClick: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default PaperFull;

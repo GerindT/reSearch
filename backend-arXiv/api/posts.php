@@ -1,9 +1,11 @@
 <?php
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Methods: *");
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT,DELETE");
+header("Access-Control-Allow-Headers: Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+header("Access-Control-Allow-Credentials: true");
 
 
 include 'DbConnect.php';
@@ -13,7 +15,7 @@ $conn = $objDb->connect();
 // echo json_encode($conn ? 'Connected' : 'Failed');
 
 $method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
+switch ($method) {
     case "GET":
         $sql = "SELECT
                     p.*,
@@ -32,12 +34,13 @@ switch($method) {
                     favorites f ON p.PaperID = f.PaperID
                 GROUP BY
                     p.PaperID";
-                    
+
         $path = explode('/', $_SERVER['REQUEST_URI']);
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($users);}
+        echo json_encode($users);
+}
 //         if(isset($path[3]) && is_numeric($path[3])) {
 //             $sql .= " WHERE id = :id";
 //             $stmt = $conn->prepare($sql);
