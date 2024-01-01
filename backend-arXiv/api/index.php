@@ -28,7 +28,7 @@ switch ($method) {
         break;
         // Add this case under your switch statement for handling POST requests
     case "POST":
-        file_put_contents('debug.txt', file_get_contents('php://input'));
+ 
 
         $user = json_decode(file_get_contents('php://input'));
 
