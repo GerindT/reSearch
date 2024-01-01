@@ -101,7 +101,7 @@ function MainNavbar({ posts, setPosts }) {
               >
                 Add a new paper
               </Dropdown.Item>
-              {user.IsAdmin && (
+              {Boolean(parseInt(user.IsAdmin)) && (
                 <Dropdown.Item onClick={() => setOpenModalDashboard(true)}>
                   Dashboard
                 </Dropdown.Item>

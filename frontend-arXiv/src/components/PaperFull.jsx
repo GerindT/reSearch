@@ -68,7 +68,14 @@ function PaperFull({
           color={isVerified ? "success" : "red"}
           icon={isVerified ? HiCheck : RxCross1}
           onClick={() => {
-            isVerified ? "" : setOpenModal(true);
+            isVerified
+              ? ""
+              : user
+              ? Boolean(parseInt(user.IsAdmin)) ||
+                Boolean(parseInt(user.IsSuperuser))
+                ? setOpenModal(true)
+                : ""
+              : "";
           }}
         >
           {isVerified ? verDate : "Not verified"}
@@ -77,13 +84,7 @@ function PaperFull({
           openModal={openModal}
           setOpenModal={setOpenModal}
           msg={"Are you sure you want to verify this paper?"}
-          handleVerification={
-            user
-              ? user.IsAdmin || user.IsSuperuser
-                ? handleVerification
-                : ""
-              : ""
-          }
+          handleVerification={handleVerification}
           setVerified={null}
           paperId={paperId}
         />
