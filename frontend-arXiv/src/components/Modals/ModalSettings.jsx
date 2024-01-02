@@ -79,7 +79,7 @@ function ModalSettings({ openModal, setOpenModal, user, setUser }) {
     formData.append("username", username);
     formData.append("email", email);
     formData.append("password", password);
-    selectedFile && formData.append("avatar", selectedFile);
+    formData.append("avatar", selectedFile);
 
     console.log("formData", formData);
 
