@@ -8,81 +8,109 @@ import {
 } from "flowbite-react";
 import { useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
+import { json } from "react-router";
 
-function ModalSettings({ openModal, setOpenModal }) {
+function ModalSettings({ openModal, setOpenModal, user, setUser }) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [email, setEmail] = useState("test@gmail.com");
-  const [name, setName] = useState("Test User");
-  const [username, setUsername] = useState("test");
+  const [email, setEmail] = useState(user.Email);
+  const [username, setUsername] = useState(user.Username);
   const [password, setPassword] = useState("");
-  const [file, setFile] = useState(null);
   const [retypedPassword, setRetypedPassword] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState("");
+
+  const apiUrl = !import.meta.env.DEV
+    ? import.meta.env.VITE_PROD_API_URL
+    : import.meta.env.VITE_DEV_API_URL;
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
     setSelectedFile(file);
+    console.log(file);
   };
 
   const handleSaveChanges = () => {
-    // Email validation using regex
+    // Email validation using regex if email is provided
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (email && !emailRegex.test(email)) {
       // Handle invalid email
-      console.log("Invalid email");
-      setShowAlert(true);
+      setShowAlert("Invalid email");
       return;
     }
 
-    // Username validation using regex
+    // Username validation using regex if username is provided
     const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
-    if (!usernameRegex.test(username)) {
+    if (username && !usernameRegex.test(username)) {
       // Handle invalid username
-      console.log("Invalid username");
-      setShowAlert(true);
-
+      setShowAlert("Invalid username");
       return;
     }
 
-    // Password validation using regex
+    // Password validation using regex if password is provided
     // At least 8 characters, at least one uppercase letter, one lowercase letter, and one digit
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(password)) {
+    if (password && !passwordRegex.test(password)) {
       // Handle invalid password
-      console.log("Invalid password");
-      setShowAlert(true);
-
+      setShowAlert(
+        "Invalid password. Must be at least 8 characters, at least one uppercase letter, one lowercase letter, and one digit"
+      );
       return;
     }
 
-    // Additional validation for retyped password (assuming you have a state variable named retypedPassword)
-    if (password !== retypedPassword) {
+    // Additional validation for retyped password if password and retypedPassword are provided
+    if (password && retypedPassword && password !== retypedPassword) {
       // Handle password mismatch
-      console.log("Passwords do not match");
-      setShowAlert(true);
-
-      return;
-    }
-
-    // Name validation (assuming you have a state variable named name)
-    if (name.trim() === "") {
-      // Handle empty name
-      console.log("Name cannot be empty");
-      setShowAlert(true);
-
+      setShowAlert("Passwords do not match");
       return;
     }
 
     // All validations passed, proceed with saving changes
-    setFile(selectedFile);
+
     setUsername(username);
     setPassword(password);
     setEmail(email);
-    setName(name);
     setRetypedPassword(retypedPassword);
 
-    setOpenModal(false);
+    const formData = new FormData();
+
+    // Append data to FormData
+    formData.append("action", "update");
+    formData.append("id", user.UserID);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    selectedFile && formData.append("avatar", selectedFile);
+
+    console.log("formData", formData);
+
+    // Make a fetch request to update user settings
+    fetch(apiUrl + "/index.php", {
+      method: "POST",
+      credentials: "include",
+      body: formData, // Use the FormData object directly
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data
+
+        console.log("data", data);
+
+        if (data.status === 1) {
+          // User settings updated successfully
+          console.log("User settings updated successfully.");
+          setUser(data.user);
+          // Close the modal
+          setOpenModal(false);
+        } else {
+          // Failed to update user settings
+          console.error("Failed to update user settings:", data.message);
+          setShowAlert(data.message);
+        }
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -92,13 +120,12 @@ function ModalSettings({ openModal, setOpenModal }) {
         onClose={() => setOpenModal(false)}
         className="modalt"
       >
-        <form>
+        <form encType="multipart/form-data">
           <Modal.Header>Settings for {name}</Modal.Header>
           <Modal.Body>
             {showAlert && (
               <Alert color="failure" icon={HiInformationCircle}>
-                <span className="font-medium">Info alert!</span> Change a few
-                things up and try submitting again.
+                <span className="font-medium">Info alert!</span> {showAlert}
               </Alert>
             )}
             <div>
@@ -114,7 +141,6 @@ function ModalSettings({ openModal, setOpenModal }) {
                   event.preventDefault();
                   setUsername(event.target.value);
                 }}
-                required
               />
             </div>
             <div>
@@ -131,7 +157,6 @@ function ModalSettings({ openModal, setOpenModal }) {
                   event.preventDefault();
                   setEmail(event.target.value);
                 }}
-                required
               />
             </div>
 
@@ -152,7 +177,6 @@ function ModalSettings({ openModal, setOpenModal }) {
                   event.preventDefault();
                   setPassword(event.target.value);
                 }}
-                required
               />
             </div>
             <div>
@@ -179,7 +203,6 @@ function ModalSettings({ openModal, setOpenModal }) {
                 id="file-upload"
                 onChange={handleFileChange}
                 accept="image/*"
-                required
               />
             </div>
           </Modal.Body>

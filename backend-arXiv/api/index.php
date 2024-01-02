@@ -1,5 +1,7 @@
 <?php
 session_start();
+// Add this at the beginning of your PHP script
+error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -20,6 +22,9 @@ switch ($method) {
     case "GET":
         // Check if the user is logged in by checking the session
         if (isset($_SESSION['user'])) {
+
+
+
             $response = ['loggedIn' => true, 'user' => $_SESSION['user']];
         } else {
             $response = ['loggedIn' => false];
@@ -28,7 +33,6 @@ switch ($method) {
         break;
         // Add this case under your switch statement for handling POST requests
     case "POST":
-        file_put_contents('debug.txt', file_get_contents('php://input'));
 
         $user = json_decode(file_get_contents('php://input'));
 
@@ -120,14 +124,167 @@ switch ($method) {
                     echo json_encode($response);
                     break;
 
+                case 'update':
+                    // Check if the user is logged in before allowing the update
 
                 default:
                     $response = ['status' => 0, 'message' => 'Invalid action.'];
                     echo json_encode($response);
                     break;
             }
+        } elseif ($_POST['action'] == 'update') {
+
+
+            if (!isset($_SESSION['user'])) {
+                $response = ['status' => 0, 'message' => 'User not logged in.'];
+                echo json_encode($response);
+                break;
+            }
+
+            // Get the user data from the session
+            $loggedInUser = $_SESSION['user'];
+
+            // Check if the user ID from the session matches the ID in the request
+            if ($loggedInUser['UserID'] != $_POST['id']) {
+                $response = ['status' => 0, 'message' => 'Invalid user ID for update.'];
+                echo json_encode($response);
+                break;
+            }
+
+            // Update the user information based on the provided fields
+            $updateFields = [];
+
+            if (!empty($_POST['username'])) {
+                // Check if the new username is already registered by another user
+                $checkUserSql = "SELECT * FROM users WHERE username = :username AND UserID != :id";
+                $checkUserStmt = $conn->prepare($checkUserSql);
+                $checkUserStmt->bindParam(':username', $_POST['username']);
+                $checkUserStmt->bindParam(':id', $_POST['id']);
+                $checkUserStmt->execute();
+
+                if ($checkUserStmt->rowCount() > 0) {
+                    $response = ['status' => 0, 'message' => 'Username already exists.'];
+                    echo json_encode($response);
+                    break;
+                }
+
+                $updateFields[] = 'username = :username';
+            }
+
+            if (!empty($_POST['email'])) {
+                // Check if the new email is already registered by another user
+                $checkUserSql = "SELECT * FROM users WHERE email = :email AND UserID != :id";
+                $checkUserStmt = $conn->prepare($checkUserSql);
+                $checkUserStmt->bindParam(':email', $_POST['email']);
+                $checkUserStmt->bindParam(':id', $_POST['id']);
+                $checkUserStmt->execute();
+
+                if ($checkUserStmt->rowCount() > 0) {
+                    $response = ['status' => 0, 'message' => 'Email already exists.'];
+                    echo json_encode($response);
+                    break;
+                }
+
+                $updateFields[] = 'email = :email';
+            }
+
+            // Check if the new password is different from the current one
+            if (!empty($_POST['password'])) {
+                $checkPasswordSql = "SELECT Password FROM users WHERE UserID = :id";
+                $checkPasswordStmt = $conn->prepare($checkPasswordSql);
+                $checkPasswordStmt->bindParam(':id', $_POST['id']);
+                $checkPasswordStmt->execute();
+                $currentPasswordHash = $checkPasswordStmt->fetchColumn();
+
+                if (password_verify($_POST['password'], $currentPasswordHash)) {
+                    $response = ['status' => 0, 'message' => 'Password cannot be the same.'];
+                    echo json_encode($response);
+                    break;
+                }
+
+                // Hash the new password securely
+                $hashedPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                $updateFields[] = 'password = :password';
+            }
+
+
+            if (!empty($_FILES['avatar']['name'])) {
+                // Handle avatar upload
+                $uploadDir = 'img/';
+                $avatarName = basename($_FILES['avatar']['name']);
+                $avatarPath = $uploadDir . $avatarName;
+
+                if (move_uploaded_file($_FILES['avatar']['tmp_name'], $avatarPath)) {
+                    // Update the avatar path in the database
+                    $updateFields[] = 'avatar = :avatar';
+                } else {
+                    $response = ['status' => 0, 'message' => 'Failed to upload avatar.'];
+                    echo json_encode($response);
+                    break;
+                }
+            }
+
+            if (empty($updateFields)) {
+                $response = ['status' => 0, 'message' => 'No fields to update.'];
+                echo json_encode($response);
+                break;
+            }
+
+            // Construct the update query
+            $updateUserSql = "UPDATE users SET " . implode(', ', $updateFields) . " WHERE UserID = :id";
+            $updateUserStmt = $conn->prepare($updateUserSql);
+
+            // Bind parameters based on the provided fields
+            if (!empty($_POST['username'])) {
+                $updateUserStmt->bindParam(':username', $_POST['username']);
+            }
+
+            if (!empty($_POST['email'])) {
+                $updateUserStmt->bindParam(':email', $_POST['email']);
+            }
+
+            if (!empty($_POST['password'])) {
+                $updateUserStmt->bindParam(':password', $hashedPassword);
+            }
+
+            if (!empty($_FILES['avatar']['name'])) {
+                $updateUserStmt->bindParam(':avatar', $avatarPath);
+            }
+
+            $updateUserStmt->bindParam(':id', $_POST['id']);
+
+            // Execute the update query
+            if ($updateUserStmt->execute()) {
+                // Update the user data in the session for the modified fields
+                if (!empty($_POST['username'])) {
+                    $_SESSION['user']['Username'] = $_POST['username'];
+                }
+
+                if (!empty($_POST['email'])) {
+                    $_SESSION['user']['Email'] = $_POST['email'];
+                }
+
+                if (!empty($_FILES['avatar']['name'])) {
+                    // Instead of storing the avatar path, store it as a URL
+                    $_SESSION['user']['Avatar'] = $avatarPath;
+                }
+
+                // No need to update the password in the session as these are usually not retrieved on login
+
+                $response = ['status' => 1, 'message' => 'User updated successfully.', 'user' => $_SESSION['user']];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to update user.'];
+            }
+
+            echo json_encode($response);
+            break;
         }
         break;
+
+
+
+
+
     case "DELETE":
         // Log the user out by destroying the session
         session_destroy();

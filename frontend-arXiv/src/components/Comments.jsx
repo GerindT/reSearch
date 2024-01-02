@@ -239,7 +239,7 @@ function Comments({ comments, setPost, paperId, user }) {
                 <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
                   <Avatar
                     alt="User settings"
-                    img={comment.Avatar}
+                    img={apiUrl + "/" + comment.Avatar}
                     rounded
                     className="cursor-pointer mr-[1em]  transition duration-100 ease-in transform  hover:scale-110 "
                   />

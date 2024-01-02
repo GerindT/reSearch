@@ -82,7 +82,7 @@ function MainNavbar({ posts, setPosts }) {
               label={
                 <Avatar
                   alt="User settings"
-                  img={user.Avatar}
+                  img={apiUrl + "/" + user.Avatar}
                   rounded
                   className="cursor-pointer  transition duration-100 ease-in transform  hover:scale-110 ml-[1em]"
                 />
@@ -156,10 +156,14 @@ function MainNavbar({ posts, setPosts }) {
           )}
           <Navbar.Toggle className="ml-[1em]" />
         </div>
-        <ModalSettings
-          openModal={openModalSettings}
-          setOpenModal={setOpenModalSettings}
-        />
+        {user && (
+          <ModalSettings
+            openModal={openModalSettings}
+            setOpenModal={setOpenModalSettings}
+            user={user}
+            setUser={setUser}
+          />
+        )}
         <ModalDashboard
           openModal={openModalDashboard}
           setOpenModal={setOpenModalDashboard}
