@@ -13,6 +13,10 @@ ENV PMA_PASSWORD=password
 # Copy your API files into the Apache document root
 COPY ./api /var/www/html/api
 
+# Create the 'img' directory and set permissions
+RUN chown www-data:www-data /var/www/html/api/img
+
+
 # Configure Apache to allow .htaccess files
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
