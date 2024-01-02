@@ -34,6 +34,7 @@ switch ($method) {
         // Add this case under your switch statement for handling POST requests
     case "POST":
 
+
         $user = json_decode(file_get_contents('php://input'));
 
         if (isset($user->action)) {
