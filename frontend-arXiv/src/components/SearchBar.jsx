@@ -4,8 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 import { Dropdown } from "flowbite-react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { categories } from "../helper/categories";
-function SearchBar({ posts, setPosts }) {
+function SearchBar({ posts, setPosts, cat, setCat }) {
   let navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,7 +22,7 @@ function SearchBar({ posts, setPosts }) {
           return (
             post.Categories !== null &&
             post.Categories.some(
-              (postCategory) => postCategory.name === category.name
+              (postCategory) => postCategory.name === category.CategoryName
             )
           );
         })
@@ -36,16 +35,22 @@ function SearchBar({ posts, setPosts }) {
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prevCategories) => {
-      if (prevCategories.find((c) => c.name === category.name)) {
+      if (
+        prevCategories.find((c) => c.CategoryName === category.CategoryName)
+      ) {
         // If category is already selected, remove it
         return prevCategories.filter(
-          (selectedCategory) => selectedCategory.name !== category.name
+          (selectedCategory) =>
+            selectedCategory.CategoryName !== category.CategoryName
         );
       } else {
         // If category is not selected, add it
         return [
           ...prevCategories,
-          { name: category.name, color: category.color },
+          {
+            CategoryName: category.CategoryName,
+            CategoryColor: category.CategoryColor,
+          },
         ];
       }
     });
@@ -94,20 +99,22 @@ function SearchBar({ posts, setPosts }) {
                 </h3>
               </div>
               <div className="flex flex-col flex-wrap  items-center h-[10em] gap-4 mt-2 ">
-                {categories.map((category) => (
-                  <div key={category.name} className=" flex">
+                {cat.map((category) => (
+                  <div key={category.CategoryName} className=" flex">
                     <Badge
                       className=" rounded-lg transition duration-100 ease-in transform hover:scale-105"
                       color={
-                        selectedCategories.find((c) => c.name === category.name)
-                          ? category.color
+                        selectedCategories.find(
+                          (c) => c.CategoryName === category.CategoryName
+                        )
+                          ? category.CategoryColor
                           : "red"
                       }
                       onClick={(e) => {
                         handleCategoryClick(category, e);
                       }}
                     >
-                      {category.name}
+                      {category.CategoryName}
                     </Badge>
                   </div>
                 ))}
@@ -117,19 +124,21 @@ function SearchBar({ posts, setPosts }) {
         </div>
         <div className="flex flex-row gap-1 flex-wrap mt-[0.4em]">
           {selectedCategories.map((category) => (
-            <div key={category.name} className=" flex">
+            <div key={category.CategoryName} className=" flex">
               <Badge
                 className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
                 color={
-                  selectedCategories.find((c) => c.name === category.name)
-                    ? category.color
+                  selectedCategories.find(
+                    (c) => c.CategoryName === category.CategoryName
+                  )
+                    ? category.CategoryColor
                     : "red"
                 }
                 onClick={(e) => {
                   handleCategoryClick(category, e);
                 }}
               >
-                {category.name}
+                {category.CategoryName}
               </Badge>
             </div>
           ))}
@@ -142,6 +151,8 @@ function SearchBar({ posts, setPosts }) {
 SearchBar.propTypes = {
   posts: PropTypes.array,
   setPosts: PropTypes.func,
+  cat: PropTypes.array,
+  setCat: PropTypes.func,
 };
 
 export default SearchBar;

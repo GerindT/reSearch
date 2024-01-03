@@ -54,7 +54,7 @@ function Paper() {
       .catch((error) => {
         console.error("Error fetching data:", error.message);
       });
-  }, [user]);
+  }, []);
 
   const handleVerification = () => {
     const paperId = window.location.pathname.split("/")[2];
@@ -138,7 +138,7 @@ function Paper() {
     const filteredPosts = posts.filter(
       (post) =>
         post.Categories !== null &&
-        post.Categories.some((category) => category.name === name)
+        post.Categories.some((category) => category.CategoryName === name)
       // post.Categories.some((category) => category.name === name)
     );
     setPosts(filteredPosts);
@@ -189,7 +189,11 @@ function Paper() {
         </Tabs.Item>
 
         <Tabs.Item title="Information" icon={HiAdjustments}>
-          {post === null ? "" : <InfoTab paperURL={post.PaperFile} />}
+          {post === null ? (
+            ""
+          ) : (
+            <InfoTab paperURL={post.PaperFile} apiUrl={apiUrl} />
+          )}
         </Tabs.Item>
         <Tabs.Item title="Comments" icon={IoStarSharp}>
           {post === null ? (

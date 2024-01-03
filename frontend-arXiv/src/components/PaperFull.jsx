@@ -114,10 +114,10 @@ function PaperFull({
             <Badge
               key={index}
               className="rounded-lg cursor-pointer transition duration-100 ease-in transform hover:scale-105"
-              color={c.color}
-              onClick={() => handleTagsClick(c.name)}
+              color={c.CategoryColor}
+              onClick={() => handleTagsClick(c.CategoryName)}
             >
-              {c.name}
+              {c.CategoryName}
             </Badge>
           ))}
         </div>

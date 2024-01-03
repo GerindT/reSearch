@@ -9,7 +9,12 @@ import ModalDashboard from "./Modals/ModalDashboard";
 import ModalNewPaper from "./Modals/ModalNewPaper";
 import PropTypes from "prop-types";
 import { useContext } from "react";
-import { UserContext, SetUserContext } from "../pages/Landing";
+import {
+  UserContext,
+  SetUserContext,
+  CatContext,
+  SetCatContext,
+} from "../pages/Landing";
 
 function MainNavbar({ posts, setPosts }) {
   const [openModal, setOpenModal] = useState(false);
@@ -21,6 +26,8 @@ function MainNavbar({ posts, setPosts }) {
 
   const user = useContext(UserContext);
   const setUser = useContext(SetUserContext);
+  const cat = useContext(CatContext);
+  const setCat = useContext(SetCatContext);
 
   const apiUrl = !import.meta.env.DEV
     ? import.meta.env.VITE_PROD_API_URL
@@ -173,6 +180,8 @@ function MainNavbar({ posts, setPosts }) {
           setOpenModal={setOpenModalNewPaper}
           posts={posts}
           setPosts={setPosts}
+          cat={cat}
+          setCat={setCat}
         />
         <StyledNavbarCollapse className=" content-center">
           <Navbar.Link
@@ -181,7 +190,12 @@ function MainNavbar({ posts, setPosts }) {
               user ? " " : "xl:ml-[3em]"
             }  `}
           >
-            <SearchBar posts={posts} setPosts={setPosts} />
+            <SearchBar
+              posts={posts}
+              setPosts={setPosts}
+              cat={cat}
+              setCat={setCat}
+            />
           </Navbar.Link>
         </StyledNavbarCollapse>
       </StyledNavbar>

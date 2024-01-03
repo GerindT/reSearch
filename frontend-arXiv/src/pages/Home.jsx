@@ -9,8 +9,7 @@ function Home() {
     const filteredPosts = posts.filter(
       (post) =>
         post.Categories !== null &&
-        post.Categories.some((category) => category.name === name)
-      // post.Categories.some((category) => category.name === name)
+        post.Categories.some((category) => category.CategoryName === name)
     );
     setPosts(filteredPosts);
   };
