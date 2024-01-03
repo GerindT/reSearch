@@ -145,6 +145,31 @@ function Paper() {
     navigate("/");
   };
 
+  // postID
+  const handleDelete = (id) => {
+    const data = {
+      action: "deletePost",
+      postID: id,
+    };
+    fetch(apiUrl + "/singlePost.php", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 1) {
+          setPosts(posts.filter((post) => post.PaperID !== id));
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className=" mx-[1.5em] md:mx-[4em] ">
       <Breadcrumb aria-label="Default breadcrumb example">
@@ -184,6 +209,8 @@ function Paper() {
               categories={post.Categories || []}
               handleTagsClick={handleTagsClick}
               user={user}
+              authorId={post.UserID}
+              handleDelete={handleDelete}
             />
           )}
         </Tabs.Item>

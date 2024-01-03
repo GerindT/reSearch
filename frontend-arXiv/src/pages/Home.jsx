@@ -2,9 +2,17 @@ import { Blockquote } from "flowbite-react";
 import Posts from "../components/Posts";
 import InfoAccordion from "../components/InfoAccordion";
 import { useOutletContext } from "react-router-dom";
+import { UserContext } from "../pages/Landing";
+import { useContext } from "react";
 
 function Home() {
   const [posts, setPosts] = useOutletContext();
+  const user = useContext(UserContext);
+
+  const apiUrl = !import.meta.env.DEV
+    ? import.meta.env.VITE_PROD_API_URL
+    : import.meta.env.VITE_DEV_API_URL;
+
   const handleTagsClick = (name) => {
     const filteredPosts = posts.filter(
       (post) =>
@@ -14,6 +22,32 @@ function Home() {
     setPosts(filteredPosts);
   };
   console.log(posts);
+
+  // postID
+  const handleDelete = (id) => {
+    const data = {
+      action: "deletePost",
+      postID: id,
+    };
+    fetch(apiUrl + "/singlePost.php", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status === 1) {
+          setPosts(posts.filter((post) => post.PaperID !== id));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="flex flex-col justify-center items-center gap-[2rem] mt-[2em]">
       <Blockquote className="my-4 border-l-4 border-gray-300 bg-gray-50 p-4 dark:border-gray-500 dark:bg-gray-800">
@@ -43,6 +77,9 @@ function Home() {
             likes={p.NumFavorites || 0}
             categories={p.Categories || []}
             handleTagsClick={handleTagsClick}
+            authorId={p.UserID}
+            user={user}
+            handleDelete={handleDelete}
           />
         ))
       )}

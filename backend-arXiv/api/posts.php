@@ -21,7 +21,7 @@ switch ($method) {
                     p.*,
                     GROUP_CONCAT(DISTINCT c.CategoryName) AS Tags,
                     COUNT(DISTINCT f.UserID) AS NumFavorites,
-                    CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"name\":\"', c.CategoryName, '\", \"color\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
+                    CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"CategoryName\":\"', c.CategoryName, '\",\"CategoryID\":\"', c.CategoryID, '\", \"CategoryColor\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
                     GROUP_CONCAT(DISTINCT c.CategoryID) AS CategoryIDs,
                     GROUP_CONCAT(DISTINCT c.CategoryColor) AS CategoryColors
                 FROM
@@ -40,70 +40,98 @@ switch ($method) {
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($users);
+    case "POST":
+
+        if (!isset($_SESSION['user'])) {
+            $response = ['status' => 0, 'message' => 'User not logged in.'];
+            echo json_encode($response);
+            break;
+        }
+
+        // Get the user data from the session
+        $loggedInUser = $_SESSION['user'];
+
+        // Check if the necessary fields are provided
+        if (empty($_POST['title']) || empty($_POST['authors']) || empty($_POST['content']) || empty($_POST['abstract']) || empty($_FILES['file']['name'])) {
+            $response = ['status' => 0, 'message' => 'Incomplete data provided.'];
+            echo json_encode($response);
+            break;
+        }
+
+        // Process the uploaded file (PDF or EPUB)
+        $allowedFileTypes = ['application/pdf'];
+        $uploadDir = 'papers/';
+        $fileName = basename($_FILES['file']['name']);
+        $filePath = $uploadDir . $fileName;
+
+        if (!in_array($_FILES['file']['type'], $allowedFileTypes)) {
+            $response = ['status' => 0, 'message' => 'Invalid file type. Please upload a PDF or EPUB file.'];
+            echo json_encode($response);
+            break;
+        }
+
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $filePath)) {
+            // Insert paper details into the database
+            $insertPaperSql = "INSERT INTO papers (title, authors, content, abstract, paperfile, userid) VALUES (:title, :authors, :content, :abstract, :file_path, :user_id)";
+            $insertPaperStmt = $conn->prepare($insertPaperSql);
+            $insertPaperStmt->bindParam(':title', $_POST['title']);
+            $insertPaperStmt->bindParam(':authors', $_POST['authors']);
+            $insertPaperStmt->bindParam(':content', $_POST['content']);
+            $insertPaperStmt->bindParam(':abstract', $_POST['abstract']);
+            $insertPaperStmt->bindParam(':file_path', $filePath);
+            $insertPaperStmt->bindParam(':user_id', $loggedInUser['UserID']);
+
+            if ($insertPaperStmt->execute()) {
+                // Fetch all data for the inserted record
+                $lastInsertId = $conn->lastInsertId();
+
+                // Insert paper categories into the categorytopaper table
+                if (!empty($_POST['categories'])) {
+                    $categories = json_decode($_POST['categories'], true);
+
+                    foreach ($categories as $category) {
+                        $categoryId = $category['CategoryID'];
+                        $insertCategorySql = "INSERT INTO categorytopaper (CategoryID, PaperID) VALUES (:category_id, :paper_id)";
+                        $insertCategoryStmt = $conn->prepare($insertCategorySql);
+                        $insertCategoryStmt->bindParam(':category_id', $categoryId);
+                        $insertCategoryStmt->bindParam(':paper_id', $lastInsertId);
+                        $insertCategoryStmt->execute();
+                    }
+                }
+
+
+                $selectInsertedRecordSql = "SELECT
+                        p.*,
+                        GROUP_CONCAT(DISTINCT c.CategoryName) AS Tags,
+                        COUNT(DISTINCT f.UserID) AS NumFavorites,
+                        CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"CategoryName\":\"', c.CategoryName, '\",\"CategoryID\":\"', c.CategoryID, '\", \"CategoryColor\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
+                        GROUP_CONCAT(DISTINCT c.CategoryID) AS CategoryIDs,
+                        GROUP_CONCAT(DISTINCT c.CategoryColor) AS CategoryColors
+                    FROM
+                        papers p
+                    LEFT JOIN
+                        categorytopaper cp ON p.PaperID = cp.PaperID
+                    LEFT JOIN
+                        categories c ON cp.CategoryID = c.CategoryID
+                    LEFT JOIN
+                        favorites f ON p.PaperID = f.PaperID
+                    WHERE p.PaperID = :paper_id
+                    GROUP BY
+                        p.PaperID";
+
+                $selectInsertedRecordStmt = $conn->prepare($selectInsertedRecordSql);
+                $selectInsertedRecordStmt->bindParam(':paper_id', $lastInsertId);
+                $selectInsertedRecordStmt->execute();
+                $insertedRecord = $selectInsertedRecordStmt->fetch(PDO::FETCH_ASSOC);
+
+                $response = ['status' => 1, 'message' => 'Paper created successfully.', 'data' => $insertedRecord];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to create paper.'];
+            }
+        } else {
+            $response = ['status' => 0, 'message' => 'Failed to upload file.'];
+        }
+
+        echo json_encode($response);
+        break;
 }
-//         if(isset($path[3]) && is_numeric($path[3])) {
-//             $sql .= " WHERE id = :id";
-//             $stmt = $conn->prepare($sql);
-//             $stmt->bindParam(':id', $path[3]);
-//             $stmt->execute();
-//             $users = $stmt->fetch(PDO::FETCH_ASSOC);
-//         } else {
-//             $stmt = $conn->prepare($sql);
-//             $stmt->execute();
-//             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//         }
-
-//         echo json_encode($users);
-//         break;
-//     case "POST":
-//         $user = json_decode( file_get_contents('php://input') );
-//         $sql = "INSERT INTO users(id, name, email, mobile, created_at) VALUES(null, :name, :email, :mobile, :created_at)";
-//         $stmt = $conn->prepare($sql);
-//         $created_at = date('Y-m-d');
-//         $stmt->bindParam(':name', $user->name);
-//         $stmt->bindParam(':email', $user->email);
-//         $stmt->bindParam(':mobile', $user->mobile);
-//         $stmt->bindParam(':created_at', $created_at);
-
-//         if($stmt->execute()) {
-//             $response = ['status' => 1, 'message' => 'Record created successfully.'];
-//         } else {
-//             $response = ['status' => 0, 'message' => 'Failed to create record.'];
-//         }
-//         echo json_encode($response);
-//         break;
-
-//     case "PUT":
-//         $user = json_decode( file_get_contents('php://input') );
-//         $sql = "UPDATE users SET name= :name, email =:email, mobile =:mobile, updated_at =:updated_at WHERE id = :id";
-//         $stmt = $conn->prepare($sql);
-//         $updated_at = date('Y-m-d');
-//         $stmt->bindParam(':id', $user->id);
-//         $stmt->bindParam(':name', $user->name);
-//         $stmt->bindParam(':email', $user->email);
-//         $stmt->bindParam(':mobile', $user->mobile);
-//         $stmt->bindParam(':updated_at', $updated_at);
-
-//         if($stmt->execute()) {
-//             $response = ['status' => 1, 'message' => 'Record updated successfully.'];
-//         } else {
-//             $response = ['status' => 0, 'message' => 'Failed to update record.'];
-//         }
-//         echo json_encode($response);
-//         break;
-
-//     case "DELETE":
-//         $sql = "DELETE FROM users WHERE id = :id";
-//         $path = explode('/', $_SERVER['REQUEST_URI']);
-
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bindParam(':id', $path[3]);
-
-//         if($stmt->execute()) {
-//             $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
-//         } else {
-//             $response = ['status' => 0, 'message' => 'Failed to delete record.'];
-//         }
-//         echo json_encode($response);
-//         break;
-// }

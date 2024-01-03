@@ -19,18 +19,24 @@ $conn = $objDb->connect();
 
 $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
+        // Add a GET request to get all categories
     case "GET":
+        $getCategoriesSql = "SELECT * FROM categories";
+        $getCategoriesStmt = $conn->prepare($getCategoriesSql);
+        $getCategoriesStmt->execute();
+        $categories = $getCategoriesStmt->fetchAll(PDO::FETCH_ASSOC);
         // Check if the user is logged in by checking the session
         if (isset($_SESSION['user'])) {
+            $loggedInUser = $_SESSION['user'];
 
-
-
-            $response = ['loggedIn' => true, 'user' => $_SESSION['user']];
+            // Your logic to retrieve categories from the database
+            $response = ['loggedIn' => true, 'user' => $loggedInUser, 'categories' => $categories];
         } else {
-            $response = ['loggedIn' => false];
+            $response = ['loggedIn' => false, 'categories' => $categories];
         }
         echo json_encode($response);
         break;
+
         // Add this case under your switch statement for handling POST requests
     case "POST":
 

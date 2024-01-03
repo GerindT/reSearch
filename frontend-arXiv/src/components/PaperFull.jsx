@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import ModalAreYouSure from "./Modals/ModalAreYouSure";
 import { useState } from "react";
 import { MdAnnouncement } from "react-icons/md";
+import { FaTrashAlt } from "react-icons/fa";
 
 function PaperFull({
   paperId,
@@ -22,8 +23,16 @@ function PaperFull({
   handleFavorites,
   handleTagsClick,
   user,
+  authorId,
+  handleDelete,
 }) {
   const [openModal, setOpenModal] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+
+  const handleDel = () => {
+    handleDelete(paperId);
+    setOpenModalDelete(false);
+  };
   return (
     <div className="flex flex-col gap-[1em]">
       {!isVerified && (
@@ -48,10 +57,29 @@ function PaperFull({
           </div>
         </Banner>
       )}
+      <div className="flex flex-row justify-between">
+        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          {title}
+        </h5>
 
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {title}
-      </h5>
+        {user ? (
+          user.UserID === authorId || user.IsAdmin == 1 ? (
+            <div
+              className="flex self-start"
+              onClick={() => setOpenModalDelete(true)}
+            >
+              <FaTrashAlt
+                className="text-red-500 cursor-pointer mr-[1em]  transition duration-100 ease-in transform  hover:scale-110"
+                size={18}
+              />
+            </div>
+          ) : (
+            ""
+          )
+        ) : (
+          ""
+        )}
+      </div>
       <p className="text-gray-500 transition duration-100 ease-in transform hover:underline  ">
         <a href="" className="decoration-1">
           {author}
@@ -87,6 +115,12 @@ function PaperFull({
           handleVerification={handleVerification}
           setVerified={null}
           paperId={paperId}
+        />
+        <ModalAreYouSure
+          openModal={openModalDelete}
+          setOpenModal={setOpenModalDelete}
+          msg={"Are you sure you want to delete this paper?"}
+          handleConfirmDelete={handleDel}
         />
         <Badge
           className="  cursor-pointer transition duration-100 ease-in transform hover:scale-105"
@@ -158,6 +192,8 @@ PaperFull.propTypes = {
   handleFavorites: PropTypes.func.isRequired,
   handleTagsClick: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  authorId: PropTypes.number.isRequired,
+  paperId: PropTypes.number.isRequired,
 };
 
 export default PaperFull;

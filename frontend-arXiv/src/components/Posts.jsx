@@ -3,8 +3,11 @@ import { HiCheck, HiClock } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { RxCross1 } from "react-icons/rx";
 import { formatDateDifference } from "../helper/dateHelper";
+import { FaTrashAlt } from "react-icons/fa";
 
 import PropTypes from "prop-types";
+import ModalAreYouSure from "./Modals/ModalAreYouSure";
+import { useState } from "react";
 
 function Posts({
   title,
@@ -17,14 +20,40 @@ function Posts({
   likes,
   categories,
   handleTagsClick,
+  user,
+  authorId,
+  handleDelete,
 }) {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleDel = () => {
+    handleDelete(pId);
+    setOpenModal(false);
+  };
+
   return (
     <Card className=" cursor-pointer  transition duration-100 ease-in transform  max-w-[100%] md:max-w-[60%]">
-      <Link to={`/paper/${pId}`}>
-        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {title}
-        </h5>
-      </Link>
+      <div className="flex flex-row justify-between">
+        <Link to={`/paper/${pId}`}>
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {title}
+          </h5>
+        </Link>
+        {user ? (
+          user.UserID === authorId || user.IsAdmin == 1 ? (
+            <div className="flex self-start" onClick={() => setOpenModal(true)}>
+              <FaTrashAlt
+                className="text-red-500 cursor-pointer mr-[1em]  transition duration-100 ease-in transform  hover:scale-110"
+                size={18}
+              />
+            </div>
+          ) : (
+            ""
+          )
+        ) : (
+          ""
+        )}
+      </div>
       <p className="text-gray-500 transition duration-100 ease-in transform hover:underline  ">
         {author}
       </p>
@@ -99,6 +128,12 @@ function Posts({
           </Avatar.Group>
         </div>
       </div>
+      <ModalAreYouSure
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        msg="Are you sure you want to delete this paper?"
+        handleConfirmDelete={handleDel}
+      />
     </Card>
   );
 }
@@ -115,6 +150,10 @@ Posts.propTypes = {
   likes: PropTypes.number.isRequired,
   categories: PropTypes.array.isRequired,
   pId: PropTypes.number.isRequired,
+  handleTagsClick: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  authorId: PropTypes.number.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default Posts;
