@@ -1,4 +1,4 @@
-import { Button, Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { useState } from "react";
 
 import PropTypes from "prop-types";

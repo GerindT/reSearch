@@ -8,7 +8,7 @@ import {
 } from "flowbite-react";
 import { useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
-import { json } from "react-router";
+import PropTypes from "prop-types";
 
 function ModalSettings({ openModal, setOpenModal, user, setUser }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -26,7 +26,6 @@ function ModalSettings({ openModal, setOpenModal, user, setUser }) {
     const file = event.target.files[0];
 
     setSelectedFile(file);
-    console.log(file);
   };
 
   const handleSaveChanges = () => {
@@ -81,8 +80,6 @@ function ModalSettings({ openModal, setOpenModal, user, setUser }) {
     formData.append("password", password);
     formData.append("avatar", selectedFile);
 
-    console.log("formData", formData);
-
     // Make a fetch request to update user settings
     fetch(apiUrl + "/index.php", {
       method: "POST",
@@ -93,11 +90,8 @@ function ModalSettings({ openModal, setOpenModal, user, setUser }) {
       .then((data) => {
         // Handle the response data
 
-        console.log("data", data);
-
         if (data.status === 1) {
           // User settings updated successfully
-          console.log("User settings updated successfully.");
           setUser(data.user);
           // Close the modal
           setOpenModal(false);
@@ -222,5 +216,12 @@ function ModalSettings({ openModal, setOpenModal, user, setUser }) {
     </>
   );
 }
+
+ModalSettings.propTypes = {
+  openModal: PropTypes.bool,
+  setOpenModal: PropTypes.func,
+  user: PropTypes.object,
+  setUser: PropTypes.func,
+};
 
 export default ModalSettings;

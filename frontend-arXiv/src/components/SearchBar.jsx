@@ -18,7 +18,6 @@ function SearchBar({ posts, setPosts, cat, setCat }) {
       (post) =>
         post.Title.toLowerCase().includes(searchQuery.toLowerCase()) &&
         selectedCategories.every((category) => {
-          console.log("here", post);
           return (
             post.Categories !== null &&
             post.Categories.some(

@@ -49,7 +49,6 @@ function Paper() {
         data.Comments = JSON.parse(data.Comments);
         data.Categories = JSON.parse(data.Categories);
         setPost(data);
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error.message);
@@ -73,7 +72,6 @@ function Paper() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
-        console.log(data);
 
         data.status === 1
           ? setPost((prevState) => {
@@ -111,7 +109,6 @@ function Paper() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
-        console.log(data);
 
         if (data.status === 1) {
           // Toggle the favorite state in the component
@@ -205,7 +202,7 @@ function Paper() {
               isFav={Boolean(parseInt(post.IsFavorited))}
               handleFavorites={handleFavorites}
               handleVerification={handleVerification}
-              likes={post.NumFavorites}
+              likes={parseInt(post.NumFavorites)}
               categories={post.Categories || []}
               handleTagsClick={handleTagsClick}
               user={user}

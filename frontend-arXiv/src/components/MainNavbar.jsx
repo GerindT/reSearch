@@ -43,7 +43,6 @@ function MainNavbar({ posts, setPosts }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.status == "1") {
           setUser(null);
         }

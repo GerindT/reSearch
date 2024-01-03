@@ -179,12 +179,12 @@ function PaperFull({
 
 PaperFull.propTypes = {
   title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
+  author: PropTypes.string,
   content: PropTypes.string.isRequired,
   isVerified: PropTypes.bool.isRequired,
-  verDate: PropTypes.string.isRequired,
+  verDate: PropTypes.string,
   isFav: PropTypes.bool.isRequired,
-  setFav: PropTypes.func.isRequired,
+  setFav: PropTypes.func,
   date: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   categories: PropTypes.array.isRequired,
@@ -192,8 +192,9 @@ PaperFull.propTypes = {
   handleFavorites: PropTypes.func.isRequired,
   handleTagsClick: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  authorId: PropTypes.number.isRequired,
-  paperId: PropTypes.number.isRequired,
+  authorId: PropTypes.string.isRequired,
+  paperId: PropTypes.string.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default PaperFull;

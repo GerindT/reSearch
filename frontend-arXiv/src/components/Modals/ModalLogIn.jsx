@@ -10,7 +10,6 @@ function ModalLogIn({
   setOpenModal,
   setOpenModalR,
   openModalR,
-  user,
   setUser,
 }) {
   const [username, setUsername] = useState("");
@@ -62,7 +61,7 @@ function ModalLogIn({
       });
 
       const result = await response.json();
-      console.log(result);
+
       if (result.status == "1") {
         setOpenModal(false);
         setUser(result.user);
@@ -162,8 +161,9 @@ ModalLogIn.propTypes = {
   setOpenModal: PropTypes.func.isRequired,
   openModalR: PropTypes.bool.isRequired,
   setOpenModalR: PropTypes.func.isRequired,
-  isLogedIn: PropTypes.bool.isRequired,
-  setIsLogedIn: PropTypes.func.isRequired,
+  isLogedIn: PropTypes.bool,
+  setIsLogedIn: PropTypes.func,
+  setUser: PropTypes.func,
 };
 
 export default ModalLogIn;

@@ -46,9 +46,6 @@ function Comments({ comments, setPost, paperId, user }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response data
-        console.log(data);
-
         if (data.status === 1) {
           // Simulate updating the comment locally
           const updatedComments = comments.map((comment) =>
@@ -107,9 +104,6 @@ function Comments({ comments, setPost, paperId, user }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response data
-        console.log(data);
-
         if (data.status === 1) {
           if (comments.length === 0) {
             setPost((prevState) => {
@@ -166,8 +160,6 @@ function Comments({ comments, setPost, paperId, user }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response from the server if needed
-        console.log(data);
         // Update the state with the deleted comment
         if (data.status === 1) {
           setPost((prevState) => {
@@ -236,7 +228,7 @@ function Comments({ comments, setPost, paperId, user }) {
           >
             <footer className="flex justify-between items-center mb-2">
               <div className="flex items-center">
-                <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
                   <Avatar
                     alt="User settings"
                     img={apiUrl + "/" + comment.Avatar}
@@ -244,19 +236,13 @@ function Comments({ comments, setPost, paperId, user }) {
                     className="cursor-pointer mr-[1em]  transition duration-100 ease-in transform  hover:scale-110 "
                   />
                   {comment.Username}
-                </p>
+                </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <time
-                    pubdate
-                    datetime="2022-02-08"
-                    title="February 8th, 2022"
-                  >
-                    {comment.CreatedAt}
-                  </time>
+                  <time>{comment.CreatedAt}</time>
                 </p>
               </div>
               {user ? (
-                user.UserID === comment.UserID ? (
+                user.UserID == comment.UserID ? (
                   <Dropdown
                     arrowIcon={false}
                     inline
@@ -355,7 +341,7 @@ function Comments({ comments, setPost, paperId, user }) {
 Comments.propTypes = {
   comments: PropTypes.array.isRequired,
   setPost: PropTypes.func.isRequired,
-  paperId: PropTypes.number.isRequired,
+  paperId: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
 };
 

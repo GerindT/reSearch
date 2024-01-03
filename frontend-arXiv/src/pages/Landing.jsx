@@ -2,8 +2,6 @@ import MainNavbar from "../components/MainNavbar";
 import { Outlet } from "react-router-dom";
 import { useState, useEffect, createContext } from "react";
 import MainFooter from "../components/MainFooter";
-import { Toast } from "flowbite-react";
-import { HiCheck, HiExclamation, HiX } from "react-icons/hi";
 
 export const UserContext = createContext(null);
 export const SetUserContext = createContext(null);
@@ -26,7 +24,6 @@ function Landing() {
     fetch(apiUrl + "/index.php", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setCat(data.categories);
         if (data.loggedIn == true) {
           setUser(data.user);

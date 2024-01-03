@@ -9,7 +9,6 @@ function ModalRegister({
   setOpenModal,
   setOpenModalR,
   openModalR,
-  user,
   setUser,
 }) {
   const [email, setEmail] = useState("");
@@ -21,41 +20,6 @@ function ModalRegister({
   const apiUrl = !import.meta.env.DEV
     ? import.meta.env.VITE_PROD_API_URL
     : import.meta.env.VITE_DEV_API_URL;
-
-  const validatePassword = (password) => {
-    // Check if the password has at least 8 characters
-    if (password.length < 8) {
-      setAlert("Password must be at least 8 characters long");
-      return false;
-    }
-
-    // Check if the password contains at least one uppercase letter
-    if (!/[A-Z]/.test(password)) {
-      setAlert("Password must contain at least one uppercase letter");
-      return false;
-    }
-
-    // Check if the password contains at least one lowercase letter
-    if (!/[a-z]/.test(password)) {
-      setAlert("Password must contain at least one lowercase letter");
-      return false;
-    }
-
-    // Check if the password contains at least one digit
-    if (!/\d/.test(password)) {
-      setAlert("Password must contain at least one digit");
-      return false;
-    }
-
-    // Check if the password contains at least one special character
-    if (!/[@$!%*?&]/.test(password)) {
-      setAlert("Password must contain at least one special character");
-      return false;
-    }
-
-    // If all conditions are met, the password is valid
-    return true;
-  };
 
   const validateInputs = () => {
     if (!username.trim() || !password.trim() || !email.trim()) {
@@ -111,7 +75,7 @@ function ModalRegister({
       });
 
       const result = await response.json();
-      console.log(result);
+
       if (result.status == "1") {
         setOpenModal(false);
         setUser(result.user);
@@ -237,8 +201,10 @@ ModalRegister.propTypes = {
   setOpenModal: PropTypes.func.isRequired,
   openModalR: PropTypes.bool.isRequired,
   setOpenModalR: PropTypes.func.isRequired,
-  isLogedIn: PropTypes.bool.isRequired,
-  setIsLogedIn: PropTypes.func.isRequired,
+  isLogedIn: PropTypes.bool,
+  setIsLogedIn: PropTypes.func,
+  user: PropTypes.object,
+  setUser: PropTypes.func,
 };
 
 export default ModalRegister;

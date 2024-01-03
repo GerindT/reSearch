@@ -21,7 +21,6 @@ function Home() {
     );
     setPosts(filteredPosts);
   };
-  console.log(posts);
 
   // postID
   const handleDelete = (id) => {
@@ -38,7 +37,6 @@ function Home() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 1) {
           setPosts(posts.filter((post) => post.PaperID !== id));
         }
@@ -74,7 +72,7 @@ function Home() {
             date={p.CreatedAt}
             isVerified={Boolean(parseInt(p.IsVerified))}
             verDate={p.VerifiedDate}
-            likes={p.NumFavorites || 0}
+            likes={parseInt(p.NumFavorites) || 0}
             categories={p.Categories || []}
             handleTagsClick={handleTagsClick}
             authorId={p.UserID}
