@@ -35,11 +35,11 @@ switch ($method) {
                 GROUP BY
                     p.PaperID";
 
-        $path = explode('/', $_SERVER['REQUEST_URI']);
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($users);
+        break;
     case "POST":
 
         if (!isset($_SESSION['user'])) {
@@ -101,23 +101,23 @@ switch ($method) {
 
 
                 $selectInsertedRecordSql = "SELECT
-                        p.*,
-                        GROUP_CONCAT(DISTINCT c.CategoryName) AS Tags,
-                        COUNT(DISTINCT f.UserID) AS NumFavorites,
-                        CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"CategoryName\":\"', c.CategoryName, '\",\"CategoryID\":\"', c.CategoryID, '\", \"CategoryColor\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
-                        GROUP_CONCAT(DISTINCT c.CategoryID) AS CategoryIDs,
-                        GROUP_CONCAT(DISTINCT c.CategoryColor) AS CategoryColors
-                    FROM
-                        papers p
-                    LEFT JOIN
-                        categorytopaper cp ON p.PaperID = cp.PaperID
-                    LEFT JOIN
-                        categories c ON cp.CategoryID = c.CategoryID
-                    LEFT JOIN
-                        favorites f ON p.PaperID = f.PaperID
-                    WHERE p.PaperID = :paper_id
-                    GROUP BY
-                        p.PaperID";
+                    p.*,
+                    GROUP_CONCAT(DISTINCT c.CategoryName) AS Tags,
+                    COUNT(DISTINCT f.UserID) AS NumFavorites,
+                    CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('{\"CategoryName\":\"', c.CategoryName, '\",\"CategoryID\":\"', c.CategoryID, '\", \"CategoryColor\":\"', c.CategoryColor, '\"}') SEPARATOR ', '), ']') AS Categories,
+                    GROUP_CONCAT(DISTINCT c.CategoryID) AS CategoryIDs,
+                    GROUP_CONCAT(DISTINCT c.CategoryColor) AS CategoryColors
+                FROM
+                    papers p
+                LEFT JOIN
+                    categorytopaper cp ON p.PaperID = cp.PaperID
+                LEFT JOIN
+                    categories c ON cp.CategoryID = c.CategoryID
+                LEFT JOIN
+                    favorites f ON p.PaperID = f.PaperID
+                WHERE p.PaperID = :paper_id
+                GROUP BY
+                    p.PaperID";
 
                 $selectInsertedRecordStmt = $conn->prepare($selectInsertedRecordSql);
                 $selectInsertedRecordStmt->bindParam(':paper_id', $lastInsertId);
