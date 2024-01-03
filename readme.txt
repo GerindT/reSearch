@@ -22,7 +22,11 @@ All typical CRUD features like:
 -Users can create new papers and comment, they can favorite papers and modify their accounts
 -Search by title and category that is choosen, pages for erros,success and loading to have consistency of data
 
-Api Endpoints:
+API Endpoints:
+-There are two type of verifications being done, one from the frontend from react with Javascript and givin the correct headers making it nearly impossible to traspass
+and two being done by the backend when the data is recived in the api endpoint. All verifications are done in react whereas in php some are done to give double security
+-Authentication is done with the build in php password_hash() function and password_verify() which use the build in PASSWORD_BCRYPT to specify the salt and hash of crypto
+-File upload is used for img and paper (pdf) using move_uploaded_file() function of php to get a url that can be used by the frontend
 -Enpoints are based on REST api structure and some actions mixed in to use it better with the PHP structure
     -/index.php:
         -GET -> Gets the user info if there is a session in place or not, and all the categories as well
@@ -66,4 +70,4 @@ Deployment:
     -Dockerfile to run the php and apache server hosted in render.com
     -Remote Mysql server running of oracle free instance
 
-PS:Cors is enabled and can be changed on .htaccess in api folder
+PS:Cors is enabled and can be accessed in the headers 
