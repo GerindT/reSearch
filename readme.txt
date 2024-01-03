@@ -27,7 +27,7 @@ API Endpoints:
 and two being done by the backend when the data is recived in the api endpoint. All verifications are done in react whereas in php some are done to give double security
 -Authentication is done with the build in php password_hash() function and password_verify() which use the build in PASSWORD_BCRYPT to specify the salt and hash of crypto
 -File upload is used for img and paper (pdf) using move_uploaded_file() function of php to get a url that can be used by the frontend
--Enpoints are based on REST api structure and some actions mixed in to use it better with the PHP structure
+-Enpoints are based on RPC Json (mostly action based since php worked better this way) and a bit of REST api structure
     -/index.php:
         -GET -> Gets the user info if there is a session in place or not, and all the categories as well
         -POST -> Seperated by actions:
