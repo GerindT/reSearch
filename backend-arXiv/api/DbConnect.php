@@ -3,7 +3,7 @@ class DbConnect {
 
 
 	//Deployed Config
-    private $server = '204.216.217.67'; 
+    private $server = '89.168.23.29'; 
     private $dbname = 'researchdb';
 	private $port = "25050";
     private $user = 'GerindMeG';
