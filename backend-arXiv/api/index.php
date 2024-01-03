@@ -127,8 +127,7 @@ switch ($method) {
                     echo json_encode($response);
                     break;
 
-                case 'update':
-                    // Check if the user is logged in before allowing the update
+
 
                 default:
                     $response = ['status' => 0, 'message' => 'Invalid action.'];
