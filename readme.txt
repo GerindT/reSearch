@@ -23,8 +23,27 @@ All typical CRUD features like:
 -Search by title and category that is choosen, pages for erros,success and loading to have consistency of data
 
 Api Endpoints:
-    -Posts.php -> Get all the posts with all the data needed for each of them (joins)
-    -SinglePost.php + id -> Get the single Posts given by the id, get more details for the post to have a balance between frontend and backend
+-Enpoints are based on REST api structure and some actions mixed in to use it better with the PHP structure
+    -/index.php:
+        -GET -> Gets the user info if there is a session in place or not, and all the categories as well
+        -POST -> Seperated by actions:
+                -Register: Create new user with password hashing
+                -Login: Create a session if the user info are correctly send
+                -Update: Change user settings, mainly the avatar using the $_FILES global var
+        -DELETE-> Destroy the session when user sign's out
+    -/posts.php:
+        -GET -> Gets all the post with all the needed data, key thing here are string concatination and using joins
+        -POST -> Add a new post to the posts table, keeping in mind the file uploading of a PDF paper (for deployment it can range until 5mb)
+    -/singlePost.php:
+        -GET -> Gets a single post with all the data like in posts.php
+        -PUT -> Seperated by actions:
+                -updateVerification: Used in the moment a admin or superuser updates the status of a paper into a verified one (this goes only one way)
+                -toggleFavorite: Used when a user wants to favorite a paper (works as a toggle you can favorite and unfavorite)
+        -DELETE -> Deletes a single post given the id, the user is verified before the request is done
+    -/comments.php:
+        -POST -> Creates a single comment for a given paper
+        -PUT -> Update a single comment for a given paper
+        -DELETE -> Delete a single comment for a given paper
 
 Running localy:
 -Frontend:
