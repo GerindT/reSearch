@@ -232,7 +232,7 @@ function Comments({ comments, setPost, paperId, user }) {
         {comments.map((comment) => (
           <article
             key={comment.CommentID}
-            className="p-[1em] text-base bg-white rounded-lg dark:bg-gray-900"
+            className="pt-[1em] pb-[1em] text-base bg-white rounded-lg dark:bg-gray-900"
           >
             <footer className="flex justify-between items-center mb-2">
               <div className="flex items-center">

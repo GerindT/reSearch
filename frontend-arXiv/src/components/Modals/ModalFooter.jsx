@@ -25,24 +25,6 @@ function ModalFooter({ title, info }) {
             </p>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            pill
-            outline
-            gradientDuoTone="purpleToBlue"
-            onClick={() => setOpenModal(false)}
-          >
-            I accept
-          </Button>
-          <Button
-            outline
-            pill
-            color="failure"
-            onClick={() => setOpenModal(false)}
-          >
-            Decline
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );
