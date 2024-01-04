@@ -12,8 +12,6 @@ include 'DbConnect.php';
 $objDb = new DbConnect;
 $conn = $objDb->connect();
 
-// echo json_encode($conn ? 'Connected' : 'Failed');
-
 $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
         // Add a GET request to get all categories
@@ -75,13 +73,39 @@ switch ($method) {
                     if ($insertUserStmt->execute()) {
                         // Fetch the inserted user information
                         $userId = $conn->lastInsertId();
-                        $selectUserSql = "SELECT UserID, Username, Email, Avatar, IsAdmin, IsSuperuser FROM users WHERE userID = :id";
+                        $selectUserSql = "SELECT
+                        u.UserID,
+                        u.Username,
+                        u.Email,
+                        u.Avatar,
+                        u.IsAdmin,
+                        u.IsSuperuser,
+                        CONCAT(
+                            '[',
+                            GROUP_CONCAT(
+                                DISTINCT CONCAT(
+                                    '{\"CategoryName\":\"', c.CategoryName, '\",\"CategoryID\":\"', c.CategoryID, '\", \"CategoryColor\":\"', c.CategoryColor, '\"}'
+                                ) SEPARATOR ', '
+                            ),
+                            ']'
+                        ) AS UserCategories
+                    FROM
+                        users u
+                    LEFT JOIN
+                        categorytouser ctu ON u.UserID = ctu.UserID
+                    LEFT JOIN
+                        categories c ON ctu.CategoryID = c.CategoryID
+                    WHERE
+                        u.UserID = :id
+                    GROUP BY
+                        u.UserID, u.Username, u.Email, u.Avatar, u.IsAdmin, u.IsSuperuser;
+                    ";
                         $selectUserStmt = $conn->prepare($selectUserSql);
                         $selectUserStmt->bindParam(':id', $userId);
                         $selectUserStmt->execute();
                         $registeredUser = $selectUserStmt->fetch(PDO::FETCH_ASSOC);
                         // Start the session and store user data in the session
-                        $_SESSION['user'] =  $registeredUser;
+                        $_SESSION['user'] = $registeredUser;
 
                         $response = ['status' => 1, 'message' => 'User registered successfully.', 'user' => $registeredUser];
                     } else {
@@ -111,12 +135,42 @@ switch ($method) {
 
                         // Check if the entered password matches the stored hashed password
                         if (password_verify($user->password, $userData['Password'])) {
-                            // Remove the password from the user data before sending it in the response
-                            unset($userData['Password']);
-                            // Start the session and store user data in the session
-                            $_SESSION['user'] = $userData;
 
-                            $response = ['status' => 1, 'message' => 'Login successful.', 'user' => $userData];
+                            $selectUserSql = "SELECT
+                            u.UserID,
+                            u.Username,
+                            u.Email,
+                            u.Avatar,
+                            u.IsAdmin,
+                            u.IsSuperuser,
+                            CONCAT(
+                                '[',
+                                GROUP_CONCAT(
+                                    DISTINCT CONCAT(
+                                        '{\"CategoryName\":\"', c.CategoryName, '\",\"CategoryID\":\"', c.CategoryID, '\", \"CategoryColor\":\"', c.CategoryColor, '\"}'
+                                    ) SEPARATOR ', '
+                                ),
+                                ']'
+                            ) AS UserCategories
+                        FROM
+                            users u
+                        LEFT JOIN
+                            categorytouser ctu ON u.UserID = ctu.UserID
+                        LEFT JOIN
+                            categories c ON ctu.CategoryID = c.CategoryID
+                        WHERE
+                            u.UserID = :id
+                        GROUP BY
+                            u.UserID, u.Username, u.Email, u.Avatar, u.IsAdmin, u.IsSuperuser;
+                   ";
+                            $selectUserStmt = $conn->prepare($selectUserSql);
+                            $selectUserStmt->bindParam(':id', $userData['UserID']);
+                            $selectUserStmt->execute();
+                            $registeredUser = $selectUserStmt->fetch(PDO::FETCH_ASSOC);
+                            // Start the session and store user data in the session
+                            $_SESSION['user'] = $registeredUser;
+
+                            $response = ['status' => 1, 'message' => 'Login successful.', 'user' => $registeredUser];
                         } else {
                             $response = ['status' => 0, 'message' => 'Incorrect password.'];
                         }
