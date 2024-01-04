@@ -115,16 +115,23 @@ function MainNavbar({ posts, setPosts }) {
                         user.UserCategories.length > 5 ? "h-[10em]" : "h-[4em]"
                       } gap-2 mt-2 `}
                     >
-                      {user.UserCategories.map((category) => (
-                        <div key={category.CategoryName} className=" flex">
-                          <Badge
-                            className=" rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                            color={category.CategoryColor}
-                          >
-                            {category.CategoryName}
-                          </Badge>
-                        </div>
-                      ))}
+                      {user
+                        ? user.UserCategories !== null
+                          ? user.UserCategories.map((category) => (
+                              <div
+                                key={category.CategoryName}
+                                className=" flex"
+                              >
+                                <Badge
+                                  className=" rounded-lg transition duration-100 ease-in transform hover:scale-105"
+                                  color={category.CategoryColor}
+                                >
+                                  {category.CategoryName}
+                                </Badge>
+                              </div>
+                            ))
+                          : null
+                        : null}
                     </div>
                   </>
                 )}

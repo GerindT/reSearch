@@ -92,6 +92,10 @@ function ModalSettings({ openModal, setOpenModal, user, setUser }) {
 
         if (data.status === 1) {
           // User settings updated successfully
+          if (data.user.UserCategories !== null) {
+            data.user.UserCategories = JSON.parse(data.user.UserCategories);
+          }
+
           setUser(data.user);
           // Close the modal
           setOpenModal(false);
