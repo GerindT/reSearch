@@ -1,110 +1,140 @@
 import { Button, Modal, Checkbox, Table, Alert, Badge } from "flowbite-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
 import { HiInformationCircle } from "react-icons/hi";
 
-function ModalDashboard({ openModal, setOpenModal }) {
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState({});
+function ModalDashboard({ openModal, setOpenModal, apiUrl, categories }) {
+  const [userData, setUserData] = useState([]);
+  const [selectedData, setSelectedData] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
   const [alert, setAlert] = useState(false);
 
-  const handleCheckboxChange = (username) => {
-    if (selectedUsers.includes(username)) {
-      setSelectedUsers((prevSelectedUsers) =>
-        prevSelectedUsers.filter((user) => user !== username)
-      );
-    } else {
-      setSelectedUsers((prevSelectedUsers) => [...prevSelectedUsers, username]);
-    }
+  useEffect(() => {
+    fetch(apiUrl + "/dashboard.php", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        for (const user of data.allusers) {
+          if (user.UserCategories !== null) {
+            user.UserCategories = JSON.parse(user.UserCategories);
+
+            // Extract only category IDs from user.UserCategories
+            const categoryIds = user.UserCategories.map(
+              (category) => category.CategoryID
+            );
+            console.log(categoryIds);
+            // Populate selectedData for users with existing categories
+            setSelectedData((prevSelectedData) => {
+              const updatedData = { ...prevSelectedData };
+              updatedData[user.UserID] = {
+                userId: user.UserID,
+                categories: categoryIds,
+
+                IsSuperuser: parseInt(user.IsSuperuser),
+              };
+              return updatedData;
+            });
+          }
+        }
+        setUserData(data.allusers);
+      });
+  }, []);
+
+  const handleCheckboxChange = (user) => {
+    setSelectedData((prevSelectedData) => {
+      const updatedData = { ...prevSelectedData };
+
+      if (updatedData[user] && updatedData[user].IsSuperuser !== undefined) {
+        // If user is in selectedData, remove it
+        updatedData[user].categories = [];
+        updatedData[user].IsSuperuser = 0;
+      } else {
+        // If user is not in selectedData, add it with empty categories array
+        updatedData[user] = { userId: user, categories: [], IsSuperuser: 1 };
+      }
+
+      console.log(updatedData);
+      return updatedData;
+    });
   };
 
-  const handleCategoryCheckboxChange = (username, category) => {
-    setSelectedCategories((prevSelectedCategories) => {
-      const updatedCategories = { ...prevSelectedCategories };
+  const handleCategoryCheckboxChange = (user, category) => {
+    setSelectedData((prevSelectedData) => {
+      const updatedData = { ...prevSelectedData };
 
-      if (!updatedCategories[username]) {
-        updatedCategories[username] = [];
+      if (!updatedData[user]) {
+        updatedData[user] = {
+          userId: user,
+          categories: [],
+          IsSuperuser: 0,
+        };
       }
 
-      const index = updatedCategories[username].indexOf(category);
+      const index = updatedData[user].categories.indexOf(category);
 
       if (index === -1) {
-        updatedCategories[username].push(category);
+        // If category is not selected, add it
+        updatedData[user].categories.push(category);
+        updatedData[user].IsSuperuser = 1;
       } else {
-        updatedCategories[username].splice(index, 1);
+        // If category is selected, remove it
+        updatedData[user].categories.splice(index, 1);
+
+        // If all categories are deselected, remove the user
+        if (updatedData[user].categories.length === 0) {
+          updatedData[user].IsSuperuser = 0;
+        }
       }
 
-      return updatedCategories;
+      console.log(updatedData);
+
+      return updatedData;
     });
   };
 
   const handleSaveChanges = () => {
-    for (const username of selectedUsers) {
-      if (
-        !selectedCategories[username] ||
-        selectedCategories[username].length === 0
+    event.preventDefault();
+
+    for (const userId of Object.keys(selectedData)) {
+      if (selectedData[userId].IsSuperuser === 0) {
+        continue;
+      } else if (
+        !selectedData[userId] ||
+        selectedData[userId].categories.length === 0
       ) {
-        console.log(
-          `Please select at least one category for user ${username}.`
-        );
+        console.log(`Please select at least one category for user ${userId}.`);
+        console.log(selectedData[userId]);
         setAlert(true);
+
         return;
       }
     }
 
-    console.log("Selected Users:", selectedUsers);
-    console.log("Selected Categories:", selectedCategories);
-    setOpenModal(false);
+    console.log("Selected Data:", selectedData);
+
+    fetch(apiUrl + "/dashboard.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ selectedData: selectedData }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setOpenModal(false);
+      });
   };
-
-  // Fake user data
-  const userData = [
-    {
-      username: "john_doe",
-      email: "john@example.com",
-      categories: ["Category1", "Category2"],
-    },
-    {
-      username: "jane_smith",
-      email: "jane@example.com",
-      categories: ["Category2"],
-    },
-    {
-      username: "bob_jones",
-      email: "bob@example.com",
-      categories: ["Category1"],
-    },
-    {
-      username: "test",
-      email: "john@example.com",
-      categories: ["Category1", "Category2"],
-    },
-    {
-      username: "test2",
-      email: "jane@example.com",
-      categories: ["Category2"],
-    },
-    {
-      username: "test3",
-      email: "bob@example.com",
-      categories: ["Category1"],
-    },
-  ];
-
-  const categories = [
-    "Category1",
-    "Category2",
-    "Category3",
-    "Category4",
-    "Category5",
-    "Category6",
-  ];
 
   // Filtered user data based on the search query
   const filteredUserData = userData.filter((user) =>
-    user.username.toLowerCase().includes(searchQuery.toLowerCase())
+    user.Username.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -115,13 +145,13 @@ function ModalDashboard({ openModal, setOpenModal }) {
       className="modalt"
     >
       <form>
-        <Modal.Header>Assign Supperusers</Modal.Header>
+        <Modal.Header>Assign Superusers</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               Superusers are users who have the ability to moderate the site.
               They can verify papers in the categories they are assigned to, but
-              they cannot create new supperusers.
+              they cannot create new superusers.
             </p>
             <div className="space-y-6 ">
               <input
@@ -143,6 +173,7 @@ function ModalDashboard({ openModal, setOpenModal }) {
               <Table hoverable>
                 <Table.Head>
                   <Table.HeadCell className="p-4"></Table.HeadCell>
+                  <Table.HeadCell>ID</Table.HeadCell>
                   <Table.HeadCell>Username</Table.HeadCell>
                   <Table.HeadCell>Email</Table.HeadCell>
                   <Table.HeadCell>Category</Table.HeadCell>
@@ -150,51 +181,53 @@ function ModalDashboard({ openModal, setOpenModal }) {
                 <Table.Body className="divide-y">
                   {filteredUserData.map((user) => (
                     <Table.Row
-                      key={user.username}
+                      key={user.UserID}
                       className="bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
                       <Table.Cell className="p-4">
                         <Checkbox
                           color="blue"
-                          checked={selectedUsers.includes(user.username)}
-                          onChange={() => handleCheckboxChange(user.username)}
+                          onChange={() => handleCheckboxChange(user.UserID)}
+                          checked={
+                            selectedData[user.UserID]
+                              ? selectedData[user.UserID].IsSuperuser
+                                ? true
+                                : false
+                              : false
+                          }
                         />
                       </Table.Cell>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {user.username}
+                        {user.UserID}
                       </Table.Cell>
-                      <Table.Cell>{user.email}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        {user.Username}
+                      </Table.Cell>
+                      <Table.Cell>{user.Email}</Table.Cell>
                       <Table.Cell className="flex flex-col flex-wrap h-[10em] gap-1">
                         {categories.map((category) => (
-                          <div key={category} className="mb-1 flex gap-1">
-                            <Checkbox
-                              color="blue"
-                              checked={
-                                selectedCategories[user.username] &&
-                                selectedCategories[user.username].includes(
-                                  category
-                                )
-                              }
-                              onChange={() =>
-                                handleCategoryCheckboxChange(
-                                  user.username,
-                                  category
-                                )
-                              }
-                            />
-
+                          <div
+                            key={category.CategoryID}
+                            className="mb-1 flex gap-1"
+                          >
                             <Badge
                               className="rounded-lg transition duration-100 ease-in transform hover:scale-105"
-                              color={
-                                selectedCategories[user.username] &&
-                                selectedCategories[user.username].includes(
-                                  category
+                              onClick={() =>
+                                handleCategoryCheckboxChange(
+                                  user.UserID,
+                                  category.CategoryID
                                 )
-                                  ? "blue"
+                              }
+                              color={
+                                selectedData[user.UserID] &&
+                                selectedData[user.UserID].categories.includes(
+                                  category.CategoryID
+                                )
+                                  ? category.CategoryColor
                                   : "failure"
                               }
                             >
-                              {category}
+                              {category.CategoryName}
                             </Badge>
                           </div>
                         ))}
@@ -225,6 +258,8 @@ function ModalDashboard({ openModal, setOpenModal }) {
 ModalDashboard.propTypes = {
   openModal: PropTypes.bool.isRequired,
   setOpenModal: PropTypes.func.isRequired,
+  apiUrl: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default ModalDashboard;

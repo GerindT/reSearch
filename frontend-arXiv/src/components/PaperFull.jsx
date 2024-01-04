@@ -96,14 +96,23 @@ function PaperFull({
           color={isVerified ? "success" : "red"}
           icon={isVerified ? HiCheck : RxCross1}
           onClick={() => {
-            isVerified
-              ? ""
-              : user
-              ? Boolean(parseInt(user.IsAdmin)) ||
-                Boolean(parseInt(user.IsSuperuser))
-                ? setOpenModal(true)
-                : ""
-              : "";
+            if (!isVerified && user) {
+              const isAdmin = Boolean(parseInt(user.IsAdmin));
+              const isSuperuser = Boolean(parseInt(user.IsSuperuser));
+
+              if (
+                isAdmin ||
+                (isSuperuser &&
+                  categories.every((postCategory) =>
+                    user.UserCategories.some(
+                      (userCategory) =>
+                        userCategory.CategoryID == postCategory.CategoryID
+                    )
+                  ))
+              ) {
+                setOpenModal(true);
+              }
+            }
           }}
         >
           {isVerified ? verDate : "Not verified"}

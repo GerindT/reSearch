@@ -64,6 +64,11 @@ function ModalLogIn({
 
       if (result.status == "1") {
         setOpenModal(false);
+
+        if (result.user.UserCategories !== null) {
+          result.user.UserCategories = JSON.parse(result.user.UserCategories);
+        }
+
         setUser(result.user);
         setPassword("");
         setUsername("");

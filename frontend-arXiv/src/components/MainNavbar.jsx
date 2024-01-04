@@ -15,6 +15,8 @@ import {
   CatContext,
   SetCatContext,
 } from "../pages/Landing";
+import { LuCrown } from "react-icons/lu";
+import { Badge } from "flowbite-react";
 
 function MainNavbar({ posts, setPosts }) {
   const [openModal, setOpenModal] = useState(false);
@@ -66,6 +68,8 @@ function MainNavbar({ posts, setPosts }) {
     }
   `;
 
+  console.log(user.UserCategories.length);
+
   return (
     <>
       <StyledNavbar>
@@ -85,6 +89,7 @@ function MainNavbar({ posts, setPosts }) {
             <Dropdown
               arrowIcon={false}
               inline
+              className="w-52 rounded-lg"
               label={
                 <Avatar
                   alt="User settings"
@@ -95,6 +100,36 @@ function MainNavbar({ posts, setPosts }) {
               }
             >
               <Dropdown.Header>
+                {Boolean(parseInt(user.IsAdmin)) && (
+                  <span className="flex flex-row gap-2 items-center truncate text-md font-bold">
+                    <LuCrown />
+                    Admin
+                  </span>
+                )}
+                {Boolean(parseInt(user.IsSuperuser)) && (
+                  <>
+                    <span className="flex flex-row gap-2 items-center truncate text-md font-bold">
+                      <LuCrown />
+                      Superuser
+                    </span>
+                    <div
+                      className={`flex flex-col flex-wrap  items-center ${
+                        user.UserCategories.length > 5 ? "h-[10em]" : "h-[4em]"
+                      } gap-2 mt-2 `}
+                    >
+                      {user.UserCategories.map((category) => (
+                        <div key={category.CategoryName} className=" flex">
+                          <Badge
+                            className=" rounded-lg transition duration-100 ease-in transform hover:scale-105"
+                            color={category.CategoryColor}
+                          >
+                            {category.CategoryName}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
                 <span className="block text-sm">{user.Username}</span>
                 <span className="block truncate text-sm font-medium">
                   {user.Email}
@@ -173,6 +208,8 @@ function MainNavbar({ posts, setPosts }) {
         <ModalDashboard
           openModal={openModalDashboard}
           setOpenModal={setOpenModalDashboard}
+          apiUrl={apiUrl}
+          categories={cat}
         />
         <ModalNewPaper
           openModal={openModalNewPaper}

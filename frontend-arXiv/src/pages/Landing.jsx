@@ -26,6 +26,10 @@ function Landing() {
       .then((data) => {
         setCat(data.categories);
         if (data.loggedIn == true) {
+          if (data.user.UserCategories !== null) {
+            data.user.UserCategories = JSON.parse(data.user.UserCategories);
+          }
+          console.log(data.user);
           setUser(data.user);
         } else setUser(null);
 
