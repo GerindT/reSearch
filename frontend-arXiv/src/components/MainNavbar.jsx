@@ -68,8 +68,6 @@ function MainNavbar({ posts, setPosts }) {
     }
   `;
 
-  console.log(user.UserCategories.length);
-
   return (
     <>
       <StyledNavbar>
@@ -102,7 +100,7 @@ function MainNavbar({ posts, setPosts }) {
               <Dropdown.Header>
                 {Boolean(parseInt(user.IsAdmin)) && (
                   <span className="flex flex-row gap-2 items-center truncate text-md font-bold">
-                    <LuCrown />
+                    <LuCrown className="text-yellow-400" />
                     Admin
                   </span>
                 )}

@@ -24,6 +24,9 @@ function Landing() {
     fetch(apiUrl + "/index.php", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
+        data.categories.forEach((c) => {
+          c.CategoryID = parseInt(c.CategoryID);
+        });
         setCat(data.categories);
         if (data.loggedIn == true) {
           if (data.user.UserCategories !== null) {
