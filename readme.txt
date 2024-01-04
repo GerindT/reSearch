@@ -48,6 +48,9 @@ and two being done by the backend when the data is recived in the api endpoint. 
         -POST -> Creates a single comment for a given paper
         -PUT -> Update a single comment for a given paper
         -DELETE -> Delete a single comment for a given paper
+    -/dashboard.php:
+        -GET -> Get all the users and their categories if they have
+        -POST -> Add the superusers in the user table and the categoriestouser if they are added, if not remove their superuser status from the user table
 
 Running localy:
 -Frontend:
