@@ -70,7 +70,7 @@ function SearchBar({ posts, setPosts, cat, setCat }) {
               type="search"
               id="default-search"
               className="block w-full p-4 ps-10 text-sm text-gray-900 border border-transparent rounded-lg  "
-              placeholder="Search Mockups, Logos..."
+              placeholder="Search Papers, Thesis..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
