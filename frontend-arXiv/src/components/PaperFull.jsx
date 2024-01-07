@@ -101,14 +101,16 @@ function PaperFull({
               const isSuperuser = Boolean(parseInt(user.IsSuperuser));
 
               if (
-                isAdmin ||
-                (isSuperuser &&
-                  categories.every((postCategory) =>
-                    user.UserCategories.some(
-                      (userCategory) =>
-                        userCategory.CategoryID == postCategory.CategoryID
-                    )
-                  ))
+                user.UserID != authorId
+                  ? isAdmin ||
+                    (isSuperuser &&
+                      categories.every((postCategory) =>
+                        user.UserCategories.some(
+                          (userCategory) =>
+                            userCategory.CategoryID == postCategory.CategoryID
+                        )
+                      ))
+                  : false
               ) {
                 setOpenModal(true);
               }

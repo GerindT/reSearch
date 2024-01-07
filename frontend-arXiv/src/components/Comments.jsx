@@ -242,7 +242,7 @@ function Comments({ comments, setPost, paperId, user }) {
                 </p>
               </div>
               {user ? (
-                user.UserID == comment.UserID ? (
+                user.UserID == comment.UserID || user.IsAdmin == 1 ? (
                   <Dropdown
                     arrowIcon={false}
                     inline
@@ -268,13 +268,20 @@ function Comments({ comments, setPost, paperId, user }) {
                     >
                       Delete
                     </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        handleEditClick(comment.CommentID, comment.CommentText)
-                      }
-                    >
-                      Edit
-                    </Dropdown.Item>
+                    {user.UserID == comment.UserID ? (
+                      <Dropdown.Item
+                        onClick={() =>
+                          handleEditClick(
+                            comment.CommentID,
+                            comment.CommentText
+                          )
+                        }
+                      >
+                        Edit
+                      </Dropdown.Item>
+                    ) : (
+                      ""
+                    )}
                   </Dropdown>
                 ) : (
                   ""

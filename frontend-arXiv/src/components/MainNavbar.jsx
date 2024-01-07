@@ -140,13 +140,15 @@ function MainNavbar({ posts, setPosts }) {
                   {user.Email}
                 </span>
               </Dropdown.Header>
-              <Dropdown.Item
-                onClick={() => {
-                  setOpenModalNewPaper(true);
-                }}
-              >
-                Add a new paper
-              </Dropdown.Item>
+              {user.IsAdmin != 1 && (
+                <Dropdown.Item
+                  onClick={() => {
+                    setOpenModalNewPaper(true);
+                  }}
+                >
+                  Add a new paper
+                </Dropdown.Item>
+              )}
               {Boolean(parseInt(user.IsAdmin)) && (
                 <Dropdown.Item onClick={() => setOpenModalDashboard(true)}>
                   Dashboard
