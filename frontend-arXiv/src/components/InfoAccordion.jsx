@@ -47,7 +47,7 @@ function InfoAccordion() {
       {showAccordion && (
         <Accordion className="max-w-[100%] md:max-w-[60%]">
           <Accordion.Panel>
-            <Accordion.Title>What is ResearchGay?</Accordion.Title>
+            <Accordion.Title>What is ReSearch?</Accordion.Title>
             <Accordion.Content>
               <p className="mb-2 text-gray-500 dark:text-gray-400">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
@@ -59,7 +59,7 @@ function InfoAccordion() {
           </Accordion.Panel>
           <Accordion.Panel>
             <Accordion.Title>
-              Is there a ResearchGay file available?
+              Is there a ReSearch website available?
             </Accordion.Title>
             <Accordion.Content>
               <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -72,7 +72,7 @@ function InfoAccordion() {
           </Accordion.Panel>
           <Accordion.Panel>
             <Accordion.Title>
-              What are the differences between ReserchGay and ResearchGate?
+              What are the differences between ReSearch and ResearchGate?
             </Accordion.Title>
             <Accordion.Content>
               <p className="mb-2 text-gray-500 dark:text-gray-400">

@@ -5,7 +5,7 @@ import { Footer } from "flowbite-react";
 function MainFooter() {
   return (
     <Footer container className="mt-[2em]">
-      <Footer.Copyright href="#" by="ResearchGay™" year={2024} />
+      <Footer.Copyright href="#" by="ReSearch™" year={2024} />
       <Footer.LinkGroup className="items-center">
         <Footer.Link href="#">
           <ModalFooter

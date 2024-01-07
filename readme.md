@@ -1,4 +1,4 @@
-> Welcome to ResearchGay a website for AI research papers inspired by ResearchGate and ArXiv
+> Welcome to ReSearch is a website for AI research papers inspired by ResearchGate and ArXiv
 
 ## Technologies used:
 
