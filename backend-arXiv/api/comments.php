@@ -1,4 +1,12 @@
 <?php
+
+// Set the SameSite attribute to None for the session cookie
+session_set_cookie_params([
+    'samesite' => 'None',
+    'secure' => true, // Only send the cookie over HTTPS
+]);
+
+
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -7,11 +15,7 @@ header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT,DELETE");
 header("Access-Control-Allow-Headers: Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 header("Access-Control-Allow-Credentials: true");
 
-// Set the SameSite attribute to None for the session cookie
-session_set_cookie_params([
-    'samesite' => 'None',
-    'secure' => true, // Only send the cookie over HTTPS
-]);
+
 
 include 'DbConnect.php';
 $objDb = new DbConnect;
