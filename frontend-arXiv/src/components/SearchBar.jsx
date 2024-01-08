@@ -21,7 +21,7 @@ function SearchBar({ posts, setPosts, cat, setCat }) {
           return (
             post.Categories !== null &&
             post.Categories.some(
-              (postCategory) => postCategory.name === category.CategoryName
+              (postCategory) => postCategory.CategoryName === category.CategoryName
             )
           );
         })
