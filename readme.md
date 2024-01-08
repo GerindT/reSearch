@@ -109,5 +109,3 @@ Netlify using netlify cli
 ![cofi](./frontend-arXiv/public/giphy.gif)
 
 > PS:Cors is enabled and can be accessed in the headers.
-
-> PSS: Because of third party cookies sessions will not presist because of not the same domain in the deployed version, the localhost one will be intact.
