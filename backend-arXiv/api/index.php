@@ -57,6 +57,22 @@ switch ($method) {
                         break;
                     }
 
+                    // Validate email format
+                    if (!filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
+                        $response = ['status' => 0, 'message' => 'Invalid email address.'];
+                        echo json_encode($response);
+                        break;
+                    }
+
+                    // Password requirements: at least 8 characters, one uppercase letter, one lowercase letter, one digit, one special character
+                    $passwordRegex = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/';
+                    if (!preg_match($passwordRegex, $user->password)) {
+                        $response = ['status' => 0, 'message' => 'Password must meet the specified requirements. At least 8 characters, one uppercase letter, one lowercase letter, one digit, one special character'];
+                        echo json_encode($response);
+                        break;
+                    }
+
+
                     // Check if the username or email is already registered
                     $checkUserSql = "SELECT * FROM users WHERE username = :username OR email = :email";
                     $checkUserStmt = $conn->prepare($checkUserSql);
@@ -130,6 +146,14 @@ switch ($method) {
                     // Validate input
                     if (empty($user->username) || empty($user->password)) {
                         $response = ['status' => 0, 'message' => 'Please enter username and password.'];
+                        echo json_encode($response);
+                        break;
+                    }
+
+                    // Password requirements: at least 8 characters, one uppercase letter, one lowercase letter, one digit, one special character
+                    $passwordRegex = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/';
+                    if (!preg_match($passwordRegex, $user->password)) {
+                        $response = ['status' => 0, 'message' => 'Password must meet the specified requirements. At least 8 characters, one uppercase letter, one lowercase letter, one digit, one special character'];
                         echo json_encode($response);
                         break;
                     }
@@ -221,6 +245,14 @@ switch ($method) {
             $updateFields = [];
 
             if (!empty($_POST['username'])) {
+                // Validate username using a regular expression
+                $usernameRegex = '/^[a-zA-Z0-9_-]{3,16}$/';
+                if (!preg_match($usernameRegex, $_POST['username'])) {
+                    $response = ['status' => 0, 'message' => 'Invalid username'];
+                    echo json_encode($response);
+                    break;
+                }
+
                 // Check if the new username is already registered by another user
                 $checkUserSql = "SELECT * FROM users WHERE username = :username AND UserID != :id";
                 $checkUserStmt = $conn->prepare($checkUserSql);
@@ -238,6 +270,13 @@ switch ($method) {
             }
 
             if (!empty($_POST['email'])) {
+
+                // Validate email format
+                if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                    $response = ['status' => 0, 'message' => 'Invalid email address.'];
+                    echo json_encode($response);
+                    break;
+                }
                 // Check if the new email is already registered by another user
                 $checkUserSql = "SELECT * FROM users WHERE email = :email AND UserID != :id";
                 $checkUserStmt = $conn->prepare($checkUserSql);
@@ -256,6 +295,15 @@ switch ($method) {
 
             // Check if the new password is different from the current one
             if (!empty($_POST['password'])) {
+
+                // Password requirements: at least 8 characters, one uppercase letter, one lowercase letter, one digit, one special character
+                $passwordRegex = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/';
+                if (!preg_match($passwordRegex, $_POST['password'])) {
+                    $response = ['status' => 0, 'message' => 'Password must meet the specified requirements. At least 8 characters, one uppercase letter, one lowercase letter, one digit, one special character'];
+                    echo json_encode($response);
+                    break;
+                }
+
                 $checkPasswordSql = "SELECT Password FROM users WHERE UserID = :id";
                 $checkPasswordStmt = $conn->prepare($checkPasswordSql);
                 $checkPasswordStmt->bindParam(':id', $_POST['id']);
