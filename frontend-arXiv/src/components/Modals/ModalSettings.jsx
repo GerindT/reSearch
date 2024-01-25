@@ -119,7 +119,7 @@ function ModalSettings({ openModal, setOpenModal, user, setUser }) {
         className="modalt"
       >
         <form encType="multipart/form-data">
-          <Modal.Header>Settings for {name}</Modal.Header>
+          <Modal.Header>Settings for {user.Username}</Modal.Header>
           <Modal.Body>
             {showAlert && (
               <Alert color="failure" icon={HiInformationCircle}>
