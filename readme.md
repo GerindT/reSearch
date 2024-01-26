@@ -106,6 +106,6 @@ Netlify using netlify cli
 
 ## Enjoy 🥳
 
-![cofi](./frontend-arXiv/public/giphy.gif)
+![cofi](./frontend-reSearch/public/giphy.gif)
 
 > PS:Cors is enabled and can be accessed in the headers.
