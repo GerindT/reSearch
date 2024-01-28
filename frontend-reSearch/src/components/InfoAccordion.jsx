@@ -50,23 +50,29 @@ function InfoAccordion() {
             <Accordion.Title>What is ReSearch?</Accordion.Title>
             <Accordion.Content>
               <p className="mb-2 text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-                minus placeat libero molestiae totam, pariatur provident, quos
-                molestias possimus dicta necessitatibus. Veniam in consectetur
-                quae modi. Recusandae laborum quas iste.
+                ReSearch is a dynamic online platform designed to foster
+                collaboration and knowledge exchange within the realm of
+                artificial intelligence. With interactive features such as
+                personalized research topics based on your preferences and
+                likes, as well as comment section and a thriving community, we
+                aim to enrich collective understanding of artificial
+                intelligence and the promotion of free independent on research.
               </p>
             </Accordion.Content>
           </Accordion.Panel>
           <Accordion.Panel>
             <Accordion.Title>
-              Is there a ReSearch website available?
+              Are there any measures in place to prevent misinformation or
+              inappropriate content in the comments section ?
             </Accordion.Title>
             <Accordion.Content>
               <p className="mb-2 text-gray-500 dark:text-gray-400">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima
-                accusamus voluptates sunt, omnis iure unde consequuntur eos,
-                rerum esse modi quod explicabo quisquam facilis deserunt
-                doloremque nemo. Impedit, vitae voluptatem.
+                Yes, maintaining a positive and informative environment is
+                crucial to us. We have implemented moderation tools and
+                community guidelines to prevent misinformation and inappropriate
+                content. Our dedicated team actively monitors comments and
+                ensures that discussions remain respectful, fostering a space
+                where users can engage in meaningful conversation
               </p>
             </Accordion.Content>
           </Accordion.Panel>

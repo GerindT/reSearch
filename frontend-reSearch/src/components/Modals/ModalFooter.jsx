@@ -20,9 +20,6 @@ function ModalFooter({ title, info }) {
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               {info}
             </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              {info}
-            </p>
           </div>
         </Modal.Body>
       </Modal>
