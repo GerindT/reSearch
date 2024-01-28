@@ -70,13 +70,15 @@ File upload is used for img and paper (pdf) using `move_uploaded_file()` functio
 
 ### Frontend
 
+> Prerequisite Node v14 and up
+
 Run command:
 
 - `npm i`
 
 - `npm run dev`
 
-Fronted endpoint **localhost:5173**
+> Fronted endpoint **localhost:5173**
 
 ### Backend:
 
@@ -86,7 +88,7 @@ Start XAMPP:
 
 - Put the api folder in the htdocs folder
 
-  > Api endpoint **localhost:80/api/**
+> Api endpoint **localhost:80/api/**
 
 ## Deployment:
 
