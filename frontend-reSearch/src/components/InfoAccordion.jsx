@@ -78,14 +78,16 @@ function InfoAccordion() {
           </Accordion.Panel>
           <Accordion.Panel>
             <Accordion.Title>
-              What are the differences between ReSearch and ResearchGate?
+              What's the difference between ReSearch and other platforms who
+              share the same domain of interest ?
             </Accordion.Title>
             <Accordion.Content>
               <p className="mb-2 text-gray-500 dark:text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Cupiditate, consequatur est? Maiores dolores unde suscipit, fuga
-                laudantium dignissimos voluptatem similique assumenda nesciunt
-                fugit quos animi alias aperiam ipsa dicta beatae.
+                ReSearch is committed to promoting free and independent
+                research. The platform has a stringent vetting process to ensure
+                the quality and credibility of shared content, setting it apart
+                from other platforms that may not have as rigorous measures in
+                place.
               </p>
             </Accordion.Content>
           </Accordion.Panel>
