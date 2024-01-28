@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 28, 2024 at 03:00 PM
+-- Generation Time: Jan 28, 2024 at 03:10 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -191,9 +191,6 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`UserID`, `PaperID`) VALUES
-(1, 1),
-(1, 2),
-(2, 2),
 (13, 1),
 (13, 3),
 (13, 4),
@@ -203,7 +200,6 @@ INSERT INTO `favorites` (`UserID`, `PaperID`) VALUES
 (13, 27),
 (13, 30),
 (14, 29),
-(15, 31),
 (16, 33),
 (17, 33),
 (17, 34),
@@ -270,11 +266,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `Username`, `Email`, `Password`, `Avatar`, `IsAdmin`, `IsSuperuser`) VALUES
-(1, 'admin', 'admin@gmail.com', 'admin1234', 'https://flowbite.com/docs/images/people/profile-picture-5.jpg', 1, 0),
-(2, 'superuser', 'superuser@gmail.com', 'superuser1234', '/logo.png', 0, 0),
-(13, 'adminAcc', 'adminAcc@gmail.com', '$2y$10$leabMsDcJYKxqTwCo2RWf.2OQnNXL0bElGT9k8KazUNh27P553HVS', 'img/GerindTershana.jpg', 1, 0),
-(14, 'normalAcc', 'normalAcc@gmail.com', '$2y$10$SLI/0038vPZOivOChSz78O.ogUn.Gy6YINBOyQ11xloedDjo.qZ76', 'img/c4052db2-aac4-4dcb-b950-7787148a1be5.png', 0, 1),
-(15, 'test', 'test@gmail.com', '$2y$10$7H/6LfqNJVDIobopCduTpei4ByxPN/S/7I/Fwm/FITfXluXYcpPQy', 'img/test.png', 0, 1),
+(13, 'adminAcc', 'adminAcc@gmail.com', '$2y$10$leabMsDcJYKxqTwCo2RWf.2OQnNXL0bElGT9k8KazUNh27P553HVS', 'img/admin.png', 1, 0),
+(14, 'normalAcc', 'normalAcc@gmail.com', '$2y$10$SLI/0038vPZOivOChSz78O.ogUn.Gy6YINBOyQ11xloedDjo.qZ76', 'img/test.png', 0, 1),
 (16, 'gerindAcc', 'gerindAcc@gmail.com', '$2y$10$Mynu8C5QwL3QNpHj1EelWeve8PIVi/VMgEbKyXtADlzvXkp4GO3N6', 'img/test.png', 0, 0),
 (17, 'florianAcc', 'florianAcc@gmail.com', '$2y$10$dnjOyFdutxKitCh7kinTZOgymS831nAbnyR7UqnrzJioWAReu3QTa', 'img/test.png', 0, 0),
 (18, 'sofiAcc', 'sofiAcc@gmail.com', '$2y$10$wvLNWDUxAC1s59JC66YEouiGcL8/mbJkctsXfDrpmNN0ipMfvUmKq', 'img/test.png', 0, 0);
