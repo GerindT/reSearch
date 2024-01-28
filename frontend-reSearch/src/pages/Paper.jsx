@@ -174,7 +174,7 @@ function Paper() {
           Home
         </Breadcrumb.Item>
         <Breadcrumb.Item href="/">Paper</Breadcrumb.Item>
-        <Breadcrumb.Item>Paper Short Name</Breadcrumb.Item>
+        <Breadcrumb.Item>{post === null ? "" : post.Title}</Breadcrumb.Item>
       </Breadcrumb>
       <Tabs
         aria-label="Tabs with icons"

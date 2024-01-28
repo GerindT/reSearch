@@ -167,7 +167,7 @@ function ModalDashboard({ openModal, setOpenModal, apiUrl, categories }) {
                   type="search"
                   id="default-search"
                   className="block  p-4 ps-5 text-sm text-gray-900 border border-transparent rounded-lg  "
-                  placeholder="Search Mockups, Logos..."
+                  placeholder="Search Users by Username"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
