@@ -4,7 +4,7 @@
 
 ### Frontend:
 
-- React js bootsraped by Vite
+- React js bootstrapped by Vite
 - Tailwind Css with Flowbite
 - Eslint and Prettier
 
