@@ -2,7 +2,9 @@
 
 A site for sharing and reviewing AI research papers, inspired by ResearchGate and arXiv: users upload PDF papers, comment and favourite them, and moderators verify papers in their categories.
 
-**Live:** [re-search.netlify.app](https://re-search.netlify.app) (offline — the backend and database are no longer running)
+Built between December 2023 and March 2024 as the project for a web development course: a full stack with a React front end, a hand-written PHP API and a MySQL database, including roles, file uploads and moderation.
+
+**Status:** no longer hosted. It ran on Netlify (front end) and Render (API) during the course; the screenshot below shows it running. To try it, run it locally (steps below).
 
 ![ReSearch paper card: title, authors, abstract and category tags](docs/screenshot.webp)
 
